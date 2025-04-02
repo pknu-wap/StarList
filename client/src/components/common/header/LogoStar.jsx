@@ -1,4 +1,4 @@
-import logoImage from "../../web/assets/logo.svg";
+import logoImage from "../../../assets/logo.svg";
 
 const LogoStar = () => {
     return (

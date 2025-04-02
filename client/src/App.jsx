@@ -1,15 +1,24 @@
-import React from 'react';
-import './App.css'
+import React from "react";
+import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
+import MainPage from "./pages/MainPage";
+import LoginPage from "./pages/LoginPage";
+import CategoryPage from "./pages/CategoryPage";
+import RegisterPage from "./pages/RegisterPage";
 
-function App() {
+const App = () => {
+  const isLoggedIn = false; // 로그인 여부를 확인하는 상태
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="p-8 bg-blue-500 text-white rounded shadow-lg">
-        <h1 className="text-3xl font-bold mb-4">Tailwind CSS 작동 중!</h1>
-        <p className="text-lg">이 컴포넌트는 Tailwind CSS 클래스로 스타일링 되어 있습니다.</p>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        {/* 로그인 여부에 따라 시작 페이지를 다르게 설정 */}
+        <Route path="/" element={isLoggedIn ? <MainPage /> : <LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/categories" element={<CategoryPage />} />
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

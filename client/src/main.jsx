@@ -1,10 +1,12 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import './App.css'
+//import App from './App.jsx'
+
+import LogoStar from './components/common/header/LogoStar.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <LogoStar />
   </StrictMode>,
 )
