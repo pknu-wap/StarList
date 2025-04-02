@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Starlist",
+  "version": "1.0",
+  "description": "AI를 활용한 북마크 관리 도구",
+  "action": {
+    "default_popup": "./src/index.html"
+  },
+  "background": {
+    "service_worker": "./assets/js/service_worker.js"
+  },
+  "permissions": [
+    "scripting"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ]
+}
