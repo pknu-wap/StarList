@@ -1,19 +1,13 @@
 import React from "react";
-import Logo from "./Logo";
-import NavLinks from "./NavLinks";
-import UserIcon from "./UserIcon";
-import SettingsIcon from "./SettingsIcon";
+import { Link } from 'react-router-dom'
+
 
 const Header = () => {
     return (
-        <header className="flex justify-between items-center p-4 bg-gray-800 text-white">
-            <Logo />
-            <NavLinks />
-            <div className="flex items-center space-x-4">
-                <UserIcon />
-                <SettingsIcon />
-            </div>
-        </header>
+        <div>
+            <Link to="/" style={{ color: "blue" }}>Home </Link>
+            <Link to="/categories" style={{ color: "blue" }}>카테고리 별</Link>
+        </div>
     );
 };
 
