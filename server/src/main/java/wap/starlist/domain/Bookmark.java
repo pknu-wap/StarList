@@ -30,7 +30,7 @@ public class Bookmark {
 
     private Integer dateLastUsed;
 
-    private Integer index;
+    private Integer position;
 
     private Long parentId;
 
