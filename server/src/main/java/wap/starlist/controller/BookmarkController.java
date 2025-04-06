@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import wap.starlist.domain.Bookmark;
 import wap.starlist.dto.request.BookmarkCreateRequest;
+import wap.starlist.dto.response.BookmarkErrorResponse;
 import wap.starlist.dto.response.BookmarkResponse;
 import wap.starlist.service.BookmarkService;
 
@@ -37,7 +38,16 @@ public class BookmarkController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getBookmark(@PathVariable Long id) {
-        Bookmark bookmark = bookmarkService.getBookmark(id);
+        Bookmark bookmark;
+
+        try {
+            bookmark = bookmarkService.getBookmark(id);
+        } catch (IllegalArgumentException e) {
+            BookmarkErrorResponse bookmarkNotFound = BookmarkErrorResponse.builder()
+                    .code("BOOKMARK_NOT_FOUND").message("해당 북마크가 존재하지 않습니다.").build();
+
+            return ResponseEntity.badRequest().body(bookmarkNotFound);
+        }
 
         BookmarkResponse response = BookmarkResponse.from(bookmark);
         return ResponseEntity.ok().body(response);
