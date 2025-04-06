@@ -34,4 +34,12 @@ public class BookmarkController {
 
         return ResponseEntity.created(location).body(response);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getBookmark(@PathVariable Long id) {
+        Bookmark bookmark = bookmarkService.getBookmark(id);
+
+        BookmarkResponse response = BookmarkResponse.from(bookmark);
+        return ResponseEntity.ok().body(response);
+    }
 }

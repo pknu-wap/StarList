@@ -26,6 +26,12 @@ public class BookmarkService {
         return bookmarkRepository.save(bookmark);
     }
 
+    public Bookmark getBookmark(long id) {
+        // id로 북마크 조회
+        return bookmarkRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 북마크가 존재하지 않습니다."));
+    }
+
     // 현재 시간을 int으로 반환
     private int currentTime() {
         return (int) (System.currentTimeMillis() / 1000L);
