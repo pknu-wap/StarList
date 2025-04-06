@@ -26,6 +26,7 @@ public class BookmarkService {
         return bookmarkRepository.save(bookmark);
     }
 
+    @Transactional(readOnly = true)
     public Bookmark getBookmark(long id) {
         // id로 북마크 조회
         return bookmarkRepository.findById(id)
