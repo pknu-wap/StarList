@@ -21,11 +21,11 @@ public class BookmarkResponse {
 
     private String url;
 
-    private Integer dateAdded;
+    private Long dateAdded;
 
-    private Integer dateGroupModified;
+    private Long dateGroupModified;
 
-    private Integer dateLastUsed;
+    private Long dateLastUsed;
 
     // Bookmark을 전달받아 Response 객체를 생성하는 정적 팩토리 메서드
     public static BookmarkResponse from(Bookmark bookmark) {

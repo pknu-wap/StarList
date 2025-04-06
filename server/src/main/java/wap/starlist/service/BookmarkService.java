@@ -11,6 +11,7 @@ import wap.starlist.repository.BookmarkRepository;
 public class BookmarkService {
 
     private static final long MILLIS_PER_SECOND = 1000L;
+
     private final BookmarkRepository bookmarkRepository;
 
     @Transactional // 트랜잭션을 보장하기 위해
@@ -33,8 +34,8 @@ public class BookmarkService {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 북마크가 존재하지 않습니다."));
     }
 
-    // 현재 시간을 int으로 반환
-    private int currentTime() {
-        return (int) (System.currentTimeMillis() / 1000L);
+    // 현재 시간을 millis를 제외한 long으로 반환
+    private long currentTime() {
+        return System.currentTimeMillis() / MILLIS_PER_SECOND;
     }
 }

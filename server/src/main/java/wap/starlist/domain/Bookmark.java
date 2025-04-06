@@ -24,11 +24,11 @@ public class Bookmark {
 
     private String url;
 
-    private Integer dateAdded;
+    private Long dateAdded;
 
-    private Integer dateGroupModified;
+    private Long dateGroupModified;
 
-    private Integer dateLastUsed;
+    private Long dateLastUsed;
 
     private Integer position;
 
