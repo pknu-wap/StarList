@@ -7,6 +7,7 @@ import wap.starlist.service.AuthService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/oauth2")
+// TODO: security 사용시 자동으로 /login으로 redirect되기에 추후 수정해야함
 public class AuthController {
 
     private final AuthService authService;
