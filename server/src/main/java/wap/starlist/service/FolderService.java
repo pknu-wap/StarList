@@ -25,4 +25,10 @@ public class FolderService {
 
         return folderRepository.save(folder);
     }
+
+    public Folder getFolder(long id) {
+        // id로 폴더 조회
+        return folderRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 폴더가 존재하지 않습니다."));
+    }
 }
