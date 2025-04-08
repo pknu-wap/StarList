@@ -18,10 +18,12 @@ public class AuthService {
         this.env = env;
     }
 
+    // registrationId는 어떤 종류의 소셜 로그인인지 확인하기 위함 (ex. google, kakao, github ...)
     public void loginWithGoogle(String code, String registrationId) {
         String accessToken = getAccessToken(code, registrationId);
         JsonNode userResourceNode = getUserResource(accessToken, registrationId);
 
+        // 받아온 코드와 토큰 확인
         System.out.println("code = " + code);
         System.out.println("registrationId = " + registrationId);
         System.out.println("accessToken = " + accessToken);
@@ -36,6 +38,7 @@ public class AuthService {
     }
 
     private String getAccessToken(String authorizationCode, String registrationId) {
+        // application-oauth.properties에서 값을 가져옴 -> 보안상 위험
         String clientId = env.getProperty("oauth2." + registrationId + ".client-id");
         String clientSecret = env.getProperty("oauth2." + registrationId + ".client-secret");
         String redirectUri = env.getProperty("oauth2." + registrationId + ".redirect-uri");
@@ -43,6 +46,8 @@ public class AuthService {
 
         System.out.println("tokenUri = " + tokenUri);
 
+        // HttpEntity의 body에 담기 위한 Map 생성
+        // 하나의 key에 여러 값을 담을 수 있어서 MultiValueMap 사용
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("code", authorizationCode);
         params.add("client_id", clientId);
@@ -55,6 +60,7 @@ public class AuthService {
 
         HttpEntity entity = new HttpEntity(params, headers);
 
+        // 인가 코드로 토큰을 교환
         ResponseEntity<JsonNode> responseNode = restTemplate.exchange(tokenUri, HttpMethod.POST, entity, JsonNode.class);
         JsonNode accessTokenNode = responseNode.getBody();
         return accessTokenNode.get("access_token").asText();
