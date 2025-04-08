@@ -1,12 +1,14 @@
 package wap.starlist.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
 
 @Entity
 @Getter
+@Builder
 public class Folder {
 
     @Id
