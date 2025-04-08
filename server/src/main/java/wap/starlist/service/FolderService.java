@@ -31,4 +31,10 @@ public class FolderService {
         return folderRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 폴더가 존재하지 않습니다."));
     }
+
+    //폴더 삭제 메서드
+    public void deleteFolder(Long id) {
+        Folder folder = getFolder(id);
+        folderRepository.delete(folder);
+    }
 }
