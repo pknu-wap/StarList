@@ -1,4 +1,4 @@
-package wap.starlist.service;
+package wap.starlist.user.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.core.env.Environment;

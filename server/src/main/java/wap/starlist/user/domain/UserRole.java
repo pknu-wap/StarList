@@ -1,4 +1,4 @@
-package wap.starlist.domain;
+package wap.starlist.user.domain;
 
 public enum UserRole {
     ADMIN,

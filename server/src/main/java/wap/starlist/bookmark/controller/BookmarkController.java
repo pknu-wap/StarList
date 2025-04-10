@@ -1,13 +1,13 @@
-package wap.starlist.controller;
+package wap.starlist.bookmark.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import wap.starlist.domain.Bookmark;
-import wap.starlist.dto.request.BookmarkCreateRequest;
-import wap.starlist.dto.response.BookmarkErrorResponse;
-import wap.starlist.dto.response.BookmarkResponse;
-import wap.starlist.service.BookmarkService;
+import wap.starlist.bookmark.domain.Bookmark;
+import wap.starlist.bookmark.dto.request.BookmarkCreateRequest;
+import wap.starlist.bookmark.dto.response.BookmarkErrorResponse;
+import wap.starlist.bookmark.dto.response.BookmarkResponse;
+import wap.starlist.bookmark.service.BookmarkService;
 
 import java.net.URI;
 
