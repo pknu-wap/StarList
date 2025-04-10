@@ -13,7 +13,7 @@ public class AuthController {
     private final AuthService authService;
 
     @GetMapping("/code/{registrationId}")
-    public void loginWithGoogle(@RequestParam String code, @PathVariable String registrationId) {
+    public void login(@RequestParam String code, @PathVariable String registrationId) {
         authService.loginWithGoogle(code, registrationId);
     }
 }
