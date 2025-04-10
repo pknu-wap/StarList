@@ -12,7 +12,7 @@ public class Root {
     private Long id;
 
     @OneToOne
-    private Member memberId;
+    private User memberId;
 
     @OneToMany(mappedBy = "rootId")
     private List<Folder> folders;
