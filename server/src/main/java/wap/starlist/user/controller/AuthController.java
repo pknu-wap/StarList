@@ -7,13 +7,13 @@ import wap.starlist.user.service.AuthService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/oauth2")
-// TODO: security 사용시 자동으로 /login으로 redirect되기에 추후 수정해야함
+// Redirect URI를 처리하는 컨트롤러
 public class AuthController {
 
     private final AuthService authService;
 
-    @GetMapping("/code/{registrationId}")
-    public void login(@RequestParam String code, @PathVariable String registrationId) {
-        authService.loginWithGoogle(code, registrationId);
+    @GetMapping("/login/google")
+    public void login(@RequestParam("code") String code) {
+        authService.loginWithGoogle(code);
     }
 }
