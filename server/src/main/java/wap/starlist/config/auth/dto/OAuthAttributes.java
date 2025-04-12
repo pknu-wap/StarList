@@ -2,7 +2,7 @@ package wap.starlist.config.auth.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import wap.starlist.user.domain.User;
+import wap.starlist.member.domain.Member;
 
 import java.util.Map;
 
@@ -26,8 +26,8 @@ public class OAuthAttributes {
                 .build();
     }
 
-    public User toEntity() {
-        return User.builder()
+    public Member toEntity() {
+        return Member.builder()
                 .name(name)
                 .email(email)
                 .profileImage(image)

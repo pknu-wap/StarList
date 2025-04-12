@@ -1,7 +1,7 @@
 package wap.starlist.bookmark.domain;
 
 import jakarta.persistence.*;
-import wap.starlist.user.domain.User;
+import wap.starlist.member.domain.Member;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class Root {
     private Long id;
 
     @OneToOne
-    private User memberId;
+    private Member memberId;
 
     @OneToMany(mappedBy = "rootId")
     private List<Folder> folders;

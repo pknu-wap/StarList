@@ -22,7 +22,7 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
 
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/", "/oauth2/**").permitAll()  // 허용 URL 설정
+                        .requestMatchers("/", "/oauth2/**", "/login").permitAll()  // 허용 URL 설정
                         .anyRequest().authenticated())      // 그 외 모든 요청에 대해 인증
 
                 // oauth2 로그인 관련 설정

@@ -12,8 +12,8 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import wap.starlist.config.auth.dto.OAuthAttributes;
 import wap.starlist.config.auth.dto.SessionUser;
-import wap.starlist.user.domain.User;
-import wap.starlist.user.repository.UserRepository;
+import wap.starlist.member.domain.Member;
+import wap.starlist.member.repository.MemberRepository;
 
 import java.util.Collections;
 
@@ -21,7 +21,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
-    private final UserRepository userRepository;
+    private final MemberRepository userRepository;
     private final HttpSession httpSession;
 
     @Override
@@ -36,20 +36,20 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // TODO: google인지 확인해야 함
         OAuthAttributes attributes = OAuthAttributes.ofGoogle(userNameAttributeName, oAuth2User.getAttributes());
 
-        User user = saveOrUpdate(attributes);
+        Member member = saveOrUpdate(attributes);
 
-        httpSession.setAttribute("user", new SessionUser(user));
+        httpSession.setAttribute("user", new SessionUser(member));
 
         return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())),
+                Collections.singleton(new SimpleGrantedAuthority(member.getRoleKey())),
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey());
     }
 
-    private User saveOrUpdate(OAuthAttributes attributes) {
-        User user = userRepository.findByEmail(attributes.getEmail())
+    private Member saveOrUpdate(OAuthAttributes attributes) {
+        Member member = userRepository.findByEmail(attributes.getEmail())
                 .map(entity -> entity.update(attributes.getName(), attributes.getImage()))
                 .orElse(attributes.toEntity());
-        return userRepository.save(user);
+        return userRepository.save(member);
     }
 }

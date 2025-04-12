@@ -1,8 +1,8 @@
-package wap.starlist.user.controller;
+package wap.starlist.member.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import wap.starlist.user.service.AuthService;
+import wap.starlist.member.service.AuthService;
 
 @RestController
 @RequiredArgsConstructor

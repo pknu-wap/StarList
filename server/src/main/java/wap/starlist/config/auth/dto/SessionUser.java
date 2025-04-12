@@ -1,7 +1,7 @@
 package wap.starlist.config.auth.dto;
 
 import lombok.Getter;
-import wap.starlist.user.domain.User;
+import wap.starlist.member.domain.Member;
 
 import java.io.Serializable;
 
@@ -13,9 +13,9 @@ public class SessionUser implements Serializable {
     private String email;
     private String image;
 
-    public SessionUser(User user) {
-        this.name = user.getName();
-        this.email = user.getEmail();
-        this.image = user.getProfileImage();
+    public SessionUser(Member member) {
+        this.name = member.getName();
+        this.email = member.getEmail();
+        this.image = member.getProfileImage();
     }
 }

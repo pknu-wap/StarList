@@ -1,4 +1,4 @@
-package wap.starlist.user.domain;
+package wap.starlist.member.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import wap.starlist.config.auth.dto.UserRole;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public User update(String name, String profileImage) {
+    public Member update(String name, String profileImage) {
         this.name = name;
         this.profileImage = profileImage;
         return this;
