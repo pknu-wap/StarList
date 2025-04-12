@@ -1,10 +1,10 @@
-package wap.starlist.service;
+package wap.starlist.bookmark.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import wap.starlist.domain.Bookmark;
-import wap.starlist.repository.BookmarkRepository;
+import wap.starlist.bookmark.domain.Bookmark;
+import wap.starlist.bookmark.repository.BookmarkRepository;
 
 @Service
 @RequiredArgsConstructor

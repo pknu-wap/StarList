@@ -40,3 +40,5 @@ out/
 ### Secret File
 src/main/resources/application-db.properties
 src/main/resources/application-oauth.properties
+src/main/resources/application-db.yml
+src/main/resources/application-oauth.yml

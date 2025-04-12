@@ -1,4 +1,4 @@
-package wap.starlist.domain;
+package wap.starlist.bookmark.domain;
 
 public enum ParentType {
     ROOT,
