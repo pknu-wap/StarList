@@ -33,8 +33,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
                 .getUserInfoEndpoint().getUserNameAttributeName();
 
-        // TODO: google인지 확인해야 함
-        OAuthAttributes attributes = OAuthAttributes.ofGoogle(userNameAttributeName, oAuth2User.getAttributes());
+        OAuth2Response attributes = OAuth2Response.ofGoogle(userNameAttributeName, oAuth2User.getAttributes());
 
         Member member = saveOrUpdate(attributes);
 
@@ -46,7 +45,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 attributes.getNameAttributeKey());
     }
 
-    private Member saveOrUpdate(OAuthAttributes attributes) {
+    private Member saveOrUpdate(OAuth2Response attributes) {
         Member member = userRepository.findByEmail(attributes.getEmail())
                 .map(entity -> entity.update(attributes.getName(), attributes.getImage()))
                 .orElse(attributes.toEntity());

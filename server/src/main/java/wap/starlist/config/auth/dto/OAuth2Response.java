@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Getter
 @Builder
-public class OAuthAttributes {
+public class OAuth2Response {
 
     private Map<String, Object> attributes;
     private String nameAttributeKey;
@@ -16,8 +16,8 @@ public class OAuthAttributes {
     private String email;
     private String image;
 
-    public static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
-        return OAuthAttributes.builder()
+    public static OAuth2Response ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
+        return OAuth2Response.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .image((String) attributes.get("image"))
