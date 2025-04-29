@@ -1,10 +1,13 @@
-package wap.starlist.domain;
+package wap.starlist.bookmark.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Bookmark {
 
     @Id
@@ -21,13 +24,13 @@ public class Bookmark {
 
     private String url;
 
-    private Integer dateAdded;
+    private Long dateAdded;
 
-    private Integer dateGroupModified;
+    private Long dateGroupModified;
 
-    private Integer dateLastUsed;
+    private Long dateLastUsed;
 
-    private Integer index;
+    private Integer position;
 
     private Long parentId;
 
