@@ -14,8 +14,10 @@ public class FolderService {
 
     public Folder createFolder(String title, Long userId) {
         // 필수값 검증(title, userId 존재 여부 확인)
-        if (!StringUtils.hasText(title) || userId == null) {
-            throw new IllegalArgumentException("[ERROR] 폴더명 혹은 유저 정보가 존재하지 않습니다.");
+        if (userId == null) {
+            throw new IllegalArgumentException("[ERROR] 유저 정보가 존재하지 않습니다.");
+        } else if (!StringUtils.hasText(title)) {
+            throw new IllegalArgumentException("[ERROR] 폴더명이 존재하지 않습니다.");
         }
 
         Folder folder = Folder.builder()
