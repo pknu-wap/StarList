@@ -1,4 +1,4 @@
-package wap.starlist.bookmark.domain;
+package wap.starlist.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;

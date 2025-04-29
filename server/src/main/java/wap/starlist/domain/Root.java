@@ -1,7 +1,6 @@
-package wap.starlist.bookmark.domain;
+package wap.starlist.domain;
 
 import jakarta.persistence.*;
-import wap.starlist.member.domain.Member;
 
 import java.util.List;
 
