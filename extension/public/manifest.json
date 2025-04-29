@@ -13,5 +13,6 @@
     "service_worker": "./assets/js/service_worker.js"
   },
   "permissions": [
+    "bookmarks"
   ]
 }
