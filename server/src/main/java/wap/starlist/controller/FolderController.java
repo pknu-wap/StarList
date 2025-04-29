@@ -31,7 +31,9 @@ public class FolderController {
 
         // 응답 객체 생성
         FolderResponse response = FolderResponse.builder()
-                .folderId(createdFolder.getId()).build();
+                .folderId(createdFolder.getId())
+                .message("폴더가 생성되었습니다.")
+                .build();
 
         return ResponseEntity.created(location).body(response);
     }
