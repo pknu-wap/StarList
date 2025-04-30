@@ -8,21 +8,17 @@ import java.util.Map;
 
 @Getter
 @Builder
-public class OAuth2Response {
+public class UserInfoResponse {
 
-    private Map<String, Object> attributes;
-    private String nameAttributeKey;
     private String name;
     private String email;
     private String image;
 
-    public static OAuth2Response ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
-        return OAuth2Response.builder()
+    public static UserInfoResponse ofGoogle(Map<String, Object> attributes) {
+        return UserInfoResponse.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .image((String) attributes.get("image"))
-                .attributes(attributes)
-                .nameAttributeKey(userNameAttributeName)
                 .build();
     }
 
