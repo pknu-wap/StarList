@@ -1,14 +1,19 @@
 import React from 'react';
 
-function LoginButton() {
-    const handleLogin = () => {
-        window.open('https://example.com', '_parent'); // 새 창으로 열기
-    };
+// 미리 정의된 tailwind 스타일
+const STYLE_MAP = {
+    default: "w-[449px] h-[152px] rounded-[40px] bg-[#57418b] text-white",
+    loading: "w-[449px] h-[152px] rounded-[40px] bg-[#ddd9e7] text-black cursor-not-allowed"
+};
 
+function LoginButton({ onClick }) {
     return (
-        <div>
-            <button onClick={handleLogin}>로그인</button>
-        </div>
+        <button 
+            className={STYLE_MAP.default}
+            onClick={onClick}
+        >
+            로그인
+        </button>
     );
 }
 
