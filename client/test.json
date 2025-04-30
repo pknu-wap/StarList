@@ -1,0 +1,76 @@
+{
+  "code": "SUCCESS",
+  "message": "모든 북마크가 전송되었습니다.",
+  "data": [
+    {
+      "id": 1,
+      "title": "ChatGPT로 AI 요약하기",
+      "summary": "ChatGPT를 활용한 웹 콘텐츠 요약 서비스 개발 사례",
+      "image": "https://example.com/images/chatgpt-summary-thumbnail.png",
+      "recommended": "true",
+      "url": "https://openai.com/blog/chatgpt",
+      "dateAdded": 1711507200,
+      "keywords": ["AI", "요약", "ChatGPT"]
+    },
+    {
+      "id": 2,
+      "title": "스프링 부트로 만드는 REST API",
+      "summary": "Spring Boot를 활용한 RESTful API 구축 방법에 대한 가이드",
+      "image": "https://example.com/images/springboot-api-thumbnail.png",
+      "recommended": "false",
+      "url": "https://spring.io/guides/gs/rest-service/",
+      "dateAdded": 1711430400,
+      "keywords": ["Spring", "REST API", "백엔드", "Spring Boot", "Java"]
+    },
+    {
+      "id": 3,
+      "title": "리액트로 만드는 검색 UI",
+      "summary": "React와 Tailwind CSS를 활용한 실시간 검색창 만들기",
+      "image": "https://example.com/images/react-search-thumbnail.png",
+      "recommended": "true",
+      "url": "https://reactjs.org/docs/getting-started.html",
+      "dateAdded": 1711507200,
+      "keywords": ["React", "UI", "검색", "프론트엔드"]
+    },
+    {
+      "id": 4,
+      "title": "Python으로 데이터 분석 시작하기",
+      "summary": "Pandas와 Matplotlib을 사용한 데이터 분석 입문서",
+      "image": "https://example.com/images/python-data-thumbnail.png",
+      "recommended": "false",
+      "url": "https://pandas.pydata.org/",
+      "dateAdded": 1711430400,
+      "keywords": ["Python", "데이터분석", "Pandas", "시각화"]
+    },
+    {
+      "id": 5,
+      "title": "Git & GitHub 협업 완전 정복",
+      "summary": "버전 관리를 위한 Git과 GitHub 실전 가이드",
+      "image": "https://example.com/images/git-github-thumbnail.png",
+      "recommended": "true",
+      "url": "https://docs.github.com/en/get-started",
+      "dateAdded": 1711430400,
+      "keywords": ["Git", "GitHub", "협업", "버전관리"]
+    },
+    {
+      "id": 6,
+      "title": "Next.js를 활용한 SSR 웹사이트 만들기",
+      "summary": "SEO에 유리한 서버 사이드 렌더링 기반 웹사이트 제작 방법",
+      "image": "https://example.com/images/nextjs-ssr-thumbnail.png",
+      "recommended": "false",
+      "url": "https://nextjs.org/learn",
+      "dateAdded": 1711507200,
+      "keywords": ["Next.js", "SSR", "프론트엔드", "React"]
+    },
+    {
+      "id": 7,
+      "title": "Docker로 개발 환경 구축하기",
+      "summary": "Docker를 활용한 로컬 개발 환경 설정 및 컨테이너 관리",
+      "image": "https://example.com/images/docker-env-thumbnail.png",
+      "recommended": "true",
+      "url": "https://docs.docker.com/get-started/",
+      "dateAdded": 1711353600,
+      "keywords": ["Docker", "컨테이너", "개발환경", "DevOps"]
+    }
+  ]
+}
