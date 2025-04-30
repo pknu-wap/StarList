@@ -6,10 +6,10 @@ const BookmarkGroupByDate = ({ date, bookmarks }) => {
         <div className="w-full">
             <div className="w-full max-w-[1520px] mx-auto space-y-2">
                 {/* 날짜 제목 */}
-                <h2 className="text-lg font-semibold text-gray-700 ml-[25px]">{date}</h2>
+                <h2 className="text-lg font-semibold text-[16px] ml-[25px] mt-[60px]">{date}</h2>
 
                 {/* 카드 배경 */}
-                <div className="rounded-[39px] bg-[#4d4a57] px-[25px] py-[33px] flex flex-col gap-y-4">
+                <div className="rounded-[39px] bg-[#4d4a57] px-[25px] py-[15px] flex flex-col gap-y-4">
                     {bookmarks.map((bm) => (
                         <BookmarkItem key={bm.id} {...bm} />
                     ))}

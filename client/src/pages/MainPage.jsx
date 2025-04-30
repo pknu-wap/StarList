@@ -3,6 +3,7 @@ import useBookmarkStore from "../store/useBookmarkStore";
 import { fetchBookmarks } from "../api/bookmarkApi";
 import { groupBookmarksByDate } from "../utils/groupBookmarksByDate";
 import BookmarkGroupByDate from "../components/bookmark/BookmarkGroupByDate"
+import Header from "../components/common/Header"
 
 const MainPage = () => {
     const { bookmarks, setBookmarks } = useBookmarkStore();
@@ -23,7 +24,8 @@ const MainPage = () => {
     const grouped = groupBookmarksByDate(bookmarks || []); // 날짜별로 묶기
 
     return (
-        <div className="px-8 py-10 space-y-10">
+        <div>
+            <Header />
             <h1 className="text-3xl font-bold text-[#1a1a1a] w-fit mx-auto">
                 최근 추가한 페이지
             </h1>
