@@ -3,7 +3,7 @@ package wap.starlist.bookmark.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import wap.starlist.domain.Folder;
+import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.dto.request.FolderCreateRequest;
 import wap.starlist.bookmark.dto.response.FolderErrorResponse;
 import wap.starlist.bookmark.dto.response.FolderResponse;
@@ -55,5 +55,19 @@ public class FolderController {
 
         FolderResponse response = FolderResponse.from(folder);
         return ResponseEntity.ok().body(response);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteFolder(@PathVariable("id") Long id) {
+        try {
+            folderService.deleteFolder(id);
+        } catch (IllegalArgumentException e) {
+            FolderErrorResponse folderNotFound = FolderErrorResponse.builder()
+                    .code("FOLDER_NOT_FOUND").message("해당 폴더가 존재하지 않습니다.").build();
+
+            return ResponseEntity.badRequest().body(folderNotFound);
+        }
+        return ResponseEntity.noContent().build(); // 삭제 성공 시 204 No Content
     }
 }

@@ -2,7 +2,7 @@ package wap.starlist.bookmark.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
-import wap.starlist.domain.Folder;
+import wap.starlist.bookmark.domain.Folder;
 
 @Getter
 @Builder
