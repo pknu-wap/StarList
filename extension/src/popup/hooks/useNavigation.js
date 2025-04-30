@@ -13,8 +13,8 @@ const useNavigation = () => {
     navigate('../pages/SyncStart')
   }, [navigate]);
 
-  const goToSyncLoadingPage = useCallback(() => {
-    navigate('../pages/SyncLoading')
+  const goToSyncStatusPage = useCallback(() => {
+    navigate('../pages/SyncStatus')
   }, [navigate]);
 
   const goToMainPage = useCallback(() => {
@@ -24,7 +24,7 @@ const useNavigation = () => {
   return {
     goToLoginPage,
     goToSyncStartPage,
-    goToSyncLoadingPage,
+    goToSyncStatusPage,
     goToMainPage
   };
 };
