@@ -39,7 +39,7 @@ public class BookmarkService {
     @Transactional
     public int deleteBookmarks(List<Long> ids) {
         if (CollectionUtils.isEmpty(ids)) {
-            throw new IllegalArgumentException("[ERROR] 삭제할 북마크 ID 목록이 비어있습니다.");
+            throw new IllegalArgumentException("[ERROR] 삭제할 북마크를 하나 이상 선택해 주세요.");
         }
 
         List<Bookmark> toDelete = bookmarkRepository.findAllById(ids);
