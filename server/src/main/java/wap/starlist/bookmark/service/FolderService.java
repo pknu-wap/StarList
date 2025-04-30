@@ -1,10 +1,10 @@
-package wap.starlist.service;
+package wap.starlist.bookmark.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import wap.starlist.domain.Folder;
-import wap.starlist.repository.FolderRepository;
+import wap.starlist.bookmark.domain.Folder;
+import wap.starlist.bookmark.repository.FolderRepository;
 
 @Service
 @RequiredArgsConstructor

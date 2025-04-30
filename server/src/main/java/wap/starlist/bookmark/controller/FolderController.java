@@ -1,13 +1,13 @@
-package wap.starlist.controller;
+package wap.starlist.bookmark.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import wap.starlist.domain.Folder;
-import wap.starlist.dto.request.FolderCreateRequest;
-import wap.starlist.dto.response.FolderErrorResponse;
-import wap.starlist.dto.response.FolderResponse;
-import wap.starlist.service.FolderService;
+import wap.starlist.bookmark.dto.request.FolderCreateRequest;
+import wap.starlist.bookmark.dto.response.FolderErrorResponse;
+import wap.starlist.bookmark.dto.response.FolderResponse;
+import wap.starlist.bookmark.service.FolderService;
 
 import java.net.URI;
 
