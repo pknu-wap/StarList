@@ -1,4 +1,4 @@
-package wap.starlist.dto.request;
+package wap.starlist.bookmark.dto.request;
 
 import lombok.Getter;
 
