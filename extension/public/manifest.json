@@ -12,6 +12,11 @@
   "background": {
     "service_worker": "./assets/js/service_worker.js"
   },
+  "externally_connectable": {
+    "matches": ["https://app.example.com/*"]
+  },
   "permissions": [
+    "tabs",
+    "storage"
   ]
 }
