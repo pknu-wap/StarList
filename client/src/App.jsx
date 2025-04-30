@@ -8,6 +8,7 @@ import CategoryPage from "./pages/CategoryPage";
 import RegisterPage from "./pages/RegisterPage";
 import StartPage from "./pages/StartPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import "./index.css";
 
 const App = () => {
   const { isLoggedIn } = useAuthStore(); // Zustand 스토어에서 로그인 상태 가져오기
