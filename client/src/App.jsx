@@ -15,20 +15,38 @@ const App = () => {
   return (
     <Routes>
       {/* 로그인 여부에 따라 시작 페이지를 다르게 설정 */}
-      <Route path="/" element={isLoggedIn ? <Navigate to="/main" /> : <Navigate to="/start" />} />
-      <Route path="/main" element={<MainPage />} />
-      <Route path="/start" element={<StartPage />} />
+      <Route
+        path="/"
+        element={
+          isLoggedIn
+            ? <Navigate to="/main" replace />
+            : <Navigate to="/start" replace />
+        }
+      />
+
+      {/* 로그인 완료 후 처리 페이지 */}
       <Route path="/auth/success" element={<AuthSuccessPage />} />
-      {/* 로그인 여부에 따라 접근 제한 */}
+
+      {/* 메인 페이지 */}
+      <Route path="/main" element={<MainPage />} />
+
+      {/* 시작(로그인) 페이지 */}
+      <Route path="/start" element={<StartPage />} />
+
+      {/* 카테고리 페이지 (로그인 필요) */}
       <Route
         path="/categories"
-        element={isLoggedIn ? <CategoryPage /> : <Navigate to="/login" />}
+        element={
+          isLoggedIn
+            ? <CategoryPage />
+            : <Navigate to="/start" replace />
+        }
       />
-      {/* 404 에러 페이지 */}
+
+      {/* 그 외 404 페이지 */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };
 
 export default App;
-
