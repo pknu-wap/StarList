@@ -13,12 +13,16 @@ public class UserInfoResponse {
     private String name;
     private String email;
     private String image;
+    private String provider;
+    private String providerId;
 
     public static UserInfoResponse ofGoogle(Map<String, Object> attributes) {
         return UserInfoResponse.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .image((String) attributes.get("image"))
+                .provider("google")
+                .providerId((String) attributes.get("sub"))
                 .build();
     }
 
@@ -27,7 +31,10 @@ public class UserInfoResponse {
                 .name(name)
                 .email(email)
                 .profileImage(image)
+                .provider(provider)
+                .providerId(providerId)
                 .role(UserRole.USER)
+                .hasSynced(false)
                 .build();
     }
 }
