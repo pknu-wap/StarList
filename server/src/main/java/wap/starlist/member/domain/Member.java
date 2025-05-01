@@ -25,14 +25,6 @@ public class Member {
     private String providerId;  // OAuth2 제공자가 발급한 유저 고유 id
     @Enumerated(EnumType.STRING)
     private UserRole role;
-
-    public Member update(String name, String profileImage) {
-        this.name = name;
-        this.profileImage = profileImage;
-        return this;
-    }
-
-    public String getRoleKey() {
-        return this.role.getKey();
-    }
+    @Column(nullable = false)
+    private Boolean hasSynced;
 }
