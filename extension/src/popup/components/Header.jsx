@@ -5,11 +5,15 @@ import React from 'react'
 
 function Header() {
     return (
-        <div>
-            <h1>Starlist</h1>
-            {/* <Userprofile></Userprofile>
-            <Settings></Settings> */}
-        </div>
+        <header className='w-full h-16 flex items-center justify-between px-6 bg-white'>
+            <div className='w-full col-span-2'>
+                <p className='w-text-[70px] leading-none font-bold text-black'>Starlist</p>
+            </div>
+            <div className='w-full'>
+                <Userprofile></Userprofile>
+                <Settings></Settings>
+            </div>
+        </header>
     );
 }
 

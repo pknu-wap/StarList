@@ -3,7 +3,7 @@ import React from 'react';
 function Logo({ width, height }) {
     return (
         <img
-            src='/logo/logo_temp.png'
+            src='/logo/logo.svg'
             alt='Logo'
             width={width}
             height={height}

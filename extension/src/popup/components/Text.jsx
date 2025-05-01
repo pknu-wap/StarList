@@ -2,10 +2,8 @@ import React from 'react';
 
 // 미리 정의된 tailwind 스타일
 const STYLE_MAP = {
-    default: "text-base font-normal",
-    h1: "text-3xl font-bold",
-    h2: "text-2xl font-semibold",
-    body: "text-base",
+    default: "text-base text-center",
+    title: "text-lg text-center font-bold",
 };
   
 function Text({ style, content }) {

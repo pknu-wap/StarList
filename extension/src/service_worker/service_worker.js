@@ -1,5 +1,5 @@
 const LOGIN_PAGE_URL = import.meta.env.VITE_LOGIN_PAGE_URL;
-const ALLOWED_URL     = import.meta.env.VITE_ALLOWED_URL;
+const ALLOWED_URL     = import.meta.env.ALLOWED_URL;
 
 /* global chrome */
 

@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+html, body, #root {
+    width: 400px;    /* 팝업 전체 너비 */
+    height: 600px;    
+    margin: 0;
+    padding: 0;
+}
