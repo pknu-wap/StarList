@@ -3,11 +3,10 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import useAuthStore from "./store/useAuthStore"; // 로그인 상태가 저장되어 있는 훅스
 
 import MainPage from "./pages/MainPage";
-import LoginPage from "./pages/LoginPage";
 import CategoryPage from "./pages/CategoryPage";
-import RegisterPage from "./pages/RegisterPage";
 import StartPage from "./pages/StartPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import AuthSuccessPage from "./pages/AuthSuccessPage";
 import "./index.css";
 
 const App = () => {
@@ -19,8 +18,7 @@ const App = () => {
       <Route path="/" element={isLoggedIn ? <Navigate to="/main" /> : <Navigate to="/start" />} />
       <Route path="/main" element={<MainPage />} />
       <Route path="/start" element={<StartPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/auth/success" element={<AuthSuccessPage />} />
       {/* 로그인 여부에 따라 접근 제한 */}
       <Route
         path="/categories"
