@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 import wap.starlist.config.auth.JwtTokenProvider;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
+    private static final String REDIRECT_URI = "https://sstarlist.netlify.app/auth/success";
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
@@ -24,10 +26,11 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         // 토큰 생성
         String accessToken = jwtTokenProvider.generateAccessToken(authentication);
 
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+        // accessToken을 쿼리 파라미터로 전달
+        String redirectUrl = UriComponentsBuilder.fromUriString(REDIRECT_URI)
+                .queryParam("token", accessToken)
+                .build().toUriString();
 
-        // 클라이언트가 직접 처리
-        response.getWriter().write("{\"token\":\"" + accessToken + "\"}");
+        response.sendRedirect(redirectUrl);
     }
 }
