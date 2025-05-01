@@ -4,16 +4,24 @@
   "version": "1.0",
   "description": "AI를 활용한 북마크 관리 도구",
   "icons": {
-    "32": "./logo/logo_temp.png"
+    "16":  "logo/logo16.png",
+    "32":  "logo/logo16.png",
+    "48":  "logo/logo48.png",
+    "128": "logo/logo128.png"
   },
   "action": {
+    "default_icon": {
+      "16":  "logo/logo16.png",
+      "32":  "logo/logo16.png",
+      "48":  "logo/logo48.png"
+    },
     "default_popup": "./src/index.html"
   },
   "background": {
     "service_worker": "./assets/js/service_worker.js"
   },
   "externally_connectable": {
-    "matches": ["https://app.example.com/*"]
+    "matches": ["https://sstarlist.netlify.app/*"]
   },
   "permissions": [
     "tabs",

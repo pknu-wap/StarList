@@ -56,10 +56,13 @@ function LoginPage() {
     };
 
     return (
-        <div>
-            <Logo width='100px' height='100px'/>
-            <Text style='default' content='지금 로그인하고 내 북마크에 새로운 빛을 더해보세요'/>
-            <LoginButton onClick={handleLogin}/>
+        <div className='w-full h-full flex flex-col justify-center'>
+            <div className='p-5 flex flex-col justify-center items-center'>
+                <Logo className='pb-3' width='250px' height='250px'/>
+                <Text style='default' content='지금 로그인하고'/> 
+                <Text style='default' content='내 북마크에 새로운 빛을 더해보세요'/>
+                <LoginButton onClick={handleLogin}/>
+            </div>
         </div>
     );
 }
