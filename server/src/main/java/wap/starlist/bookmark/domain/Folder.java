@@ -38,9 +38,19 @@ public class Folder {
     @OneToMany(mappedBy = "folder")
     private List<Bookmark> bookmarks = new ArrayList<>();
 
-    @ManyToOne
-    private Root rootId;
 
-    @OneToMany(mappedBy = "folderId")
-    private List<Bookmark> bookmarks;
+    public void updateChildFolders(List<Folder> folders) {
+        this.folders = folders;
+        for (Folder child : folders) {
+            child.setParent(this);
+        }
+    }
+
+    public void updateChildBookmarks(List<Bookmark> bookmarks) {
+        this.bookmarks = bookmarks;
+    }
+
+    private void setParent(Folder parent) {
+        this.parent = parent;
+    }
 }

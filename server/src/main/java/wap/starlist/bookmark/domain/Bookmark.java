@@ -45,8 +45,11 @@ public class Bookmark {
 
     private Integer googleId;
 
-    private Folder folderId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "folder_id")
     private Folder folder;
+
+    public void updateFolder(Folder parentFolder) {
+        this.folder = parentFolder;
+    }
 }
