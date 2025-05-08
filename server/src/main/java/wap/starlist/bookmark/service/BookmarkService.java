@@ -30,7 +30,11 @@ public class BookmarkService {
     }
 
     @Transactional(readOnly = true)
-    public Bookmark getBookmark(long id) {
+    public Bookmark getBookmark(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("[ERROR] id 값이 존재하지 않습니다.");
+        }
+
         // id로 북마크 조회
         return bookmarkRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 북마크가 존재하지 않습니다."));
