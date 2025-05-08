@@ -15,10 +15,9 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    // TODO: UserDetails를 구현할건지 or User를 사용할건지
     @GetMapping("/sync")
-    public ResponseEntity<?> getSynced(@AuthenticationPrincipal User loginUser) {
-        Boolean hasSynced = memberService.hasSynced(loginUser.getUsername());
+    public ResponseEntity<?> getSynced(@AuthenticationPrincipal String loginUser) {
+        Boolean hasSynced = memberService.hasSynced(loginUser);
         return ResponseEntity.ok(hasSynced);
     }
 }

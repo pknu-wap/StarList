@@ -40,7 +40,7 @@ public class Bookmark {
 
     private Boolean syncing;
 
-    private Integer googleId;
+    private Long googleId;
 
     @ManyToOne
     private Folder folderId;
