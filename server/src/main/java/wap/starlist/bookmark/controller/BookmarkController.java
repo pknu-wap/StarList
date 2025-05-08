@@ -56,7 +56,6 @@ public class BookmarkController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getBookmark(@PathVariable Long id) {
         Bookmark bookmark;
-
         try {
             bookmark = bookmarkService.getBookmark(id);
         } catch (IllegalArgumentException e) {
