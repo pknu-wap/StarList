@@ -59,8 +59,8 @@ public class BookmarkService {
     }
 
 
-    //TODO: 1차 변환 후 2차 저장이 가능한지
     // 상위 객체를 저장하기 위해 하위 객체를 준비해야하므로 Bottom-up으로 DFS를 통해 구현
+    //TODO: 의미가 중복된 컬럼 제거해야함
     @Transactional
     public Folder saveAll(List<BookmarkTreeNode> bookmarkTreeNodes) {
         if (bookmarkTreeNodes.size() != 1) {
@@ -91,7 +91,7 @@ public class BookmarkService {
         Folder currentFolder = node.toFolder(childFolders, childBookmarks); // 자식 없이 먼저 생성
         folderRepository.save(currentFolder); // ID 생성을 위해 먼저 저장
 
-        // 현자 노드의 자식들을 탐색하며 db에 저장 or 다시 탐색한다
+        // 현재 노드의 자식들을 탐색하며 db에 저장 or 다시 탐색한다
         for (BookmarkTreeNode child : node.getChildren()) {
             if (isBookmark(child)) { // Bookmark
                 Bookmark childBookmark = child.toBookmark();
