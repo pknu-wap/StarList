@@ -12,6 +12,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+import static wap.starlist.config.auth.AuthConstants.*;
+
 @Component
 @RequiredArgsConstructor
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
@@ -42,11 +44,10 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    // TODO: 상수 처리
     private String resolveToken(HttpServletRequest request) {
-        String bearer = request.getHeader("Authorization");
-        if (bearer != null && bearer.startsWith("Bearer ")) {
-            return bearer.substring(7);
+        String bearer = request.getHeader(AUTH_HEADER);
+        if (bearer != null && bearer.startsWith(TOKEN_PREFIX)) {
+            return bearer.substring(TOKEN_PREFIX_LENGTH);
         }
         return null;
     }
