@@ -29,7 +29,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         // 토큰 생성
         String accessToken = jwtTokenProvider.generateAccessToken(authentication);
 
-
         String redirectUrl;
         String origin = request.getParameter("state");
 
@@ -43,6 +42,9 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                     .queryParam("token", accessToken)
                     .build().toUriString();
         }
+
+        System.out.println("accessToken = " + accessToken);
+
         response.sendRedirect(redirectUrl);
     }
 }

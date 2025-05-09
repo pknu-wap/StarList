@@ -64,7 +64,8 @@ public class SecurityConfig {
 
         config.setAllowedOrigins(List.of(
                 "http://localhost:5174",
-                "https://sstarlist.netlify.app"
+                "https://sstarlist.netlify.app",
+                "chrome-extension://jdckgeplahiaefapkpnjjnffdjifmkok"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
