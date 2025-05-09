@@ -3,6 +3,8 @@ package wap.starlist.bookmark.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Builder
@@ -51,5 +53,9 @@ public class Bookmark {
 
     public void updateFolder(Folder parentFolder) {
         this.folder = parentFolder;
+    }
+  
+    public void updateDateAdded() {
+        this.dateAdded = new Date().getTime();
     }
 }

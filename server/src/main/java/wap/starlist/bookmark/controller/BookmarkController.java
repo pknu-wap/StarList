@@ -37,8 +37,7 @@ public class BookmarkController {
         URI location = URI.create("/bookmarks/" + createdBookmark.getId());
 
         // 응답 객체 생성
-        BookmarkResponse response = BookmarkResponse.builder()
-                .bookmarkId(createdBookmark.getId()).build();
+        BookmarkResponse response = BookmarkResponse.from(createdBookmark);
 
         return ResponseEntity.created(location).body(response);
     }
