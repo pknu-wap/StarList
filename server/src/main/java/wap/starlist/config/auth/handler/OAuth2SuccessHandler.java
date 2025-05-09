@@ -16,7 +16,10 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
-    private static final String REDIRECT_URI = "https://sstarlist.netlify.app/auth/success";
+    private static final String PRODUCTION_REDIRECT_URI = "https://sstarlist.netlify.app/auth/success";
+    private static final String LOCALHOST_REDIRECT_URI = "http://localhost:5173";
+    private static final String LOCAL_STATE = "local";
+
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
@@ -26,11 +29,20 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         // 토큰 생성
         String accessToken = jwtTokenProvider.generateAccessToken(authentication);
 
-        // accessToken을 쿼리 파라미터로 전달
-        String redirectUrl = UriComponentsBuilder.fromUriString(REDIRECT_URI)
-                .queryParam("token", accessToken)
-                .build().toUriString();
 
+        String redirectUrl;
+        String origin = request.getParameter("state");
+
+        // accessToken을 쿼리 파라미터로 전달
+        if (origin.equals(LOCAL_STATE)) {
+            redirectUrl = UriComponentsBuilder.fromUriString(LOCALHOST_REDIRECT_URI)
+                    .queryParam("token", accessToken)
+                    .build().toUriString();
+        } else {
+            redirectUrl = UriComponentsBuilder.fromUriString(PRODUCTION_REDIRECT_URI)
+                    .queryParam("token", accessToken)
+                    .build().toUriString();
+        }
         response.sendRedirect(redirectUrl);
     }
 }
