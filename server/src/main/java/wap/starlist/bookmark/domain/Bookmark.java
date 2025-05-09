@@ -43,7 +43,7 @@ public class Bookmark {
 
     private Boolean syncing;
 
-    private Integer googleId;
+    private Long googleId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "folder_id")

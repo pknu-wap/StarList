@@ -13,7 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -46,10 +45,11 @@ public class JwtTokenProvider {
         Claims claims = parseClaims(token); // jwt에서 사용자 정보 파싱
         List<SimpleGrantedAuthority> authorities = getAuthorities(claims); // 권한 가져오기
 
-        User principal = new User(claims.getSubject(), "", authorities);
+        // 파싱한 정보 중 사용자의 googleId만 등록
+        String googleId = claims.getSubject();
 
         // 인증된 사용자 정보를 담은 Authentication 객체 반환
-        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+        return new UsernamePasswordAuthenticationToken(googleId, token, authorities);
     }
 
     public boolean validateToken(String token) {
