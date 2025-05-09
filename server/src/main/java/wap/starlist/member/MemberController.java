@@ -1,6 +1,7 @@
 package wap.starlist.member;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -15,10 +16,14 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    // TODO: UserDetails를 구현할건지 or User를 사용할건지
     @GetMapping("/sync")
-    public ResponseEntity<?> getSynced(@AuthenticationPrincipal User loginUser) {
-        Boolean hasSynced = memberService.hasSynced(loginUser.getUsername());
+    public ResponseEntity<?> getSynced(@AuthenticationPrincipal String loginUser) {
+        Boolean hasSynced;
+        try {
+            hasSynced = memberService.hasSynced(loginUser);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
         return ResponseEntity.ok(hasSynced);
     }
 }

@@ -20,9 +20,10 @@ public class FolderService {
             throw new IllegalArgumentException("[ERROR] 폴더명이 존재하지 않습니다.");
         }
 
+        //TODO: userId와 googleId는 매치되지 않음
         Folder folder = Folder.builder()
                 .title(title)
-                .googleId(userId)
+                //.googleId(userId)
                 .build();
 
         return folderRepository.save(folder);
