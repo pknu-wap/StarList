@@ -1,6 +1,8 @@
 package wap.starlist.bookmark.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,16 @@ public class BookmarkService {
 
     @Transactional // 트랜잭션을 보장하기 위해
     public Bookmark createBookmark(String title, String url) {
+        // 중복 확인
+        Optional<Bookmark> found = bookmarkRepository.findByUrl(url);
+
+        if (found.isPresent()) {
+            // 이미 있다면 추가된 날짜 수정
+            Bookmark bookmark = found.get();
+            bookmark.updateDateAdded();
+            return bookmarkRepository.save(bookmark);
+        }
+
         // 전달받은 값으로 임시 북마크 생성
         Bookmark bookmark = Bookmark.builder()
                 .title(title)
