@@ -26,12 +26,14 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         // 토큰 생성
         String accessToken = jwtTokenProvider.generateAccessToken(authentication);
 
+        //TODO: 쿼리로 전달하지 않고 쿠키를 사용하도록
         // accessToken을 쿼리 파라미터로 전달
         String redirectUrl = UriComponentsBuilder.fromUriString(REDIRECT_URI)
                 .queryParam("token", accessToken)
                 .build().toUriString();
 
         System.out.println("accessToken = " + accessToken);
+
         response.sendRedirect(redirectUrl);
     }
 }
