@@ -22,6 +22,7 @@ public class Bookmark {
 
     private String recommended;
 
+    @Column(length = 2048)
     private String url;
 
     private Long dateAdded;
@@ -32,16 +33,23 @@ public class Bookmark {
 
     private Integer position;
 
-    private Long parentId;
+    @Column(name = "parent_id")
+    private Integer parentId;
 
+//TODO: ROOT를 삭제하면 관련 필드 모두 삭제
     // ROOT 혹은 FOLDER로 저장됨
-    @Enumerated(EnumType.STRING)
-    private ParentType parentType;
+//    @Enumerated(EnumType.STRING)
+//    private ParentType parentType;
 
     private Boolean syncing;
 
     private Integer googleId;
 
-    @ManyToOne
-    private Folder folderId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "folder_id")
+    private Folder folder;
+
+    public void updateFolder(Folder parentFolder) {
+        this.folder = parentFolder;
+    }
 }

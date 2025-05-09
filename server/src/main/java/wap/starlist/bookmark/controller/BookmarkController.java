@@ -3,9 +3,13 @@ package wap.starlist.bookmark.controller;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import wap.starlist.bookmark.domain.Bookmark;
+import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.dto.request.BookmarkCreateRequest;
+import wap.starlist.bookmark.dto.request.BookmarkTreeNode;
 import wap.starlist.bookmark.dto.request.BookmarksDeleteRequest;
 import wap.starlist.bookmark.dto.response.BookmarkErrorResponse;
 import wap.starlist.bookmark.dto.response.BookmarkResponse;
@@ -68,5 +72,13 @@ public class BookmarkController {
 
         BookmarkResponse response = BookmarkResponse.from(bookmark);
         return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping("/sync")
+    public ResponseEntity<?> sync(@AuthenticationPrincipal User user,
+                                  @RequestBody List<BookmarkTreeNode> bookmarkTreeNodes) {
+
+        Folder savedFolder = bookmarkService.saveAll(bookmarkTreeNodes);
+        return ResponseEntity.ok().build();
     }
 }

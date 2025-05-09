@@ -33,11 +33,6 @@ public class JwtTokenProvider {
     private String key;
     private SecretKey secretKey;
 
-    @PostConstruct
-    private void setSecretKey() {
-        secretKey = Keys.hmacShaKeyFor(key.getBytes());
-    }
-
     public String generateAccessToken(Authentication authentication) {
         return generateToken(authentication, ACCESS_TOKEN_EXPIRE_TIME);
     }
@@ -71,6 +66,11 @@ public class JwtTokenProvider {
             System.out.println("[JWT] 토큰 검증 실패: " + e.getMessage());
         }
         return false;
+    }
+
+    @PostConstruct
+    private void setSecretKey() {
+        secretKey = Keys.hmacShaKeyFor(key.getBytes());
     }
 
     private String generateToken(Authentication authentication, long expireTime) {
