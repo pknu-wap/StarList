@@ -1,4 +1,4 @@
-package wap.starlist.config.auth;
+package wap.starlist.auth.constants;
 
 public class AuthConstants {
     public static final String AUTH_HEADER = "Authorization";

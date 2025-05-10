@@ -1,4 +1,4 @@
-package wap.starlist.config.auth.handler;
+package wap.starlist.auth.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,7 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
-import wap.starlist.config.auth.JwtTokenProvider;
+import wap.starlist.auth.JwtTokenProvider;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package wap.starlist.config.auth.service;
+package wap.starlist.auth.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -7,8 +7,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import wap.starlist.config.auth.dto.OAuth2UserPrincipal;
-import wap.starlist.config.auth.dto.UserInfoResponse;
+import wap.starlist.auth.dto.OAuth2UserPrincipal;
+import wap.starlist.auth.dto.UserInfoResponse;
 import wap.starlist.member.domain.Member;
 import wap.starlist.member.repository.MemberRepository;
 

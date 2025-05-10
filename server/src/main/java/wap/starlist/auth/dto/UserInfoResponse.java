@@ -1,4 +1,4 @@
-package wap.starlist.config.auth.dto;
+package wap.starlist.auth.dto;
 
 import lombok.Builder;
 import lombok.Getter;
