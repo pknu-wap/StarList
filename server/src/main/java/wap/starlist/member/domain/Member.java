@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import wap.starlist.config.auth.dto.UserRole;
+import wap.starlist.auth.dto.UserRole;
 
 @Getter
 @Entity

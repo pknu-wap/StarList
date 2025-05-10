@@ -12,10 +12,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import wap.starlist.config.auth.TokenAuthenticationFilter;
-import wap.starlist.config.auth.handler.OAuth2SuccessHandler;
-import wap.starlist.config.auth.service.CustomOAuth2UserService;
+import wap.starlist.auth.security.TokenAuthenticationFilter;
+import wap.starlist.auth.security.OAuth2SuccessHandler;
+import wap.starlist.auth.service.CustomOAuth2UserService;
 
 import java.util.List;
 
