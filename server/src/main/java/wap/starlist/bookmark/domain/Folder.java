@@ -32,7 +32,7 @@ public class Folder {
     @JoinColumn(name ="parent_id")
     private Folder parent;
 
-    @OneToMany(mappedBy = "google_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Folder> folders = new ArrayList<>();
 
     @OneToMany(mappedBy = "folder")

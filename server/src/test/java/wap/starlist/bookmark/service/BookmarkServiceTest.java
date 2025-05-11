@@ -1,13 +1,8 @@
 package wap.starlist.bookmark.service;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.transaction.annotation.Transactional;
 import wap.starlist.bookmark.domain.Bookmark;
 
@@ -74,19 +69,4 @@ class BookmarkServiceTest {
         assertThrows(IllegalArgumentException.class,
                 () -> bookmarkService.getBookmark(earth.getId() + 1L));
     }
-
-    @TestConfiguration
-    static class TestSecurityConfig {
-
-        @Bean
-        public ClientRegistrationRepository clientRegistrationRepository() {
-            return Mockito.mock(ClientRegistrationRepository.class);
-        }
-
-        @Bean
-        public OAuth2AuthorizedClientService oAuth2AuthorizedClientService() {
-            return Mockito.mock(OAuth2AuthorizedClientService.class);
-        }
-    }
-
 }
