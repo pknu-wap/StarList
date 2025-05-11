@@ -27,7 +27,7 @@ const AuthSuccessPage = () => {
             login();
 
             // 주소창에서 token 제거 (보안 개선)
-            window.history.replaceState(null, "", "/auth/success");
+            window.history.replaceState(null, "", import.meta.env.VITE_GOOGLE_REDIRECT_URI.replace(/.*\/\/[^/]+/, ""))
 
             // 메인 페이지로 이동
             navigate("/main");

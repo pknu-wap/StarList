@@ -1,11 +1,11 @@
 import googleLogo from "../../assets/google.svg";
 
-const redirectUri = import.meta.env.VITE_GOOGLE_REDIRECT_URI;
+const AUTH_START_URI = import.meta.env.VITE_GOOGLE_AUTH_URI;
 
 const GoogleLoginButton = () => {
     const handleGoogleLogin = () => {
         // Google OAuth 로그인 페이지로 이동
-        window.location.href = redirectUri;
+        window.location.href = AUTH_START_URI;
     };
 
     return (
