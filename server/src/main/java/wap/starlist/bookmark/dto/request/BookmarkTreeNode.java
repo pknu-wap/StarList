@@ -42,7 +42,7 @@ public class BookmarkTreeNode {
 
     public Bookmark toBookmark() {
         return Bookmark.builder()
-                .googleId(Integer.parseInt(id))
+                .googleId(Long.parseLong(id))
                 .title(title)
                 .url(url)
                 .dateAdded(dateAdded)
