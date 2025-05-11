@@ -10,11 +10,11 @@ const useNavigation = () => {
   }, [navigate]);
 
   const goToSyncStartPage = useCallback(() => {
-    navigate('../pages/SyncStart')
+    navigate('../pages/SyncStartPage')
   }, [navigate]);
 
   const goToSyncStatusPage = useCallback(() => {
-    navigate('../pages/SyncStatus')
+    navigate('../pages/SyncStatusPage')
   }, [navigate]);
 
   const goToMainPage = useCallback(() => {

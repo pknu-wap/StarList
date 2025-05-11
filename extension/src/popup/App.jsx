@@ -12,9 +12,9 @@ function App() {
     <HashRouter>
       <Routes>
         <Route index element={<LoginPage/>}/>
-        <Route path='main' element={<MainPage/>}/>
-        <Route path='syncstart' element={<SyncStartPage/>}/>
-        <Route path='syncstatus' element={<SyncStatusPage/>}/>
+        <Route path='pages/MainPage' element={<MainPage/>}/>
+        <Route path='pages/SyncStartPage' element={<SyncStartPage/>}/>
+        <Route path='pages/SyncStatusPage' element={<SyncStatusPage/>}/>
       </Routes>
     </HashRouter>
   );

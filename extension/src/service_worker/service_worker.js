@@ -72,10 +72,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 // 웹페이지에서 로그인 성공에 대한 메시지 전송시 JWT, hasSynced 저장
 chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
     if (message.type == 'SET_JWT') {
-        if (!sender.url.startsWith(ALLOWED_URL)) {
-            sendResponse({ success:false });
-            return false;
-        }
+        // if (!sender.url.startsWith(ALLOWED_URL)) {
+        //     sendResponse({ success:false });
+        //     return false;
+        // }
 
         chrome.storage.local.set({ userToken:message.token, hasSynced:message.hasSynced }, () => {
             sendResponse({ success:true })

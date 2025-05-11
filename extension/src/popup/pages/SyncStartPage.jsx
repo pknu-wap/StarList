@@ -18,7 +18,7 @@ function SyncStartPage() {
 
     return (
         <div>
-            <Header/>
+            {/* <Header/> */}
             <Logo width='100px' height='100px'/>
             <Text style='default' content='안녕하세요! 클릭 한 번으로 북마크가 새롭게 정리됩니다'/>
             <SyncButton onClick={handleSyncStart}/>
