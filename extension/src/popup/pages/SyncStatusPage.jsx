@@ -62,7 +62,7 @@ function SyncStatusPage() {
 
     return (
         <div>
-            <Header/>
+            {/* <Header/> */}
             {status == 'LOADING' && (
                 <div>
                     <Logo width='100px' height='100px'/>
