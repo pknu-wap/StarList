@@ -1,5 +1,6 @@
 import instance from "./axiosInstance";
 
+
 export const fetchBookmarks = async () => {
     try {
         const res = await instance.get("/bookmarks");
