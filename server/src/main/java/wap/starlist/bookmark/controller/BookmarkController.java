@@ -76,13 +76,18 @@ public class BookmarkController {
     @PostMapping("/sync")
     public ResponseEntity<?> sync(@AuthenticationPrincipal String loginUser,
                                   @RequestBody List<BookmarkTreeNode> bookmarkTreeNodes) {
+        System.out.println("[INFO] 응답 받음");
         try {
+
             // Root-Folder-Bookmark의 연관관계 설정 및 적용
             Root unlinkedRoot = bookmarkService.saveAll(bookmarkTreeNodes);
 
+            System.out.println("[INFO] Root를 제외한 연관관계 설정 완료");
             // Root-Member의 연관관계 설정 및 적용
             rootService.assign(unlinkedRoot, loginUser);
         } catch (IllegalArgumentException e) {
+            System.out.println("[ERROR] 실패");
+            System.out.println("[" + e.getClass() + "] : " + e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok("성공했습니다.");

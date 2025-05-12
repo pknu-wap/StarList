@@ -91,6 +91,7 @@ public class BookmarkService {
         rootRepository.save(root); // 연관관계 설정을 위해 엔티티를 미리 저장
 
         for (BookmarkTreeNode child : children) {
+            System.out.println("[INFO] child.getTitle() = " + child.getTitle());
             Folder folder = collectNode(child);
             if (folder == null) continue; // root 직속 자식으로 북마크가 있는 경우는 제외
 
