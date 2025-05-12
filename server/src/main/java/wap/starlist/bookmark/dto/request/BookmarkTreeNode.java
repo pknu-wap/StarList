@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import wap.starlist.bookmark.domain.Bookmark;
 import wap.starlist.bookmark.domain.Folder;
+import wap.starlist.bookmark.domain.Root;
 
 import java.util.List;
 
@@ -24,12 +25,11 @@ public class BookmarkTreeNode {
     private String folderType;
     private List<BookmarkTreeNode> children;
 
-//    public Root toRoot(Member member) {
-//        return Root.builder()
-//                .memberId(member)
-//                .folders(children)
-//                .build();
-//    }
+    public Root toRoot() {
+        return Root.builder()
+                .googleId(Long.parseLong(id))
+                .build();
+    }
 
     public Folder toFolder(List<Folder> childFolders, List<Bookmark> childBookmarks) {
         return Folder.builder()

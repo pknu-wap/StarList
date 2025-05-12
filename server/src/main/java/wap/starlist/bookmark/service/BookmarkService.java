@@ -10,9 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import wap.starlist.bookmark.domain.Bookmark;
 import wap.starlist.bookmark.domain.Folder;
+import wap.starlist.bookmark.domain.Root;
 import wap.starlist.bookmark.dto.request.BookmarkTreeNode;
 import wap.starlist.bookmark.repository.BookmarkRepository;
 import wap.starlist.bookmark.repository.FolderRepository;
+import wap.starlist.bookmark.repository.RootRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +24,7 @@ public class BookmarkService {
 
     private final BookmarkRepository bookmarkRepository;
     private final FolderRepository folderRepository;
-    //rivate final RootRepository rootRepository;
+    private final RootRepository rootRepository;
 
     @Transactional // 트랜잭션을 보장하기 위해
     public Bookmark createBookmark(String title, String url) {
@@ -78,13 +80,23 @@ public class BookmarkService {
     // 상위 객체를 저장하기 위해 하위 객체를 준비해야하므로 Bottom-up으로 DFS를 통해 구현
     //TODO: 의미가 중복된 컬럼 제거해야함
     @Transactional
-    public Folder saveAll(List<BookmarkTreeNode> bookmarkTreeNodes) {
+    public Root saveAll(List<BookmarkTreeNode> bookmarkTreeNodes) {
         if (bookmarkTreeNodes.size() != 1) {
             throw new IllegalArgumentException("[ERROR] 잘못된 북마크 트리 구조입니다. 관리자에게 문의해주세요.");
         }
 
-        BookmarkTreeNode rootNode = bookmarkTreeNodes.get(0);
-        Folder root = collectNode(rootNode);
+        Root root = bookmarkTreeNodes.get(0).toRoot();
+        List<BookmarkTreeNode> children = bookmarkTreeNodes.get(0).getChildren();
+
+        rootRepository.save(root); // 연관관계 설정을 위해 엔티티를 미리 저장
+
+        for (BookmarkTreeNode child : children) {
+            Folder folder = collectNode(child);
+            if (folder == null) continue; // root 직속 자식으로 북마크가 있는 경우는 제외
+
+            folder.mapToRoot(root);
+            root.addFolder(folder);
+        }
 
         if (root == null) {
             throw new IllegalArgumentException("[ERROR] 북마크가 최상위 노드일 순 없습니다.");
@@ -94,6 +106,7 @@ public class BookmarkService {
     }
 
     // DFS로 트리를 탐색
+    // 연관관계의 주인은 하위 폴더 & 북마크이므로 자식이 부모와 연관관계를 설정하고 return 해야함
     private Folder collectNode(BookmarkTreeNode node) {
         if (isBookmark(node)) { // Bookmark
             Bookmark leafBookmark = node.toBookmark();
@@ -111,7 +124,7 @@ public class BookmarkService {
         for (BookmarkTreeNode child : node.getChildren()) {
             if (isBookmark(child)) { // Bookmark
                 Bookmark childBookmark = child.toBookmark();
-                childBookmark.updateFolder(currentFolder);
+                childBookmark.mapToFolder(currentFolder);
                 bookmarkRepository.save(childBookmark);
                 childBookmarks.add(childBookmark);
             } else { // Folder
@@ -123,7 +136,7 @@ public class BookmarkService {
         // 연관관계를 수동으로 설정
         currentFolder.updateChildFolders(childFolders);
         currentFolder.updateChildBookmarks(childBookmarks);
-        // folderRepository.save(currentFolder);
+        folderRepository.save(currentFolder);
         return currentFolder;
     }
 
