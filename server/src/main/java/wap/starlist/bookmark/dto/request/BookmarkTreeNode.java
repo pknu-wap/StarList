@@ -26,12 +26,14 @@ public class BookmarkTreeNode {
     private List<BookmarkTreeNode> children;
 
     public Root toRoot() {
+        System.out.println("[INFO] to ROOT");
         return Root.builder()
                 .googleId(Long.parseLong(id))
                 .build();
     }
 
     public Folder toFolder(List<Folder> childFolders, List<Bookmark> childBookmarks) {
+        System.out.println("[INFO] to FOLDER");
         return Folder.builder()
                 .googleId(Integer.parseInt(id))
                 .title(title)
@@ -41,6 +43,7 @@ public class BookmarkTreeNode {
     }
 
     public Bookmark toBookmark() {
+        System.out.println("[INFO] to BOOKMARK");
         return Bookmark.builder()
                 .googleId(Long.parseLong(id))
                 .title(title)
