@@ -25,8 +25,9 @@ public class Folder {
     @Column(nullable = false)
     private Integer googleId;
 
-//    @ManyToOne
-//    private Root rootId;
+    @ManyToOne
+    @JoinColumn(name = "root_id")
+    private Root root;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="parent_id")
@@ -38,7 +39,6 @@ public class Folder {
     @OneToMany(mappedBy = "folder")
     private List<Bookmark> bookmarks = new ArrayList<>();
 
-
     public void updateChildFolders(List<Folder> folders) {
         this.folders = folders;
         for (Folder child : folders) {
@@ -48,6 +48,10 @@ public class Folder {
 
     public void updateChildBookmarks(List<Bookmark> bookmarks) {
         this.bookmarks = bookmarks;
+    }
+
+    public void mapToRoot(Root root) {
+        this.root = root;
     }
 
     private void setParent(Folder parent) {
