@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:mem:test_db
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -21,3 +21,6 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
     generate-ddl: true
+
+  profiles:
+    include: test
