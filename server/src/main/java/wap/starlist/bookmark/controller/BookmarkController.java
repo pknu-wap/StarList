@@ -4,10 +4,9 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import wap.starlist.bookmark.domain.Bookmark;
-import wap.starlist.bookmark.domain.Folder;
+import wap.starlist.bookmark.domain.Root;
 import wap.starlist.bookmark.dto.request.BookmarkCreateRequest;
 import wap.starlist.bookmark.dto.request.BookmarkTreeNode;
 import wap.starlist.bookmark.dto.request.BookmarksDeleteRequest;
@@ -15,6 +14,7 @@ import wap.starlist.bookmark.dto.response.BookmarkErrorResponse;
 import wap.starlist.bookmark.dto.response.BookmarkResponse;
 import wap.starlist.bookmark.dto.response.BookmarksDeleteResponse;
 import wap.starlist.bookmark.service.BookmarkService;
+import wap.starlist.bookmark.service.RootService;
 
 import java.net.URI;
 
@@ -24,6 +24,7 @@ import java.net.URI;
 public class BookmarkController {
 
     private final BookmarkService bookmarkService;
+    private final RootService rootService;
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody BookmarkCreateRequest request) {
@@ -73,10 +74,17 @@ public class BookmarkController {
     }
 
     @PostMapping("/sync")
-    public ResponseEntity<?> sync(@AuthenticationPrincipal User user,
+    public ResponseEntity<?> sync(@AuthenticationPrincipal String loginUser,
                                   @RequestBody List<BookmarkTreeNode> bookmarkTreeNodes) {
+        try {
+            // Root-Folder-Bookmark의 연관관계 설정 및 적용
+            Root unlinkedRoot = bookmarkService.saveAll(bookmarkTreeNodes);
 
-        Folder savedFolder = bookmarkService.saveAll(bookmarkTreeNodes);
-        return ResponseEntity.ok().build();
+            // Root-Member의 연관관계 설정 및 적용
+            rootService.assign(unlinkedRoot, loginUser);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok("성공했습니다.");
     }
 }
