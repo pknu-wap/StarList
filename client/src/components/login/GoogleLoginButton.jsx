@@ -1,5 +1,4 @@
 import googleLogo from "../../assets/google.svg";
-
 const AUTH_START_URI = import.meta.env.VITE_GOOGLE_AUTH_URI;
 
 const GoogleLoginButton = () => {

@@ -4,6 +4,7 @@ import { fetchBookmarks } from "../api/bookmarkApi";
 import { groupBookmarksByDate } from "../utils/groupBookmarksByDate";
 import BookmarkGroupByDate from "../components/bookmark/BookmarkGroupByDate"
 import Header from "../components/common/Header"
+import TestBookmarkButton from "../components/bookmark/TestBookmarkButton";
 
 const MainPage = () => {
     const { bookmarks, setBookmarks } = useBookmarkStore();
@@ -24,8 +25,9 @@ const MainPage = () => {
     const grouped = groupBookmarksByDate(bookmarks || []); // 날짜별로 묶기
 
     return (
-        <div>
+        <div>///
             <Header />
+            <TestBookmarkButton />
             <h1 className="text-3xl font-bold text-[#1a1a1a] w-fit mx-auto">
                 최근 추가한 페이지
             </h1>
@@ -33,6 +35,7 @@ const MainPage = () => {
             {Object.entries(grouped).map(([date, list]) => (
                 <BookmarkGroupByDate key={date} date={date} bookmarks={list} />
             ))}
+
         </div>
 
     );
