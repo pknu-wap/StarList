@@ -45,13 +45,14 @@ public class Bookmark {
 
     private Boolean syncing;
 
+    // TODO: Folder, Root 타입 일치
     private Long googleId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "folder_id")
     private Folder folder;
 
-    public void updateFolder(Folder parentFolder) {
+    public void mapToFolder(Folder parentFolder) {
         this.folder = parentFolder;
     }
   
