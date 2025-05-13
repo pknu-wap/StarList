@@ -1,5 +1,3 @@
-import BookmarkCard from "./src/components/common/bookmark/BookmarkCard";
-
 export default {
     content: ["./index.html", "./src/**/*.{js,jsx,html}"],
 
