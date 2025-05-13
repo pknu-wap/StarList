@@ -11,7 +11,6 @@ const BookmarkCard = ({ title, image, dataAdded, url }) => {
                 {/* 썸네일 */}
                 <img
                     src={image}
-                    className="w-[39px] h-[39px] rounded-full bg-[#BCB6CD]"
                 />
 
                 {/* 제목 */}
@@ -19,7 +18,7 @@ const BookmarkCard = ({ title, image, dataAdded, url }) => {
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[22px] font-semibold no-underline hover:underline truncate flex-[2] ml-[18px]"
+                    className="text-[22px] font-semibold no-underline hover:underline truncate" // turncate는 제목이 너무 길어지면 뒷부분을 ... 으로 처리
                     style={{ color: "#ffffff" }}
                 >
                     {title}

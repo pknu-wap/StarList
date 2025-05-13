@@ -28,7 +28,7 @@ const MainPage = () => {
         <div>
             <Header />
             <TestBookmarkButton />
-            <h1 className="text-3xl font-bold text-[#1a1a1a] w-fit mx-auto">
+            <h1 className="text-3xl font-bold text-[#217fd7] w-fit mx-auto">
                 최근 추가한 페이지
             </h1>
 

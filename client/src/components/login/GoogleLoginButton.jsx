@@ -14,7 +14,7 @@ const GoogleLoginButton = () => {
             onClick={handleGoogleLogin}
         >
             <img src={GoogleIcon} alt="Google 로고" className="w-[57.15px] h-[57.15px]" />
-            <p className="text-[20px] font-Pretendard text-[#1a1a1a]">
+            <p className="text-[15px] font-Pretendard text-[#1a1a1a]">
                 Google로 로그인
             </p>
         </div>
