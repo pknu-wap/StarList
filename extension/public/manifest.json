@@ -20,6 +20,15 @@
   "background": {
     "service_worker": "./assets/js/service_worker.js"
   },
+  "content_scripts": [{
+    "matches": ["https://sstarlist.netlify.app/main"],
+    "js": ["./assets/js/content_script.js"],
+    "run_at": "document_idle"
+  }],
+  "host_permissions": [
+    "https://sstarlist.netlify.app/*",
+    "https://starlist.store/*"
+  ],
   "externally_connectable": {
     "matches": ["https://sstarlist.netlify.app/*"]
   },
