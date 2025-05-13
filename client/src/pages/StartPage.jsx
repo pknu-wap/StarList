@@ -1,4 +1,5 @@
 import { MainText, MainTitle } from "../assets";
+import GoogleLoginButton from "../components/login/GoogleLoginButton";
 
 const StartPage = () => {
     return (
