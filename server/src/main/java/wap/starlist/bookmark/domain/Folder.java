@@ -25,6 +25,18 @@ public class Folder {
     @Column(nullable = false)
     private Integer googleId;
 
+    // 부모 Root 혹은 Folder 내에 몇 번째 항목인지
+    private Integer position;
+
+    // 크롬 브라우저 최상위에서 분류되는 폴더명 : "bookmarks-bar", "other", "mobile"
+    // 변경 및 추가 불가
+    // 클라이언트에서 데이터 가공을 위해 남겨둠
+    private String folderType;
+
+    private Long dateAdded;
+
+    private Long dateGroupModified;
+
     @ManyToOne
     @JoinColumn(name = "root_id")
     private Root root;

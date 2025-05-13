@@ -33,8 +33,6 @@ public class Bookmark {
 
     private Long dateLastUsed;
 
-    private Integer position;
-
     @Column(name = "parent_id")
     private Integer parentId;
 
@@ -47,6 +45,9 @@ public class Bookmark {
 
     // TODO: Folder, Root 타입 일치
     private Long googleId;
+
+    // 부모 폴더 내에 몇 번째 항목인지
+    private Integer position;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "folder_id")

@@ -1,6 +1,7 @@
 package wap.starlist.bookmark.controller;
 
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -91,5 +92,16 @@ public class BookmarkController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok("성공했습니다.");
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAllBookmark(@AuthenticationPrincipal String loginUser) {
+        try {
+            BookmarkTreeNode rootNode = rootService.getRootOf(loginUser);
+            return ResponseEntity.ok().body(rootNode);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
