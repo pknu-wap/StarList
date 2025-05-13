@@ -1,7 +1,7 @@
-/* 1) 커스텀 폰트 로딩 */
+/* 1) 커스텀 폰트 로딩 (Pretendard */
 @import url("https://cdn.jsdelivr.net/npm/pretendard/dist/web/variable/pretendardvariable.css");
 
-/* 2) CSS 변수 정의 */
+/* 2) CSS 변수 정의 (필요에 따라 확장) */
 :root {
   --color-primary: #1e40af;
   --color-secondary: #64748b;
