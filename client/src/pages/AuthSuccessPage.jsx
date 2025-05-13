@@ -10,9 +10,7 @@ const AuthSuccessPage = () => {
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
-        console.log("▶︎ window.location.search:", window.location.search); // 디버깅용
         const token = params.get("token");
-        console.log("▶︎ 파싱된 token:", token, "hasSynced:", params.get("hasSynced")) // 디버깅용
         const hasSynced = params.get("hasSynced") === "true";
 
         if (token) {
@@ -30,7 +28,7 @@ const AuthSuccessPage = () => {
             // 로그인 상태 저장
             login();
 
-            // 주소창에서 token 제거 (보안 개선)
+            // 주소창에서 token 제거 (보안을 위해서!)
             window.history.replaceState(null, "", import.meta.env.VITE_GOOGLE_AUTH_URI.replace(/.*\/\/[^/]+/, ""))
 
             // 메인 페이지로 이동
