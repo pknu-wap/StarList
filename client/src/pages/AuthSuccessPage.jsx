@@ -22,12 +22,14 @@ const AuthSuccessPage = () => {
                     hasSynced,
                 });
             }
+            // 로컬 스토리지에 토큰 저장
+            localStorage.setItem("jwt", token);
 
             // 로그인 상태 저장
             login();
 
-            // 주소창에서 token 제거 (보안 개선)
-            window.history.replaceState(null, "", import.meta.env.VITE_GOOGLE_REDIRECT_URI.replace(/.*\/\/[^/]+/, ""))
+            // 주소창에서 token 제거 (보안을 위해서!)
+            window.history.replaceState(null, "", import.meta.env.VITE_GOOGLE_AUTH_URI.replace(/.*\/\/[^/]+/, ""))
 
             // 메인 페이지로 이동
             navigate("/main");
