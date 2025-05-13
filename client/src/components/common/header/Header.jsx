@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom'
-import LogoStar from "./header/LogoStar";
-import profile from "../../assets/profile.svg"
-import setting_icon from "../../assets/settings-icon.svg";
+import LogoStar from "./LogoStar";
+import { ProfileIcon, SettingIcon } from "../../../assets";
 
 const Header = () => {
     return (
@@ -10,8 +9,8 @@ const Header = () => {
             <div className="mx-[23px] my-[20px] flex justify-between items-center">
                 <LogoStar />
                 <div>
-                    <img src={profile} />
-                    <img src={setting_icon} className="ml-[18px]" />
+                    <img src={ProfileIcon} />
+                    <img src={SettingIcon} className="ml-[18px]" />
                 </div>
 
             </div>
