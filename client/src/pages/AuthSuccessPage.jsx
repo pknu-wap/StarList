@@ -6,7 +6,7 @@ const EXT_ID = import.meta.env.VITE_EXTENSION_ID;
 
 const AuthSuccessPage = () => {
     const navigate = useNavigate();
-    const login = useAuthStore((state) => state.login); // 로그인 상태 갱신 함수
+    const { login } = useAuthStore(); // 로그인 상태 갱신 함수
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -32,10 +32,10 @@ const AuthSuccessPage = () => {
             window.history.replaceState(null, "", import.meta.env.VITE_GOOGLE_AUTH_URI.replace(/.*\/\/[^/]+/, ""))
 
             // 메인 페이지로 이동
-            navigate("/main");
+            navigate("/main", { replace: true });
         } else {
             // 토큰이 없는 경우 로그인 페이지로 회귀 
-            navigate("/login");
+            navigate("/start", { replace: true });
         }
     }, [navigate, login]);
 
