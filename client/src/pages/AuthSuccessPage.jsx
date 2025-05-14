@@ -10,20 +10,20 @@ const AuthSuccessPage = () => {
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
-        const token = params.get("token");
+        const access_token = params.get("token");
         const hasSynced = params.get("hasSynced") === "true";
 
-        if (token) {
+        if (access_token) {
             // 익스텐션에 메시지 전달
             if (window.chrome?.runtime?.sendMessage) {
                 window.chrome.runtime.sendMessage(EXT_ID, {
                     type: "SET_JWT",
-                    token,
+                    token: access_token,
                     hasSynced,
                 });
             }
             // 로컬 스토리지에 토큰 저장
-            localStorage.setItem("jwt", token);
+            localStorage.setItem("accessToken", access_token);
 
             // 로그인 상태 저장
             login();
