@@ -14,7 +14,15 @@ export default defineConfig({
     svgr({
       svgrOptions: {
         icon: true, // 아이콘에 자동으로 currentColor 적용
-        exportAsDefault: true // ?component 없이 default import 만으로 react 컴포넌트 불러오기
+        exportAsDefault: true, // ?component 없이 default import 만으로 react 컴포넌트 불러오기
+        svgoConfig: {
+          plugins: [
+            // 1) 하드코딩된 색상 지우기
+            { name: 'removeAttrs', params: { attrs: '(fill|stroke)' } },
+            // 2) fill="currentColor" 자동으로 추가
+            { name: 'addAttributesToSVGElement', params: { attributes: [{ fill: 'currentColor' }] } },
+          ],
+        },
       },
     }),
 

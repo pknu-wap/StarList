@@ -1,5 +1,16 @@
-// 북마크 카드 컴포넌트
-const BookmarkCard = ({ title, url }) => { // 시간 필요시 image,dataAdded prop 추가
+import ToggleButton from "./ToggleButton";
+
+/**
+ * 북마크 카드 컴포넌트
+ * @param {string} title 
+ * @param {string} url
+ * @param {boolean} selected   // 부모가 넘겨줄 선택 상태
+ * @param {() => void} onToggle // 부모가 넘겨줄 토글 핸들러
+ */
+
+
+
+const BookmarkCard = ({ title, url, selected, onToggle }) => { // 시간 필요시 image,dataAdded prop 추가
     /*
     const formattedTime = new Date(dataAdded * 1000).toLocaleTimeString("ko-KR", {
         hour: "2-digit",
@@ -10,14 +21,26 @@ const BookmarkCard = ({ title, url }) => { // 시간 필요시 image,dataAdded p
 
     return (
         <div>
-            <div className="w-[366px] h-60 rounded-[39px] bg-white border border-gray-300 shadow-card
-                            p-4 flex flex-col justify-end">
+            <div className="relative w-[366px] h-60 rounded-[39px] bg-white border border-gray-300 shadow-card 
+                            hover:bg-gradient-to-b hover:from-gray-300 hover:to-white
+                            p-4 flex flex-col justify-end
+                            group"
+            >
                 {/* 썸네일 
                     <img
                     src={image}
                 />
                 */}
-
+                {/* 토글 버튼 */}
+                <div className="absolute top-[25px] left-[28px]
+                                opacity-0 
+                                group-hover:opacity-100
+                                transition-opacity duration-200"
+                >
+                    <ToggleButton
+                        selected={selected}
+                        onClick={onToggle} />
+                </div>
                 {/* 제목 */}
                 <a
                     href={url}
