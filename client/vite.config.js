@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import svgr from 'vite-plugin-svgr'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -9,6 +10,13 @@ export default defineConfig({
   },
   plugins: [
     react(),
-    tailwindcss()
+    tailwindcss(),
+    svgr({
+      svgrOptions: {
+        icon: true, // 아이콘에 자동으로 currentColor 적용
+        exportAsDefault: true // ?component 없이 default import 만으로 react 컴포넌트 불러오기
+      },
+    }),
+
   ],
 })

@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import useBookmarkStore from "../store/useBookmarkStore";
 import { fetchBookmarks } from "../api/bookmarkApi";
 import { groupBookmarksByDate } from "../utils/groupBookmarksByDate";
-import BookmarkGroupByDate from "../components/bookmark/BookmarkGroupByDate"
-import Header from "../components/common/Header"
-import TestBookmarkButton from "../components/bookmark/TestBookmarkButton";
+import BookmarkGroupByDate from "../utils/groupBookmarksByDate";
+import Header from "../components/common/header/Header";
+import TestBookmarkButton from "../components/common/bookmark/TestBookmarkButton";
 
 const MainPage = () => {
     const { bookmarks, setBookmarks } = useBookmarkStore();
@@ -28,7 +28,7 @@ const MainPage = () => {
         <div>
             <Header />
             <TestBookmarkButton />
-            <h1 className="text-3xl font-bold text-[#1a1a1a] w-fit mx-auto">
+            <h1 className="text-3xl font-bold text-[#217fd7] w-fit mx-auto">
                 최근 추가한 페이지
             </h1>
 
