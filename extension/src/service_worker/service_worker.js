@@ -101,37 +101,37 @@ async function sendAllBookmarks() {
 // onRemoved : id(string), removeInfo(object)
 // onChanged : id(string), changeInfo(object)
 // onMoved : id(string), moveInfo(object)
-async function syncBookmarkChanges(eventType, id, info) {
-    try {
-        const userToken = await getUserToken();
-        // 삭제 이벤트만 다르게 처리
-        const isRemove = (eventType === "remove");
-        const url = isRemove
-            ? `${API_BASE_URL}/bookmarks/temp1`
-            : `${API_BASE_URL}/bookmarks/temp2`;
-        // 삭제 이벤트는 DELETE, 나머지는 POST
-        const options = {
-            method: isRemove ? "DELETE" : "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${userToken}`
-            },
-            body: JSON.stringify({ eventType, id, info })
-        };
+// async function syncBookmarkChanges(eventType, id, info) {
+//     try {
+//         const userToken = await getUserToken();
+//         // 삭제 이벤트만 다르게 처리
+//         const isRemove = (eventType === "remove");
+//         const url = isRemove
+//             ? `${API_BASE_URL}/bookmarks/temp1`
+//             : `${API_BASE_URL}/bookmarks/temp2`;
+//         // 삭제 이벤트는 DELETE, 나머지는 POST
+//         const options = {
+//             method: isRemove ? "DELETE" : "POST",
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 "Authorization": `Bearer ${userToken}`
+//             },
+//             body: JSON.stringify({ eventType, id, info })
+//         };
 
-        // 토큰과 이벤트를 백엔드 API 로 전송
-        const response = await fetch(url, options);
+//         // 토큰과 이벤트를 백엔드 API 로 전송
+//         const response = await fetch(url, options);
 
-        if (!response.ok) {
-            console.log(response);
-            throw new Error(`응답 상태: ${response.status}`);
-        }
-    }
-    catch (error) {
-        console.error(error);
-        return;
-    }
-}
+//         if (!response.ok) {
+//             console.log(response);
+//             throw new Error(`응답 상태: ${response.status}`);
+//         }
+//     }
+//     catch (error) {
+//         console.error(error);
+//         return;
+//     }
+// }
 
 
 
@@ -151,7 +151,10 @@ const bookmarkEvents = [
 bookmarkEvents.forEach(({ eventName, eventType }) => {
     eventName.addListener(async (id, info) => {
         // 비동기 함수를 처리할때까지 서비스 워커가 기다려야하므로 await 사용
-        await syncBookmarkChanges(eventType, id, info);
+        console.log(eventType);
+        console.log(id);
+        console.log(info);
+        // await syncBookmarkChanges(eventType, id, info);
     })
 });
 
