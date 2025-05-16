@@ -1,14 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useBookmarkStore from "../store/useBookmarkStore";
 import { fetchBookmarks } from "../api/bookmarkApi";
 import Header from "../components/common/header/Header";
-import TestBookmarkButton from "../components/common/bookmark/TestBookmarkButton";
 import BookmarkCard from "../components/common/bookmark/BookmarkCard";
 
 const MainPage = () => {
-    const { bookmarks, setBookmarks } = useBookmarkStore();
-    const [searchTerm, setSearchTerm] = useState("");
-    const [selectedIds, setSelectedIds] = useState([]);
+    const { bookmarks, setBookmarks } = useBookmarkStore(); // 북마크 관리
+    const [searchTerm, setSearchTerm] = useState(""); // 검색창
+    const [selectedIds, setSelectedIds] = useState([]); // 사용자가 선택한 북마크의 ID목록 저장
 
 
     useEffect(() => {
