@@ -7,6 +7,7 @@ import CategoryPage from "./pages/CategoryPage";
 import StartPage from "./pages/StartPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import AuthSuccessPage from "./pages/AuthSuccessPage";
+import PrivatePolicyPage from "./pages/PrivatePolicyPage";
 import "./index.css";
 
 const App = () => {
@@ -23,7 +24,8 @@ const App = () => {
             : <Navigate to="/start" replace />
         }
       />
-
+      {/*익스텐션 개인정보처리방침 페이지 */}
+      <Route path="/policy" element={<PrivatePolicyPage />} />
       {/* 로그인 완료 후 처리 페이지 */}
       <Route path="/auth/success" element={<AuthSuccessPage />} />
 
