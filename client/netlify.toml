@@ -1,3 +1,8 @@
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "upgrade-insecure-requests"
+
 [[redirects]]
   from   = "/oauth2/*"
   to     = "https://starlist.store/:splat"
