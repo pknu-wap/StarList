@@ -5,7 +5,7 @@ import { ProfileIcon, SettingIcon } from "../../../assets";
 
 const Header = () => {
     return (
-        <header className="h-[209px] border-b border-gray-[2px]">
+        <header className="h-[169px] border-b border-gray-300-[2px]">
             <div className="mx-[23px] my-[20px] flex justify-between items-center">
                 <LogoStar />
                 <div>
