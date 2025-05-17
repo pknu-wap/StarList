@@ -4,8 +4,8 @@ export { default as ProfileIcon } from './icons/profile.svg';
 export { default as SettingIcon } from './icons/settings-icon.svg';
 
 // 아이콘 버튼
-export { default as CheckBoxEmpty } from './icons/check-box-empty.svg';
-export { default as CheckBoxChecked } from './icons/check-box-check.svg';
+export { default as CheckBoxEmpty } from './icons/check-box-empty.svg?react';
+export { default as CheckBoxChecked } from './icons/check-box-check.svg?react';
 
 // 로고
 export { default as MainpageLogo } from './logo/logo.svg';

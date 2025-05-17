@@ -28,8 +28,8 @@ const ToggleButton = ({ selected, onClick }) => {
             `}
         >
             {selected
-                ? <CheckBoxChecked className="w-6 h-6 text-white" />
-                : <CheckBoxEmpty className="w-6 h-6 text-gray-300 hover:text-main-500" />
+                ? <CheckBoxChecked className=" text-white" />
+                : <CheckBoxEmpty className=" text-gray-300 hover:text-main-500" />
             }
         </button>
     );

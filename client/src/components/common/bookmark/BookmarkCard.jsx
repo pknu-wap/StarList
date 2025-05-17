@@ -21,7 +21,7 @@ const BookmarkCard = ({ title, url, selected, onToggle }) => { // 시간 필요�
 
     return (
         <div>
-            <div className="relative w-[366px] h-60 rounded-[39px] bg-white border border-gray-300 shadow-card 
+            <div className="relative w-[366px] h-[240px] rounded-[39px] bg-white border border-main-300 shadow-card 
                             hover:bg-gradient-to-b hover:from-gray-300 hover:to-white
                             p-4 flex flex-col justify-end
                             group"
@@ -37,7 +37,7 @@ const BookmarkCard = ({ title, url, selected, onToggle }) => { // 시간 필요�
                                 group-hover:opacity-100
                                 transition-opacity duration-200"
                 >
-                    <ToggleButton
+                    <ToggleButton className="w-[34px] h-[34px]"
                         selected={selected}
                         onClick={onToggle} />
                 </div>
