@@ -1,43 +1,53 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useBookmarkStore from "../store/useBookmarkStore";
 import { fetchBookmarks } from "../api/bookmarkApi";
-import { groupBookmarksByDate } from "../utils/groupBookmarksByDate";
-import BookmarkGroupByDate from "../components/bookmark/BookmarkGroupByDate"
-import Header from "../components/common/Header"
-import TestBookmarkButton from "../components/bookmark/TestBookmarkButton";
+import Header from "../components/common/header/Header";
+import BookmarkCard from "../components/common/bookmark/BookmarkCard";
 
 const MainPage = () => {
-    const { bookmarks, setBookmarks } = useBookmarkStore();
+    const { bookmarks, setBookmarks } = useBookmarkStore(); // 북마크 관리
+    const [selectedIds, setSelectedIds] = useState([]); // 사용자가 선택한 북마크의 ID목록 저장
+
 
     useEffect(() => {
-        const load = async () => {
+        (async () => {
             try {
-                const data = await fetchBookmarks(); // 백엔드에서 북마크 받아오기
-                setBookmarks(data);                  // Zustand에 저장
-            } catch (error) {
-                console.error("북마크 불러오기 실패:", error);
+                const data = await fetchBookmarks();
+                setBookmarks(data);
+            } catch (e) {
+                console.error(e);
             }
-        };
-
-        load();
+        })();
     }, [setBookmarks]);
 
-    const grouped = groupBookmarksByDate(bookmarks || []); // 날짜별로 묶기
+
+    const toggle = id => {
+        setSelectedIds(prev =>
+            prev.includes(id)
+                ? prev.filter(x => x !== id)
+                : [...prev, id]
+        );
+    };
 
     return (
         <div>
             <Header />
-            <TestBookmarkButton />
-            <h1 className="text-3xl font-bold text-[#1a1a1a] w-fit mx-auto">
-                최근 추가한 페이지
-            </h1>
-
-            {Object.entries(grouped).map(([date, list]) => (
-                <BookmarkGroupByDate key={date} date={date} bookmarks={list} />
-            ))}
+            <div className="max-w-screen-[1520px] mx-auto px-[150px] py-[150px]">
+                {/* --- 카드 그리드 --- */}
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {bookmarks.map(bookmark => (
+                        <BookmarkCard
+                            key={bookmark.id}
+                            title={bookmark.title}
+                            url={bookmark.url}
+                            selected={selectedIds.includes(bookmark.id)}
+                            onToggle={() => toggle(bookmark.id)}
+                        />
+                    ))}
+                </div>
+            </div>
 
         </div>
-
     );
 };
 

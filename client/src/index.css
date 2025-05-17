@@ -1,13 +1,35 @@
+/* 1) 커스텀 폰트 로딩 (Pretendard Va*/
+@import url("https://cdn.jsdelivr.net/npm/pretendard/dist/web/variable/pretendardvariable.css");
+
+/* 2) CSS 변수 정의 (필요에 따라 확장) */
+:root {
+  --color-primary: #1e40af;
+  --color-secondary: #64748b;
+  --font-sans: "PretendardVariable", sans-serif;
+}
+
+/* 3) 전역 리셋 */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 4) Tailwind 기본 지시문 */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 5) 글로벌 앵커 스타일 */
 a {
   @apply text-inherit no-underline;
 }
 a:visited {
   @apply text-inherit;
 }
-body {
-  margin: 0;
-  padding: 0;
-}
+
+/* 6) 추가 전역 유틸 클래스 예시 */
+/* .text-primary { @apply text-[var(--color-primary)]; } */
+/* .btn { @apply px-4 py-2 rounded-lg shadow-md; } */

@@ -1,6 +1,5 @@
+import { MainText, MainTitle } from "../assets";
 import { useNavigate } from "react-router-dom";
-import textImg from "../assets/main_text.svg";
-import title from "../assets/title_main.svg";
 import GoogleLoginButton from "../components/login/GoogleLoginButton";
 
 const StartPage = () => {
@@ -13,9 +12,9 @@ const StartPage = () => {
         <div className="relative w-screen min-h-screen bg-[#57418b]">
             <div className="flex flex-col">
                 <div className="w-full h-[116px] bg-[#FFF] grid place-items-center">
-                    <img src={title} />
+                    <MainTitle className="w-[90px] h-[20px]" />
                 </div>
-                <img src={textImg} className="w-[1378px] h-[320px] mt-[48px]" />
+                <MainText className="w-[1378px] h-[320px] mt-[48px]" />
             </div>
 
             <button onClick={policyClick}>개인정보처리방침</button>

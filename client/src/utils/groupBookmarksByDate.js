@@ -20,4 +20,4 @@ export const groupBookmarksByDate = (bookmarks) => {
     return groups;
 };
 
-
+export default groupBookmarksByDate;
