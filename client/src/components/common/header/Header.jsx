@@ -1,16 +1,21 @@
-import React from "react";
 import { Link } from 'react-router-dom'
 import LogoStar from "./LogoStar";
 import { ProfileIcon, SettingIcon } from "../../../assets";
 
 const Header = () => {
+    const logoClick = () => {
+        window.location.href = '/main'
+    };
+
     return (
         <header className="h-[169px] border-b border-gray-300-[2px]">
             <div className="mx-[23px] my-[20px] flex justify-between items-center">
-                <LogoStar />
-                <div>
-                    <img src={ProfileIcon} />
-                    <img src={SettingIcon} className="ml-[18px]" />
+                <LogoStar onClick={logoClick} />
+                <div className="flex gap-[20px]">
+                    <ProfileIcon className="w-[32px] h-[32px]" />
+                    <Link to="/setting">
+                        <SettingIcon className="w-[32px] h-[32px]" />
+                    </Link>
                 </div>
 
             </div>

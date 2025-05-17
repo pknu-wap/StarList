@@ -30,7 +30,7 @@ const MainPage = () => {
     };
 
     return (
-        <div className="px-6 py-8">
+        <div>
             <Header />
             <div className="max-w-screen-[1520px] mx-auto px-[150px] py-[150px]">
                 {/* --- 카드 그리드 --- */}

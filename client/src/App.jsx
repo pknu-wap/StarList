@@ -8,6 +8,7 @@ import StartPage from "./pages/StartPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import AuthSuccessPage from "./pages/AuthSuccessPage";
 import PrivatePolicyPage from "./pages/PrivatePolicyPage";
+import SettingPage from "./pages/SettingPage";
 import "./index.css";
 
 const App = () => {
@@ -44,7 +45,8 @@ const App = () => {
             : <Navigate to="/start" replace />
         }
       />
-
+      {/* 설정 페이지 */}
+      <Route path="/setting" element={<SettingPage />} />
       {/* 그 외 404 페이지 */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

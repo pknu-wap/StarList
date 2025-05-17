@@ -13,7 +13,7 @@ const GoogleLoginButton = () => {
                  hover:scale-105 active:scale-95 transition-transform duration-150 cursor-pointer"
             onClick={handleGoogleLogin}
         >
-            <img src={GoogleIcon} alt="Google 로고" className="w-[57.15px] h-[57.15px]" />
+            <GoogleIcon className="w-[57.15px] h-[57.15px]" />
             <p className="text-[15px] font-Pretendard text-[#1a1a1a]">
                 Google로 로그인
             </p>
