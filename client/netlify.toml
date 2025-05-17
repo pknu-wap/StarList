@@ -1,4 +1,11 @@
 [[redirects]]
+  from   = "/oauth2/*"
+  to     = "https://starlist.store/:splat"
+  status = 200
+  force  = true 
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  
