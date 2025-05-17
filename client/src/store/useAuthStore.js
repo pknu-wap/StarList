@@ -11,7 +11,7 @@ const useAuthStore = create(persist(
         }),
         logout: () => set({
             isLoggedIn: false,
-            token: null
+            accessToken: null
         }),
     }),
     {
