@@ -1,4 +1,4 @@
-import { Title, MainpageLogo } from '../../../assets';
+import { Title, MainpageLogo } from '../../assets';
 
 const LogoStar = ({ onClick }) => {
     return (

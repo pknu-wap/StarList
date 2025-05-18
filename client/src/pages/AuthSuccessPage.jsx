@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuthStore from "../store/useAuthStore";
+import useAuthStore from "../functions/hooks/useAuthStore";
 
 const EXT_ID = import.meta.env.VITE_EXTENSION_ID;
 
