@@ -4,9 +4,9 @@ export { default as ProfileIcon } from './icons/profile.svg?react';
 export { default as SettingIcon } from './icons/settings-icon.svg?react';
 
 // 아이콘 버튼
-export { default as CheckBoxEmpty } from './icons/check-box-empty.svg?react';
-export { default as CheckBoxChecked } from './icons/check-box-check.svg?react';
-export { default as CheckBoxHover } from './icons/check-box-hover.svg?react';
+export { default as CheckBoxEmpty } from './buttons/check-box-empty.svg?react';
+export { default as CheckBoxChecked } from './buttons/check-box-check.svg?react';
+export { default as CheckBoxHover } from './buttons/check-box-hover.svg?react';
 
 // 로고
 export { default as MainpageLogo } from './logo/logo.svg?react';

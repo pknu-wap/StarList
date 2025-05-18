@@ -33,16 +33,6 @@ const App = () => {
 
       {/* 시작(로그인) 페이지 */}
       <Route path="/start" element={<StartPage />} />
-
-      {/* 카테고리 페이지 (로그인 필요) */}
-      <Route
-        path="/categories"
-        element={
-          isLoggedIn
-            ? <CategoryPage />
-            : <Navigate to="/start" replace />
-        }
-      />
       {/* 설정 페이지 */}
       <Route path="/setting" element={<SettingPage />} />
       {/* 그 외 404 페이지 */}
