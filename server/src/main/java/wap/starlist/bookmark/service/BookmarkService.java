@@ -1,10 +1,12 @@
 package wap.starlist.bookmark.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -15,7 +17,9 @@ import wap.starlist.bookmark.dto.request.BookmarkTreeNode;
 import wap.starlist.bookmark.repository.BookmarkRepository;
 import wap.starlist.bookmark.repository.FolderRepository;
 import wap.starlist.bookmark.repository.RootRepository;
+import wap.starlist.util.ImageScraper;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BookmarkService {
@@ -38,10 +42,14 @@ public class BookmarkService {
             return bookmarkRepository.save(bookmark);
         }
 
+        // 웹 페이지의 이미지 파싱
+        String imgUrl = scrapImage(url);
+
         // 전달받은 값으로 임시 북마크 생성
         Bookmark bookmark = Bookmark.builder()
                 .title(title)
                 .url(url)
+                .image(imgUrl)
                 .dateAdded(currentTime())
                 .build();
 
@@ -110,7 +118,9 @@ public class BookmarkService {
     // 연관관계의 주인은 하위 폴더 & 북마크이므로 자식이 부모와 연관관계를 설정하고 return 해야함
     private Folder collectNode(BookmarkTreeNode node) {
         if (isBookmark(node)) { // Bookmark
-            Bookmark leafBookmark = node.toBookmark();
+            String imgUrl = scrapImage(node.getUrl()); // 이미지 기져오기
+            Bookmark leafBookmark = node.toBookmark(imgUrl);
+
             bookmarkRepository.save(leafBookmark);
             return null;
         }
@@ -124,7 +134,9 @@ public class BookmarkService {
         // 현재 노드의 자식들을 탐색하며 db에 저장 or 다시 탐색한다
         for (BookmarkTreeNode child : node.getChildren()) {
             if (isBookmark(child)) { // Bookmark
-                Bookmark childBookmark = child.toBookmark();
+                String imgUrl = scrapImage(node.getUrl()); // 이미지 가져오기
+                Bookmark childBookmark = child.toBookmark(imgUrl);
+
                 childBookmark.mapToFolder(currentFolder);
                 bookmarkRepository.save(childBookmark);
                 childBookmarks.add(childBookmark);
@@ -148,5 +160,17 @@ public class BookmarkService {
     // 현재 시간을 millis를 제외한 long으로 반환
     private long currentTime() {
         return System.currentTimeMillis() / MILLIS_PER_SECOND;
+    }
+
+    private String scrapImage(String url) {
+        String imgUrl = "";
+        try {
+            //TODO: orElse로 기본 이미지 가져오기
+            imgUrl = ImageScraper.getImageUrl(url)
+                    .orElse("");
+        } catch (IOException e) {
+            log.warn("썸네일 이미지 파싱 실패: {}", url, e);
+        }
+        return imgUrl;
     }
 }

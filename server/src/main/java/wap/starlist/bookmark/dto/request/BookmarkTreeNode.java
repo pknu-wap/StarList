@@ -70,12 +70,13 @@ public class BookmarkTreeNode {
                 .build();
     }
 
-    public Bookmark toBookmark() {
+    public Bookmark toBookmark(String imgUrl) {
         System.out.println("[INFO] to BOOKMARK");
         return Bookmark.builder()
                 .googleId(Long.parseLong(id))
                 .title(title)
                 .url(url)
+                .image(imgUrl)
                 .dateAdded(dateAdded)
                 .dateGroupModified(dateGroupModified)
                 .parentId(parentId)
