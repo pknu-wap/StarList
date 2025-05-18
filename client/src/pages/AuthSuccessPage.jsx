@@ -26,7 +26,7 @@ const AuthSuccessPage = () => {
             localStorage.setItem("accessToken", access_token);
 
             // 로그인 상태 저장
-            login();
+            login(access_token);
 
             // 주소창에서 token 제거 (보안을 위해서!)
             window.history.replaceState(null, "", import.meta.env.VITE_GOOGLE_AUTH_URI.replace(/.*\/\/[^/]+/, ""))

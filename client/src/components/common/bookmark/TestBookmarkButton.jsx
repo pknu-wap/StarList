@@ -1,5 +1,5 @@
 import React from 'react';
-import testAddBookmark from '../../api/testAddBookmark';
+import testAddBookmark from '../../../api/testAddBookmark';
 
 const TestBookmarkButton = () => {
     return (

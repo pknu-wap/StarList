@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const testAddBookmark = async () => {
     try {
-        const token = localStorage.getItem('jwt'); // 저장된 JWT 토큰 가져오기
+        const token = localStorage.getItem('accessToken'); // 저장된 엑세스 토큰 가져오기
         if (!token) {
             console.warn('토큰이 없습니다. 먼저 로그인하세요.');
             return;

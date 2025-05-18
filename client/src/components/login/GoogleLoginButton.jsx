@@ -1,4 +1,4 @@
-import googleLogo from "../../assets/google.svg";
+import { GoogleIcon } from "../../assets";
 const AUTH_START_URI = import.meta.env.VITE_GOOGLE_AUTH_URI;
 
 const GoogleLoginButton = () => {
@@ -13,8 +13,8 @@ const GoogleLoginButton = () => {
                  hover:scale-105 active:scale-95 transition-transform duration-150 cursor-pointer"
             onClick={handleGoogleLogin}
         >
-            <img src={googleLogo} alt="Google 로고" className="w-[57.15px] h-[57.15px]" />
-            <p className="text-[20px] font-Pretendard text-[#1a1a1a]">
+            <GoogleIcon className="w-[57.15px] h-[57.15px]" />
+            <p className="text-[15px] font-Pretendard text-[#1a1a1a]">
                 Google로 로그인
             </p>
         </div>

@@ -1,19 +1,10 @@
-import logoImage from "../../../assets/logo.svg";
-import title from "../../../assets/title.svg"
+import { Title, MainpageLogo } from '../../../assets';
 
-
-const LogoStar = () => {
+const LogoStar = ({ onClick }) => {
     return (
-        <div className="relative h-[67px]">
-            <img
-                src={logoImage}
-                alt="Starlist Logo"
-                className="w-[67px] h-[67px] object-cover"
-            />
-            <img
-                src={title}
-                className="w-[100px] h-[24px] absolute bottom-[23px]"
-            />
+        <div className="flex items-center cursor-pointer" onClick={onClick}>
+            <MainpageLogo className="w-[67px] h-[67px] object-cover" />
+            <Title className="w-[120px] h-[20px] -ml-5" />
         </div>
     );
 };
