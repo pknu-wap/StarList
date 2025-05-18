@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CheckBoxChecked, CheckBoxEmpty, CheckBoxHover } from "../../../assets";
+import { CheckBoxChecked, CheckBoxEmpty, CheckBoxHover } from "../../assets";
 
 const ToggleButton = ({ selected, onClick, className = "" }) => {
     const [isHovered, setIsHovered] = useState(false);

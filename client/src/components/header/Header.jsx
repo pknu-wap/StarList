@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import LogoStar from "./LogoStar";
-import { ProfileIcon, SettingIcon } from "../../../assets";
+import { ProfileIcon, SettingIcon } from "../../assets";
 
 const Header = () => {
     const logoClick = () => {

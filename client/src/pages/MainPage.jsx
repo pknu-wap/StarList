@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import useBookmarkStore from "../store/useBookmarkStore";
-import { fetchBookmarks } from "../api/bookmarkApi";
-import Header from "../components/common/header/Header";
-import BookmarkCard from "../components/common/bookmark/BookmarkCard";
+import useBookmarkStore from "../functions/hooks/useBookmarkStore";
+import { fetchBookmarks } from "../functions/utils/bookmarkApi";
+import Header from "../components/header/Header";
+import BookmarkCard from "../components/bookmark/BookmarkCard";
 
 const MainPage = () => {
     const { bookmarks, setBookmarks } = useBookmarkStore(); // 북마크 관리

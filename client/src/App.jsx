@@ -1,15 +1,13 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import useAuthStore from "./store/useAuthStore"; // 로그인 상태가 저장되어 있는 훅스
+import useAuthStore from "./functions/hooks/useAuthStore.js"; // 로그인 상태가 저장되어 있는 훅스
 
 import MainPage from "./pages/MainPage";
-import CategoryPage from "./pages/CategoryPage";
 import StartPage from "./pages/StartPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import AuthSuccessPage from "./pages/AuthSuccessPage";
 import PrivatePolicyPage from "./pages/PrivatePolicyPage";
 import SettingPage from "./pages/SettingPage";
-import "./index.css";
 
 const App = () => {
   const { isLoggedIn } = useAuthStore(); // Zustand 스토어에서 로그인 상태 가져오기

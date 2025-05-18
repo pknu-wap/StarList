@@ -1,5 +1,5 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { getNodesByFolderId } from "./getNodesByFolderId";
+import { getNodesByFolderId } from "../utils/getNodesByFolderId";
 
 // getNodesByFolderId() 에서 가져온 리스트를 React Query 를 사용하여
 // 캐싱, 변경 추적, 최신화를 가능하게 하는 함수
