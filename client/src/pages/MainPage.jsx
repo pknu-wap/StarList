@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useBookmarkStore from "../functions/hooks/useBookmarkStore";
-import { fetchBookmarks } from "../api/bookmarkApi";
+import { fetchBookmarks } from "../functions/utils/bookmarkApi";
 import Header from "../components/header/Header";
 import BookmarkCard from "../components/bookmark/BookmarkCard";
 

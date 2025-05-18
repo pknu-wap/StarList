@@ -1,5 +1,5 @@
 import instance from "./axiosInstance";
-import useAuthStore from "../functions/hooks/useAuthStore";
+import useAuthStore from "../hooks/useAuthStore";
 
 export const fetchBookmarks = async () => {
     // Zustand 스토어에서 토큰 가져오기
