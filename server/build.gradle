@@ -50,6 +50,9 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	// image parse
+	implementation 'org.jsoup:jsoup:1.17.2'
+
 	//test
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
