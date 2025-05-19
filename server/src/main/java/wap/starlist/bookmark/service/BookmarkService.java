@@ -110,9 +110,16 @@ public class BookmarkService {
         return root;
     }
 
-    public List<BookmarkNodeResponse> getNestedNodes(String memberProviderId, Integer id) {
+    /**
+     *
+     * @param memberProviderId: 사용자의 구글 리소스 id
+     * @param id: jpa에서 자동으로 생성되는 id값을 의미한다. 이를 통해 member에 해당하는 폴더를 찾기 위해 불필요한 쿼리를 작성하지 않아도 된다.
+     * @return
+     */
+    public List<BookmarkNodeResponse> getNestedNodes(String memberProviderId, Long id) {
         if (id == 0) {
             // Root
+            //TODO: 여기에서도 Root Jpa Id를 통해 값을 가져올지 결정
             Optional<Root> root = rootRepository.findByMemberProviderId(memberProviderId);
 
             return root.map(value ->
@@ -122,11 +129,11 @@ public class BookmarkService {
                     .orElse(Collections.emptyList());
         }
         // Folder
-        Optional<Folder> founded = folderRepository.findByGoogleId(id);
+        Optional<Folder> found = folderRepository.findById(id);
 
-        if (founded.isPresent()) {
-            List<Bookmark> bookmarks = founded.get().getBookmarks();
-            List<Folder> folders = founded.get().getFolders();
+        if (found.isPresent()) {
+            List<Bookmark> bookmarks = found.get().getBookmarks();
+            List<Folder> folders = found.get().getFolders();
             List<BookmarkNodeResponse> nestedNodes = new ArrayList<>();
 
             for (Bookmark bookmark : bookmarks) {

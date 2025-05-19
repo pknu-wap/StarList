@@ -7,6 +7,4 @@ import wap.starlist.bookmark.domain.Folder;
 
 @Repository
 public interface FolderRepository extends JpaRepository<Folder, Long> {
-
-    Optional<Folder> findByGoogleId(Integer googleId);
 }

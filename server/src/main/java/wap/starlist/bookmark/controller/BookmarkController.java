@@ -107,7 +107,7 @@ public class BookmarkController {
     }
 
     @GetMapping("/nested/{id}")
-    public ResponseEntity<?> getNestedNodes(@AuthenticationPrincipal String loginUser, @PathVariable("id") Integer id) {
+    public ResponseEntity<?> getNestedNodes(@AuthenticationPrincipal String loginUser, @PathVariable("id") Long id) {
         List<BookmarkNodeResponse> nodes = bookmarkService.getNestedNodes(loginUser, id);
         return ResponseEntity.ok().body(nodes);
     }
