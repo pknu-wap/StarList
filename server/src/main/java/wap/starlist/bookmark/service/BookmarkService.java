@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -18,6 +19,7 @@ import wap.starlist.bookmark.repository.BookmarkRepository;
 import wap.starlist.bookmark.repository.FolderRepository;
 import wap.starlist.bookmark.repository.RootRepository;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BookmarkService {
@@ -110,25 +112,20 @@ public class BookmarkService {
         return root;
     }
 
+    public List<BookmarkNodeResponse> getChildrenOfRoot(String memberProviderId) {
+        Optional<Root> found = rootRepository.findByMemberProviderId(memberProviderId);
+
+        return found.map(root -> root.getFolders().stream()
+                .map(BookmarkNodeResponse::fromFolder).toList())
+                .orElse(Collections.emptyList());
+    }
+
     /**
      *
-     * @param memberProviderId: 사용자의 구글 리소스 id
      * @param id: jpa에서 자동으로 생성되는 id값을 의미한다. 이를 통해 member에 해당하는 폴더를 찾기 위해 불필요한 쿼리를 작성하지 않아도 된다.
      * @return
      */
-    public List<BookmarkNodeResponse> getNestedNodes(String memberProviderId, Long id) {
-        if (id == 0) {
-            // Root
-            //TODO: 여기에서도 Root Jpa Id를 통해 값을 가져올지 결정
-            Optional<Root> root = rootRepository.findByMemberProviderId(memberProviderId);
-
-            return root.map(value ->
-                            value.getFolders().stream()
-                                    .map(BookmarkNodeResponse::fromFolder)
-                                    .toList())
-                    .orElse(Collections.emptyList());
-        }
-        // Folder
+    public List<BookmarkNodeResponse> getChildrenOfFolder(Long id) {
         Optional<Folder> found = folderRepository.findById(id);
 
         if (found.isPresent()) {
@@ -136,6 +133,7 @@ public class BookmarkService {
             List<Folder> folders = found.get().getFolders();
             List<BookmarkNodeResponse> nestedNodes = new ArrayList<>();
 
+            //TODO: parentId가 null인 오류 수정
             for (Bookmark bookmark : bookmarks) {
                 nestedNodes.add(BookmarkNodeResponse.fromBookmark(bookmark));
             }
@@ -145,6 +143,7 @@ public class BookmarkService {
 
             return nestedNodes;
         }
+        log.warn("폴더의 하위 노드가 존재하지 않음: id={}", id);
         return Collections.emptyList();
     }
 

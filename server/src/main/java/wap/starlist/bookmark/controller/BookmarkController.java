@@ -106,9 +106,15 @@ public class BookmarkController {
         }
     }
 
-    @GetMapping("/nested/{id}")
-    public ResponseEntity<?> getNestedNodes(@AuthenticationPrincipal String loginUser, @PathVariable("id") Long id) {
-        List<BookmarkNodeResponse> nodes = bookmarkService.getNestedNodes(loginUser, id);
+    @GetMapping("/children/{id}")
+    public ResponseEntity<?> getChildren(@PathVariable("id") Long id) {
+        List<BookmarkNodeResponse> nodes = bookmarkService.getChildrenOfFolder(id);
         return ResponseEntity.ok().body(nodes);
+    }
+
+    @GetMapping("/top-folders")
+    public ResponseEntity<?> getChildFolders(@AuthenticationPrincipal String loginUser) {
+        List<BookmarkNodeResponse> childFolders = bookmarkService.getChildrenOfRoot(loginUser);
+        return ResponseEntity.ok().body(childFolders);
     }
 }
