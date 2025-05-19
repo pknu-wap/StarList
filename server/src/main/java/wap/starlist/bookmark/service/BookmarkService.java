@@ -1,6 +1,7 @@
 package wap.starlist.bookmark.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import wap.starlist.bookmark.domain.Bookmark;
 import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.domain.Root;
 import wap.starlist.bookmark.dto.request.BookmarkTreeNode;
+import wap.starlist.bookmark.dto.response.BookmarkNodeResponse;
 import wap.starlist.bookmark.repository.BookmarkRepository;
 import wap.starlist.bookmark.repository.FolderRepository;
 import wap.starlist.bookmark.repository.RootRepository;
@@ -93,7 +95,9 @@ public class BookmarkService {
         for (BookmarkTreeNode child : children) {
             System.out.println("[INFO] child.getTitle() = " + child.getTitle());
             Folder folder = collectNode(child);
-            if (folder == null) continue; // root 직속 자식으로 북마크가 있는 경우는 제외
+            if (folder == null) {
+                continue; // root 직속 자식으로 북마크가 있는 경우는 제외
+            }
 
             folder.mapToRoot(root);
             root.addFolder(folder);
@@ -104,6 +108,37 @@ public class BookmarkService {
         }
 
         return root;
+    }
+
+    public List<BookmarkNodeResponse> getNestedNodes(String memberProviderId, Integer id) {
+        if (id == 0) {
+            // Root
+            Optional<Root> root = rootRepository.findByMemberProviderId(memberProviderId);
+
+            return root.map(value ->
+                            value.getFolders().stream()
+                                    .map(BookmarkNodeResponse::fromFolder)
+                                    .toList())
+                    .orElse(Collections.emptyList());
+        }
+        // Folder
+        Optional<Folder> founded = folderRepository.findByGoogleId(id);
+
+        if (founded.isPresent()) {
+            List<Bookmark> bookmarks = founded.get().getBookmarks();
+            List<Folder> folders = founded.get().getFolders();
+            List<BookmarkNodeResponse> nestedNodes = new ArrayList<>();
+
+            for (Bookmark bookmark : bookmarks) {
+                nestedNodes.add(BookmarkNodeResponse.fromBookmark(bookmark));
+            }
+            for (Folder folder : folders) {
+                nestedNodes.add(BookmarkNodeResponse.fromFolder(folder));
+            }
+
+            return nestedNodes;
+        }
+        return Collections.emptyList();
     }
 
     // DFS로 트리를 탐색
