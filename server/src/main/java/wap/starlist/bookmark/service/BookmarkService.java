@@ -112,41 +112,6 @@ public class BookmarkService {
         return root;
     }
 
-    public List<BookmarkNodeResponse> getChildrenOfRoot(String memberProviderId) {
-        Optional<Root> found = rootRepository.findByMemberProviderId(memberProviderId);
-
-        return found.map(root -> root.getFolders().stream()
-                .map(BookmarkNodeResponse::fromFolder).toList())
-                .orElse(Collections.emptyList());
-    }
-
-    /**
-     *
-     * @param id: jpa에서 자동으로 생성되는 id값을 의미한다. 이를 통해 member에 해당하는 폴더를 찾기 위해 불필요한 쿼리를 작성하지 않아도 된다.
-     * @return
-     */
-    public List<BookmarkNodeResponse> getChildrenOfFolder(Long id) {
-        Optional<Folder> found = folderRepository.findById(id);
-
-        if (found.isPresent()) {
-            List<Bookmark> bookmarks = found.get().getBookmarks();
-            List<Folder> folders = found.get().getFolders();
-            List<BookmarkNodeResponse> nestedNodes = new ArrayList<>();
-
-            //TODO: parentId가 null인 오류 수정
-            for (Bookmark bookmark : bookmarks) {
-                nestedNodes.add(BookmarkNodeResponse.fromBookmark(bookmark));
-            }
-            for (Folder folder : folders) {
-                nestedNodes.add(BookmarkNodeResponse.fromFolder(folder));
-            }
-
-            return nestedNodes;
-        }
-        log.warn("폴더의 하위 노드가 존재하지 않음: id={}", id);
-        return Collections.emptyList();
-    }
-
     // DFS로 트리를 탐색
     // 연관관계의 주인은 하위 폴더 & 북마크이므로 자식이 부모와 연관관계를 설정하고 return 해야함
     private Folder collectNode(BookmarkTreeNode node) {

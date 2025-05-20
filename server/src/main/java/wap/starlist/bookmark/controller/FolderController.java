@@ -1,10 +1,13 @@
 package wap.starlist.bookmark.controller;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.dto.request.FolderCreateRequest;
+import wap.starlist.bookmark.dto.response.BookmarkNodeResponse;
 import wap.starlist.bookmark.dto.response.FolderErrorResponse;
 import wap.starlist.bookmark.dto.response.FolderResponse;
 import wap.starlist.bookmark.service.FolderService;
@@ -69,5 +72,17 @@ public class FolderController {
             return ResponseEntity.badRequest().body(folderNotFound);
         }
         return ResponseEntity.noContent().build(); // 삭제 성공 시 204 No Content
+    }
+
+    @GetMapping("/children/{id}")
+    public ResponseEntity<?> getChildren(@PathVariable("id") Long id) {
+        List<BookmarkNodeResponse> nodes = folderService.getChildrenOfFolder(id);
+        return ResponseEntity.ok().body(nodes);
+    }
+
+    @GetMapping("/top-folders")
+    public ResponseEntity<?> getChildFolders(@AuthenticationPrincipal String loginUser) {
+        List<BookmarkNodeResponse> childFolders = folderService.getChildrenOfRoot(loginUser);
+        return ResponseEntity.ok().body(childFolders);
     }
 }
