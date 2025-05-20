@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 // mutationFn 은 Promise 를 반환하는 비동기 함수이여야 하므로 async 키워드를 사용
 async function syncBookmarkChanges(eventType, id, info) {
     try {
@@ -66,7 +68,7 @@ function useMutateNode() {
         // Mutate 실패시
         onError: ({folderId}) => {    
             console.log("Mutation 실패");
-
+            console.log(folderId);
         }
     });
 }
