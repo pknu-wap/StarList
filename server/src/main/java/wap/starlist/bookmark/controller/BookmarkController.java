@@ -12,6 +12,7 @@ import wap.starlist.bookmark.dto.request.BookmarkCreateRequest;
 import wap.starlist.bookmark.dto.request.BookmarkTreeNode;
 import wap.starlist.bookmark.dto.request.BookmarksDeleteRequest;
 import wap.starlist.bookmark.dto.response.BookmarkErrorResponse;
+import wap.starlist.bookmark.dto.response.BookmarkNodeResponse;
 import wap.starlist.bookmark.dto.response.BookmarkResponse;
 import wap.starlist.bookmark.dto.response.BookmarksDeleteResponse;
 import wap.starlist.bookmark.service.BookmarkService;

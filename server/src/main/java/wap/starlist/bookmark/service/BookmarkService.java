@@ -2,6 +2,7 @@ package wap.starlist.bookmark.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,7 @@ import wap.starlist.bookmark.domain.Bookmark;
 import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.domain.Root;
 import wap.starlist.bookmark.dto.request.BookmarkTreeNode;
+import wap.starlist.bookmark.dto.response.BookmarkNodeResponse;
 import wap.starlist.bookmark.repository.BookmarkRepository;
 import wap.starlist.bookmark.repository.FolderRepository;
 import wap.starlist.bookmark.repository.RootRepository;
@@ -101,7 +103,9 @@ public class BookmarkService {
         for (BookmarkTreeNode child : children) {
             System.out.println("[INFO] child.getTitle() = " + child.getTitle());
             Folder folder = collectNode(child);
-            if (folder == null) continue; // root 직속 자식으로 북마크가 있는 경우는 제외
+            if (folder == null) {
+                continue; // root 직속 자식으로 북마크가 있는 경우는 제외
+            }
 
             folder.mapToRoot(root);
             root.addFolder(folder);
