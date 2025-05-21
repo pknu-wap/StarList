@@ -11,4 +11,4 @@ const FolderCard = ({ info }) => {
     )
 }
 
-export { FolderCard };
+export default FolderCard;
