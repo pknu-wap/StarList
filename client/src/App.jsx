@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import useAuthStore from "./functions/hooks/useAuthStore.js"; // 로그인 상태가 저장되어 있는 훅스
+import useAuthStore from "./functions/hooks/useAuthStore"; // 로그인 상태가 저장되어 있는 훅스
 
 import MainPage from "./pages/MainPage";
 import StartPage from "./pages/StartPage";

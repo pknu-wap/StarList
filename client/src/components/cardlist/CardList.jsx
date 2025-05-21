@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useGetNodes } from "../../functions/hooks/useGetNodes";
 import Header from "../header/Header";
 import BookmarkCard from "../bookmark/BookmarkCard";
-import FolderCard from "FolderCard";
+import FolderCard from "./FolderCard";
 
 
 const CardList = () => {
@@ -41,4 +41,4 @@ const CardList = () => {
     )
 }
 
-export { CardList };
+export default CardList;
