@@ -1,16 +1,14 @@
+import React from "react";
 import ToggleButton from "./ToggleButton";
 
 /**
  * 북마크 카드 컴포넌트
- * @param {string} title 
- * @param {string} url
+ * @param {object} info // 북마크 정보
  * @param {boolean} selected   // 부모가 넘겨줄 선택 상태
  * @param {() => void} onToggle // 부모가 넘겨줄 토글 핸들러
  */
 
-
-
-const BookmarkCard = ({ title, url, selected, onToggle }) => { // 시간 필요시 image,dataAdded prop 추가
+const BookmarkCard = ({ info, selected, onToggle }) => { // 시간 필요시 image,dataAdded prop 추가
     /*
     const formattedTime = new Date(dataAdded * 1000).toLocaleTimeString("ko-KR", {
         hour: "2-digit",
@@ -45,14 +43,14 @@ const BookmarkCard = ({ title, url, selected, onToggle }) => { // 시간 필요�
             </div>
             {/* 제목 */}
             <a
-                href={url}
+                href={info.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full text-base sm:text-lg md:text-xl 
                         font-semibold text-left
                          text-main-black truncate" // turncate는 제목이 너무 길어지면 뒷부분을 ... 으로 처리
             >
-                {title}
+                {info.title}
             </a>
 
             {/* 시간 
