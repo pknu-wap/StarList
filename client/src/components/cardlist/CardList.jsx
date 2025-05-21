@@ -6,7 +6,7 @@ import FolderCard from "./FolderCard";
 
 
 const CardList = () => {
-    const { data, status, error } = useGetNodes();
+    const { data = [], status, error } = useGetNodes();
     const [selectedIds, setSelectedIds] = useState([]);
 
     const toggle = id => {
