@@ -1,6 +1,4 @@
-import 
-
-const BookmarkCard = ({ title, url, image }) => {
+const RemindCard = ({ title, url, image }) => {
 
     return (
         <div className={`relative w-full sm:max-w-[280px] md:max-w-[320px] lg:max-w-[366px] aspect-[3/2] 
@@ -38,4 +36,4 @@ const BookmarkCard = ({ title, url, image }) => {
         </div>
     );
 }
-export default BookmarkCard;
+export default RemindCard;
