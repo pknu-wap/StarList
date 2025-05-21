@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import RemindCard from "./RemindCard";
+
+import { ArrowLeft, ArrowRight } from "../../assets";
 
 // 예시 북마크 데이터
 const bookmarks = [
@@ -86,22 +88,61 @@ const getScaleClass = (offset) => {
         case 2:
             return "scale-75 z-0";
         default:
-            return "scale-60 z-0 pointer-events-none";
+            return "scale-60 z-0 pointer-events-none hidden";
     }
 };
 
 const RemindCarousel = () => {
     // 현재 중앙에 보이는 슬라이드 인덱스 상태 저장
     const [activeIndex, setActiveIndex] = useState(2); // 시작 위치는 2번째부터
+    // 커스텀 네비게이션 버튼
+    const prevRef = useRef(null);
+    const nextRef = useRef(null);
+    const [swiperInstance, setSwiperInstance] = useState(null);
+
+
+    // Swiper 초기화 후에 커스텀 네비게이션 버튼을 연결
+    useEffect(() => {
+        if (swiperInstance && prevRef.current && nextRef.current) {
+            swiperInstance.params.navigation.prevEl = prevRef.current;
+            swiperInstance.params.navigation.nextEl = nextRef.current;
+            // 네비게이션 모듈 초기화 & 업데이트
+            swiperInstance.navigation.init();
+            swiperInstance.navigation.update();
+        }
+    }, [swiperInstance]);
 
     return (
         <div className="w-full flex flex-col items-center">
-            <div className="w-[1100px] pt-12 relative">
+            <div className="w-[1800px] pt-12 relative">
+                {/* 좌측 버튼 */}
+                <button
+                    ref={prevRef}
+                    className="absolute left-0 top-1/2 transform -translate-y-1/2 z-30 p-2 bg-white rounded-full shadow-md"
+                    type="button"
+                >
+                    <ArrowLeft className="w-6 h-6" />
+                </button>
+
+                {/* 우측 버튼 */}
+                <button
+                    ref={nextRef}
+                    className="absolute right-0 top-1/2 transform -translate-y-1/2 z-30 p-2 bg-white rounded-full shadow-md"
+                    type="button"
+                >
+                    <ArrowRight className="w-6 h-6" />
+                </button>
                 <Swiper
                     modules={[Navigation]}
-                    navigation
+                    navigation={{
+                        prevEl: prevRef.current,
+                        nextEl: nextRef.current,
+                        // 클릭 가능하게
+                        clickable: true,
+                    }}
                     slidesPerView={5}
                     centeredSlides
+                    onSwiper={setSwiperInstance}
                     onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)} // 슬라이드가 넘어갈 때 중앙 인덱스를 추적
                     initialSlide={2}
                     loop
@@ -140,7 +181,7 @@ const RemindCarousel = () => {
                     })}
                 </Swiper>
             </div>
-        </div>
+        </div >
     );
 }
 
