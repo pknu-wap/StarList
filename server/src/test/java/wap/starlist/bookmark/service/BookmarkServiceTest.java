@@ -20,7 +20,7 @@ class BookmarkServiceTest {
     void create() throws Exception {
         //given
         String title = "EARTH1";
-        String url = "www.earth.org";
+        String url = "https://www.earth.org";
 
         //when
         Bookmark bookmark = bookmarkService.createBookmark(title, url);
@@ -36,7 +36,7 @@ class BookmarkServiceTest {
     void get() throws Exception {
         //given
         String title = "EARTH2";
-        String url = "www.earth.org";
+        String url = "https://www.earth.org";
 
         //when
         Bookmark bookmark = bookmarkService.createBookmark(title, url);
@@ -60,7 +60,7 @@ class BookmarkServiceTest {
     void throwErrorWhenNoBookmark() throws Exception {
         //given
         String title = "EARTH3";
-        String url = "www.earth.org";
+        String url = "https://www.earth.org";
 
         //when
         Bookmark earth = bookmarkService.createBookmark(title, url);

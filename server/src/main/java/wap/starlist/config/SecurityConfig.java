@@ -43,6 +43,10 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
 
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        // swagger 관련 설정
+                        .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**",
+                                "/swagger-resources/**", "/swagger-resources", "/webjars/**").permitAll()
+
                         .requestMatchers("/", "/oauth2/**", "/login").permitAll()  // 허용 URL 설정
                         .anyRequest().authenticated())      // 그 외 모든 요청에 대해 인증
 
