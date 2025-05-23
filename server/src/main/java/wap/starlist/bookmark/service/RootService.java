@@ -24,10 +24,10 @@ public class RootService {
         return rootRepository.save(root);
     }
 
-    @Transactional(readOnly = true)
-    public BookmarkTreeNode getRootOf(String providerId) {
-        Root root = rootRepository.findByMemberProviderId(providerId)
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 북마크 동기화되지 않은 사용자입니다."));
-        return BookmarkTreeNode.createTreeFrom(root);
-    }
+//    @Transactional(readOnly = true)
+//    public BookmarkTreeNode getRootOf(String providerId) {
+//        Root root = rootRepository.findByMemberProviderId(providerId)
+//                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 북마크 동기화되지 않은 사용자입니다."));
+//        return BookmarkTreeNode.createTreeFrom(root);
+//    }
 }
