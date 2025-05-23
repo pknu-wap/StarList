@@ -7,7 +7,7 @@ const MainPage = () => {
     return (
         <div>
             <Header />
-            {/* <RemindCarousel /> 이후에 추가*/}
+            <RemindCarousel />
             <CardList />
         </div>
     );

@@ -65,14 +65,8 @@ const RemindCarousel = () => {
     if (error) return <div>에러 발생: {error.message}</div>;
 
     return (
-        <div className="w-full pt-[43px] flex flex-col items-start">
-            <div className="flex flex-col items-start">
-                <p className="w-[115px] h-[43px] text-[32px] font-bold text-left text-black">리마인드</p>
-                <p className="w-[298px] h-[23px] text-[15px] font-bold text-left text-main-500">
-                    최근에 덜 본 북마크를 다시 추천해드려요.
-                </p>
-            </div>
-            <div className="w-[1494px] pt-[100px] relative">
+        <div className="w-full pt-[81px] flex flex-col items-center">
+            <div className="w-[1494px] relative">
                 {/* 좌측 버튼 */}
                 <button
                     ref={prevRef}
