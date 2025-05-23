@@ -7,6 +7,8 @@ export { default as SettingIcon } from './icons/settings-icon.svg?react';
 export { default as CheckBoxEmpty } from './buttons/check-box-empty.svg?react';
 export { default as CheckBoxChecked } from './buttons/check-box-check.svg?react';
 export { default as CheckBoxHover } from './buttons/check-box-hover.svg?react';
+export { default as ArrowRight } from './buttons/arrow-right.svg?react';
+export { default as ArrowLeft } from './buttons/arrow-left.svg?react';
 
 // 로고
 export { default as MainpageLogo } from './logo/logo.svg?react';
