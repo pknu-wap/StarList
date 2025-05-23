@@ -11,15 +11,13 @@ const AuthSuccessPage = () => {
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const accessToken = params.get("token");
-        const hasSynced = params.get("hasSynced") === "true";
 
         if (accessToken) {
             // 익스텐션에 메시지 전달
             if (window.chrome?.runtime?.sendMessage) {
                 window.chrome.runtime.sendMessage(EXT_ID, {
-                    type: "SET_JWT",
-                    token: accessToken,
-                    hasSynced,
+                    type: "LOGIN_SUCCESS",
+                    token: accessToken
                 });
             }
             // 로그인 상태 저장

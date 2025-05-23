@@ -17,26 +17,19 @@ function redirectStartPage() {
 // 메시지에 포함된 토큰과 동기화 여부를 storage.local 에 저장하는 함수
 async function storeAccessToken(message) {
     await chrome.storage.local.set({
-        userToken: message.token,
-        hasSynced: message.hasSynced
+        accessToken: message.token
     });
-}
-
-// 전체 북마크를 전송한 적이 있는지 판별하는 함수
-async function hasSentAllBookmarks() {
-    const { hasSynced } = await chrome.storage.local.get("hasSynced");
-    return hasSynced === true;
 }
 
 // 사용자의 토큰을 가져오는 함수
 async function getUserToken() {
     try {
-        const result = await chrome.storage.local.get({ userToken: null });
-        const userToken = result.userToken;
+        const result = await chrome.storage.local.get({ accessToken: null });
+        const accessToken = result.accessToken;
 
-        if (!userToken)
+        if (!accessToken)
             throw new Error("토큰이 없습니다");
-        return userToken;
+        return accessToken;
     }
     catch(error) {
         console.error("토큰 조회 실패:", error);
@@ -70,14 +63,14 @@ async function sendAllBookmarks() {
         const bookmarkPromise = fetchBookmarkTree();
 
         // 위의 비동기 작업이 모두 완료될때까지는 기다림
-        const [userToken, bookmarkTree] = await Promise.all([tokenPromise, bookmarkPromise]);
+        const [accessToken, bookmarkTree] = await Promise.all([tokenPromise, bookmarkPromise]);
 
         // 토큰과 북마크를 백엔드 API 로 전송
         const response = await fetch(`${API_BASE_URL}/bookmarks/sync`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${userToken}`
+                "Authorization": `Bearer ${accessToken}`
             },
             body: JSON.stringify(bookmarkTree)
         });
@@ -86,9 +79,6 @@ async function sendAllBookmarks() {
             console.log(response);
             throw new Error(`응답 상태: ${response.status}`);
         }
-        
-        // 성공적으로 전송을 마친 뒤에는 hasSynced 플래그를 갱신
-        await chrome.storage.local.set({ hasSynced: true });
     }
     catch (error) {
         console.error(error);
@@ -165,12 +155,6 @@ chrome.runtime.onMessage.addListener(async message => {
             redirectStartPage();
             break;
 
-        case "MAIN_PAGE_VISTED": {
-            const hasSent = await hasSentAllBookmarks();
-            if (!hasSent)
-                await sendAllBookmarks();
-            break;
-        }
         default:
             throw new Error(`정의되지 않은 메시지 타입: ${message.type}`);
     }
@@ -179,9 +163,15 @@ chrome.runtime.onMessage.addListener(async message => {
 // 다른 확장 프로그램이나 웹 페이지에서 메시지가 전송될 때 실행됨
 chrome.runtime.onMessageExternal.addListener(async message => {
     switch (message.type) {
-        case "SET_JWT":
+        case "LOGIN_SUCCESS":
             await storeAccessToken(message);
             break;
+
+        case "NEW_USER_DETECTION": {
+            await sendAllBookmarks();
+            break;
+        }
+
         default:
             throw new Error(`정의되지 않은 메시지 타입: ${message.type}`);
     }
