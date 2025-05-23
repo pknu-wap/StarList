@@ -15,14 +15,14 @@ const queryClient = new QueryClient();
 
 // 로그아웃 상태일때에는 시작 페이지로 라우팅
 const ProtectedRoute = ({ children }) => {
-    const { isLoggedIn } = useAuth();
-    return isLoggedIn ? children : <Navigate to="/start" replace />;
+  const { isLoggedIn } = useAuth();
+  return isLoggedIn ? children : <Navigate to="/start" replace />;
 };
 
 // 로그인 상태일때에는 메인 페이지로 라우팅
 const PublicRoute = ({ children }) => {
-    const { isLoggedIn } = useAuth();
-    return !isLoggedIn ? children : <Navigate to="/main" replace />;
+  const { isLoggedIn } = useAuth();
+  return !isLoggedIn ? children : <Navigate to="/main" replace />;
 };
 
 const AppRoutes = () => (
@@ -30,9 +30,9 @@ const AppRoutes = () => (
     {/* 루트 페이지 */}
     <Route path="/" element={
       <PublicRoute>
-        <StartPage />
+        <StartPagePage />
       </PublicRoute>
-    }/>
+    } />
 
     {/* 개인정보처리방침 페이지 */}
     <Route path="/policy" element={<PrivatePolicyPage />} />
@@ -45,21 +45,21 @@ const AppRoutes = () => (
       <ProtectedRoute>
         <MainPage />
       </ProtectedRoute>
-    }/>
+    } />
 
     {/* 시작 페이지 */}
     <Route path="/start" element={
       <PublicRoute>
         <StartPage />
       </PublicRoute>
-    }/>
+    } />
 
     {/* 설정 페이지 */}
     <Route path="/setting" element={
       <ProtectedRoute>
         <SettingPage />
       </ProtectedRoute>
-    }/>
+    } />
 
     {/* 404 페이지 */}
     <Route path="*" element={<NotFoundPage />} />
