@@ -10,30 +10,28 @@ const AuthSuccessPage = () => {
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
-        const access_token = params.get("token");
+        const accessToken = params.get("token");
         const hasSynced = params.get("hasSynced") === "true";
 
-        if (access_token) {
+        if (accessToken) {
             // 익스텐션에 메시지 전달
             if (window.chrome?.runtime?.sendMessage) {
                 window.chrome.runtime.sendMessage(EXT_ID, {
                     type: "SET_JWT",
-                    token: access_token,
+                    token: accessToken,
                     hasSynced,
                 });
             }
-            // 로컬 스토리지에 토큰 저장
-            localStorage.setItem("accessToken", access_token);
-
             // 로그인 상태 저장
-            login(access_token);
+            login(accessToken);
 
             // 주소창에서 token 제거 (보안을 위해서!)
             window.history.replaceState(null, "", import.meta.env.VITE_GOOGLE_AUTH_URI.replace(/.*\/\/[^/]+/, ""))
 
             // 메인 페이지로 이동
             navigate("/main", { replace: true });
-        } else {
+        } 
+        else {
             // 토큰이 없는 경우 로그인 페이지로 회귀 
             navigate("/start", { replace: true });
         }

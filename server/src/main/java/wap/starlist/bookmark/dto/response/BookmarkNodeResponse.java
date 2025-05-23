@@ -9,7 +9,8 @@ import wap.starlist.bookmark.domain.Folder;
 @Builder
 public class BookmarkNodeResponse {
 
-    private String id; // google id
+    private Long id; // db에 존재하는 고유 id
+    private String googleId;
     private Boolean syncing;
     private String title;
     private Long dateAdded;
@@ -21,7 +22,8 @@ public class BookmarkNodeResponse {
 
     public static BookmarkNodeResponse fromFolder(Folder folder) {
         return BookmarkNodeResponse.builder()
-                .id(String.valueOf(folder.getGoogleId()))
+                .id(folder.getId())
+                .googleId(String.valueOf(folder.getGoogleId()))
                 .title(folder.getTitle())
                 .dateAdded(folder.getDateAdded())
                 .dateGroupModified(folder.getDateGroupModified())
@@ -32,7 +34,8 @@ public class BookmarkNodeResponse {
 
     public static BookmarkNodeResponse fromBookmark(Bookmark bookmark) {
         return BookmarkNodeResponse.builder()
-                .id(String.valueOf(bookmark.getGoogleId()))
+                .id(bookmark.getId())
+                .googleId(String.valueOf(bookmark.getGoogleId()))
                 .title(bookmark.getTitle())
                 .dateAdded(bookmark.getDateAdded())
                 .dateGroupModified(bookmark.getDateGroupModified())

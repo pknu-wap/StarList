@@ -3,6 +3,7 @@ package wap.starlist.bookmark.controller;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import wap.starlist.bookmark.service.RootService;
 
 import java.net.URI;
 
+@Slf4j
 @RestController
 @RequestMapping("/bookmarks")
 @RequiredArgsConstructor
@@ -95,14 +97,16 @@ public class BookmarkController {
         return ResponseEntity.ok("성공했습니다.");
     }
 
-    @GetMapping
-    public ResponseEntity<?> getAllBookmark(@AuthenticationPrincipal String loginUser) {
-        try {
-            BookmarkTreeNode rootNode = rootService.getRootOf(loginUser);
-            return ResponseEntity.ok().body(rootNode);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
+    //TODO: 사용되지 않지만 BookmarkNodeResponse로 변경하기
+//    @GetMapping
+//    public ResponseEntity<?> getAllBookmark(@AuthenticationPrincipal String loginUser) {
+//        try {
+//            log.info("[INFO] 현재 로그인된 유저 providerId : {}", loginUser);
+//            BookmarkTreeNode rootNode = rootService.getRootOf(loginUser);
+//            return ResponseEntity.ok().body(rootNode);
+//        } catch (IllegalArgumentException e) {
+//            System.out.println(e.getMessage());
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
 }
