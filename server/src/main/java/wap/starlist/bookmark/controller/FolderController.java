@@ -2,6 +2,7 @@ package wap.starlist.bookmark.controller;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import wap.starlist.bookmark.service.FolderService;
 
 import java.net.URI;
 
+@Slf4j
 @RestController
 @RequestMapping("/folders")
 @RequiredArgsConstructor
@@ -76,12 +78,14 @@ public class FolderController {
 
     @GetMapping("/children/{id}")
     public ResponseEntity<?> getChildren(@PathVariable("id") Long id) {
+        log.info("[INFO] 요청된 폴더의 하위 노드 가져오기 : {}", id);
         List<BookmarkNodeResponse> nodes = folderService.getChildrenOfFolder(id);
         return ResponseEntity.ok().body(nodes);
     }
 
     @GetMapping("/top-folders")
     public ResponseEntity<?> getChildFolders(@AuthenticationPrincipal String loginUser) {
+        log.info("[INFO] 최상위 폴더 가져오기");
         List<BookmarkNodeResponse> childFolders = folderService.getChildrenOfRoot(loginUser);
         return ResponseEntity.ok().body(childFolders);
     }
