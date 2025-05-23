@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import RemindCard from "./RemindCard";
 
+import RemindCard from "./RemindCard";
+import useRemindBookmarks from "../../functions/hooks/useRemindBookmarks";
 import { ArrowLeft, ArrowRight } from "../../assets";
 
 /* getOverlayOpacity, getScaleClass: 중앙 북마크와의 거리에 따라 스타일을 다르게 적용하는 함수들 */
@@ -38,6 +39,9 @@ const getScaleClass = (offset) => {
 };
 
 const RemindCarousel = () => {
+    // 리마인더 북마크 데이터 가져오기
+    const { data: bookmarks = [], isLoding, error } = useRemindBookmarks();
+
     // 현재 중앙에 보이는 슬라이드 인덱스 상태 저장
     const [activeIndex, setActiveIndex] = useState(2); // 시작 위치는 2번째부터
     // 커스텀 네비게이션 버튼
@@ -56,6 +60,9 @@ const RemindCarousel = () => {
             swiperInstance.navigation.update();
         }
     }, [swiperInstance]);
+
+    if (isLoding) return <div>로딩 중...</div>;
+    if (error) return <div>에러 발생: {error.message}</div>;
 
     return (
         <div className="w-full pt-[81px] flex flex-col items-center">
