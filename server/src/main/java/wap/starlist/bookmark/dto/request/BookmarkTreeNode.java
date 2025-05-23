@@ -12,14 +12,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * sync 요청을 받을 때만 사용한다. 그 이후엔 클라이언트에서 id값으로 요청을 주고받기 때문이다.
+ * 이 id값은 serverId를 의미하고
+ */
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookmarkTreeNode {
 
-    private Long id;
-    private String googleId; // google id
+    private String id; // google에서 제공하는 북마크 id를 의미
+    //private String googleId; // google id
     private Boolean syncing;
     private String title;
     private Long dateAdded;
@@ -55,14 +59,14 @@ public class BookmarkTreeNode {
     public Root toRoot() {
         System.out.println("[INFO] to ROOT");
         return Root.builder()
-                .googleId(Long.parseLong(googleId))
+                .googleId(Long.parseLong(id))
                 .build();
     }
 
     public Folder toFolder(List<Folder> childFolders, List<Bookmark> childBookmarks) {
         System.out.println("[INFO] to FOLDER");
         return Folder.builder()
-                .googleId(Integer.parseInt(googleId))
+                .googleId(Integer.parseInt(id))
                 .title(title)
                 .position(index)
                 .dateAdded(dateAdded)
@@ -76,7 +80,7 @@ public class BookmarkTreeNode {
     public Bookmark toBookmark(String imgUrl) {
         System.out.println("[INFO] to BOOKMARK");
         return Bookmark.builder()
-                .googleId(Long.parseLong(googleId))
+                .googleId(Long.parseLong(id))
                 .title(title)
                 .url(url)
                 .image(imgUrl)
