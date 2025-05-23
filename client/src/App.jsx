@@ -30,7 +30,7 @@ const AppRoutes = () => (
     {/* 루트 페이지 */}
     <Route path="/" element={
       <PublicRoute>
-        <StartPagePage />
+        <StartPage />
       </PublicRoute>
     } />
 
