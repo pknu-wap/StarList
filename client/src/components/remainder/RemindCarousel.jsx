@@ -5,61 +5,6 @@ import RemindCard from "./RemindCard";
 
 import { ArrowLeft, ArrowRight } from "../../assets";
 
-// 예시 북마크 데이터
-const bookmarks = [
-    {
-        title: "네이버 1차 면접 회고",
-        url: "https://naver.com",
-        image: "",
-    },
-    {
-        title: "나의 취업 Q&A",
-        url: "https://myblog.com",
-        image: "",
-    },
-    {
-        title: "개발자 커뮤니티 모음",
-        url: "https://devcommunity.com",
-        image: "",
-    },
-    {
-        title: "프론트엔드 인터뷰 준비",
-        url: "https://frontendprep.com",
-        image: "g",
-    },
-    {
-        title: "알고리즘 문제풀이 노트",
-        url: "https://algonote.com",
-        image: "",
-    },
-    {
-        title: "IT 뉴스 모아보기",
-        url: "https://itnews.com",
-        image: "",
-    },
-    {
-        title: "포트폴리오 샘플",
-        url: "https://portfolio.com",
-        image: "",
-    },
-    {
-        title: "코딩테스트 연습 사이트",
-        url: "https://codingtest.com",
-        image: "",
-    },
-    {
-        title: "자기소개서 작성법",
-        url: "https://selfintro.com",
-        image: "",
-    },
-    {
-        title: "면접 질문 리스트",
-        url: "https://interviewqs.com",
-        image: "",
-    },
-];
-
-
 /* getOverlayOpacity, getScaleClass: 중앙 북마크와의 거리에 따라 스타일을 다르게 적용하는 함수들 */
 // 멀어질수록 점점 어두워지도록
 const getOverlayOpacity = (offset) => {
@@ -113,8 +58,8 @@ const RemindCarousel = () => {
     }, [swiperInstance]);
 
     return (
-        <div className="w-full flex flex-col items-center">
-            <div className="w-[1800px] pt-12 relative">
+        <div className="w-full pt-[81px] flex flex-col items-center">
+            <div className="w-[1494px] relative">
                 {/* 좌측 버튼 */}
                 <button
                     ref={prevRef}
@@ -162,8 +107,8 @@ const RemindCarousel = () => {
                                                 mx-2 ${getScaleClass(offset)}`}
 
                                     style={{
-                                        minWidth: offset === 0 ? 366 : 280,
-                                        minHeight: offset === 0 ? 244 : 180,
+                                        minWidth: offset === 0 ? "36.6px" : "28.0px",
+                                        minHeight: offset === 0 ? "24.4px" : "18.0px",
                                     }}
                                 >
                                     {/* 카드 */}
@@ -181,7 +126,7 @@ const RemindCarousel = () => {
                     })}
                 </Swiper>
             </div>
-        </div >
+        </div>
     );
 }
 

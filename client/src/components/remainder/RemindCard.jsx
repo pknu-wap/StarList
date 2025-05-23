@@ -2,15 +2,14 @@ const RemindCard = ({ title, url, image }) => {
 
     return (
         <div className={`relative w-full aspect-[3/2] 
-                            rounded-[39px] bg-white shadow-card
-                            p-4 flex flex-col justify-end group transition-colors duration-200
+                            rounded-[39px] 
+                            p-4 flex flex-col justify-end 
                             border border-gray-300
-                            hover:bg-gradient-to-b hover:from-gray-200 hover:to-white
-                            `}
+                            overflow-hidden`}
         >
             {/* 썸네일 */}
             {image && (
-                <div className="absolute inset-0 rounded-[39px] overflow-hidden">
+                <div className="absolute inset-0 rounded-[39px] overflow-hidden z-0">
                     <img
                         src={image}
                         alt={title}
@@ -19,8 +18,10 @@ const RemindCard = ({ title, url, image }) => {
                 </div>
             )}
 
+            {/* 이미지 위에 오버레이 */}
+            <div className="absolute inset-0 rounded-[39px] bg-bookmark-overlay z-10 pointer-events-none" />
 
-            <div className="relative z-10">
+            <div className="relative z-20">
                 {/* 제목 */}
                 <a
                     href={url}
