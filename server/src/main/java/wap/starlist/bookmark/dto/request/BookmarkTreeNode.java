@@ -18,8 +18,8 @@ import java.util.List;
 @AllArgsConstructor
 public class BookmarkTreeNode {
 
-    private Long id;
-    private String googleId; // google id
+    private Long serverId;
+    private String id; // google id
     private Boolean syncing;
     private String title;
     private Long dateAdded;
@@ -36,8 +36,8 @@ public class BookmarkTreeNode {
         // 하위 폴더없이 Root만 존재하는 경우
         if (root.getFolders().isEmpty()) {
             return BookmarkTreeNode.builder()
-                    .id(root.getId())
-                    .googleId(String.valueOf(root.getGoogleId()))
+                    .serverId(root.getId())
+                    .id(String.valueOf(root.getGoogleId()))
                     .build();
         }
 
@@ -46,8 +46,8 @@ public class BookmarkTreeNode {
         }
 
         return BookmarkTreeNode.builder()
-                .id(root.getId())
-                .googleId(String.valueOf(root.getGoogleId()))
+                .serverId(root.getId())
+                .id(String.valueOf(root.getGoogleId()))
                 .children(childFolders)
                 .build();
     }
@@ -55,14 +55,14 @@ public class BookmarkTreeNode {
     public Root toRoot() {
         System.out.println("[INFO] to ROOT");
         return Root.builder()
-                .googleId(Long.parseLong(googleId))
+                .googleId(Long.parseLong(id))
                 .build();
     }
 
     public Folder toFolder(List<Folder> childFolders, List<Bookmark> childBookmarks) {
         System.out.println("[INFO] to FOLDER");
         return Folder.builder()
-                .googleId(Integer.parseInt(googleId))
+                .googleId(Integer.parseInt(id))
                 .title(title)
                 .position(index)
                 .dateAdded(dateAdded)
@@ -76,7 +76,7 @@ public class BookmarkTreeNode {
     public Bookmark toBookmark(String imgUrl) {
         System.out.println("[INFO] to BOOKMARK");
         return Bookmark.builder()
-                .googleId(Long.parseLong(googleId))
+                .googleId(Long.parseLong(id))
                 .title(title)
                 .url(url)
                 .image(imgUrl)
@@ -122,8 +122,8 @@ public class BookmarkTreeNode {
         }
 
         return BookmarkTreeNode.builder()
-                .id(folder.getId())
-                .googleId(String.valueOf(folder.getGoogleId()))
+                .serverId(folder.getId())
+                .id(String.valueOf(folder.getGoogleId()))
                 .title(folder.getTitle())
                 .dateAdded(folder.getDateAdded())
                 .dateGroupModified(folder.getDateGroupModified())
@@ -137,8 +137,8 @@ public class BookmarkTreeNode {
 
     private static BookmarkTreeNode fromBookmark(Bookmark bookmark) {
         return BookmarkTreeNode.builder()
-                .id(bookmark.getId())
-                .googleId(String.valueOf(bookmark.getGoogleId()))
+                .serverId(bookmark.getId())
+                .id(String.valueOf(bookmark.getGoogleId()))
                 .title(bookmark.getTitle())
                 .dateAdded(bookmark.getDateAdded())
                 .index(bookmark.getPosition())
