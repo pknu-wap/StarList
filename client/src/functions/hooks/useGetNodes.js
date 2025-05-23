@@ -32,7 +32,7 @@ function useGetNodes() {
 
         // 쿼리 key 가 바뀔 때, 이전 쿼리의 데이터를 새 쿼리의 로딩 기간동안 그대로 유지하기 위한 옵션
         // 이 옵션을 사용하면 fetching 중에 화면이 깜빡이지 않음
-        placeholderData: keepPreviousData
+        placeholderData: keepPreviousData,
     });
 }
 

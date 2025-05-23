@@ -1,30 +1,25 @@
 import useAuthStore from "../hooks/useAuthStore";
+import ApiError from "./ApiError";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // path 에 따른 노드 리스트를 백엔드 API 를 통해 가져오는 함수
 async function fetchNodesByPath(path) {
-    try {
-        const { accessToken } = useAuthStore.getState();
+    const { accessToken } = useAuthStore.getState();
 
-        const response = await fetch(`${API_BASE_URL}${path}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`
-            }
-        });
-
-        if (!response.ok) {
-            console.log(response);
-            throw new Error(`getNodesByFolder 오류: ${response.status}`);
+    const response = await fetch(`${API_BASE_URL}${path}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${accessToken}`
         }
-        return response.json();
-    }
-    catch (error) {
-        console.error(error);
-        throw error;
-    }
+    });
+
+    // 200 OK 가 아닐 경우
+    if (!response.ok)
+        throw new ApiError(response.status, response.message, response);
+
+    return response.json();
 }
 
 export { fetchNodesByPath };
