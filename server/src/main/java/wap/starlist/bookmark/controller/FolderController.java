@@ -45,7 +45,7 @@ public class FolderController {
 
     //id로 폴더 조회
     @GetMapping("/{id}")
-    public ResponseEntity<?> getFolder(@PathVariable Long id) {
+    public ResponseEntity<?> getFolder(@PathVariable("id") Long id) {
 
         Folder folder;
 
