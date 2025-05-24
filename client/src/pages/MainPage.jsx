@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../components/header/Header";
-import CardList from "../components/cardlist/CardList";
+import CardList from "../components/Cardlist/CardList";
 import RemindCarousel from "../components/remainder/RemindCarousel";
 
 const MainPage = () => {
