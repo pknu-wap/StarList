@@ -1,6 +1,6 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { getNodesByFolderId } from "../utils/getNodesByFolderId";
-import { useCurrentPositionStore } from "./useCurrentPositionStore";
+import useCurrentPositionStore from "./useCurrentPositionStore";
 import { getRootNodes } from "../utils/getRootNodes";
 
 // 백엔드로부터 가져온 리스트를 React Query 를 사용하여
@@ -10,9 +10,9 @@ function useGetNodes() {
     const currentPosition = useCurrentPositionStore(state => state.currentPosition);
 
     return useQuery({
-        queryKey: ["nodes", currentPosition ?? "root"],
+        queryKey: ["nodes", currentPosition],
         queryFn: () => {
-            return currentPosition === null
+            return currentPosition === 0
                 ? getRootNodes()
                 : getNodesByFolderId(currentPosition);
         },

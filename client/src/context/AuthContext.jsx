@@ -27,7 +27,7 @@ const useAuth = () => {
 
   // 만약 Context Provider 바깥에서 이 Hook 을 호출하면 에러를 반환
   if (!context)
-    throw new Error('useAuth must be used within AuthProvider');
+    throw new Error("useAuth 는 AuthProvider 영역 안에서만 호출하여야 합니다");
 
   return context;
 };
