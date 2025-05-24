@@ -2,6 +2,7 @@
 export { default as GoogleIcon } from './icons/google.svg?react';
 export { default as ProfileIcon } from './icons/profile.svg?react';
 export { default as SettingIcon } from './icons/settings-icon.svg?react';
+export { default as ArrowForwardIcon } from './icons/arrow-forward.svg?react';
 
 // 아이콘 버튼
 export { default as CheckBoxEmpty } from './buttons/check-box-empty.svg?react';

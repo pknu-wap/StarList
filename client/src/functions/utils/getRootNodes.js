@@ -14,7 +14,7 @@ async function getRootNodes() {
     }
     catch (error) {
         // 데이터가 없다면 신규 유저이므로 서비스 워커에 메시지를 송신
-        if (error instanceof ApiError && error.code === 3001) {
+        if (error.code === 3001) {
             chrome.runtime.sendMessage(EXT_ID, {
                 type: "NEW_USER_DETECTION"
             });

@@ -4,8 +4,6 @@ import useAuthStore from "../functions/hooks/useAuthStore";
 
 const EXT_ID = import.meta.env.VITE_EXTENSION_ID;
 
-/* global chrome */
-
 const AuthSuccessPage = () => {
     const navigate = useNavigate();
     const { login } = useAuthStore(); // 로그인 상태 갱신 함수
@@ -15,11 +13,15 @@ const AuthSuccessPage = () => {
         const accessToken = params.get("token");
 
         if (accessToken) {
-            // 익스텐션에 토큰을 실어 메시지 송신
-            chrome.runtime.sendMessage(EXT_ID, {
-                type: "LOGIN_SUCCESS",
-                token: accessToken
-            });
+            // 브라우저에 따라 runtime 을 다르게 선택
+            const runtime = window.chrome?.runtime || window.browser?.runtime;
+            if (runtime?.sendMessage) {
+                // 익스텐션에 토큰을 실어 메시지 송신
+                runtime.sendMessage(EXT_ID, {
+                    type: "LOGIN_SUCCESS",
+                    token: accessToken
+                });
+            }
             // 로그인 상태 저장
             login(accessToken);
 

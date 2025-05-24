@@ -42,9 +42,9 @@ const AppRoutes = () => (
 
     {/* 메인 페이지 */}
     <Route path="/main" element={
-      <ProtectedRoute>
+      // <ProtectedRoute> 테스트를 위해 잠시 해제해놓았습니다
         <MainPage />
-      </ProtectedRoute>
+      // </ProtectedRoute>
     } />
 
     {/* 시작 페이지 */}
