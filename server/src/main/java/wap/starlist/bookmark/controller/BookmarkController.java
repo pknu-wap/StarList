@@ -62,7 +62,7 @@ public class BookmarkController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getBookmark(@PathVariable Long id) {
+    public ResponseEntity<?> getBookmark(@PathVariable("id") Long id) {
         Bookmark bookmark;
         try {
             bookmark = bookmarkService.getBookmark(id);

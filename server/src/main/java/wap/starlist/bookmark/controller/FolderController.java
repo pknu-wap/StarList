@@ -45,7 +45,7 @@ public class FolderController {
 
     //id로 폴더 조회
     @GetMapping("/{id}")
-    public ResponseEntity<?> getFolder(@PathVariable Long id) {
+    public ResponseEntity<?> getFolder(@PathVariable("id") Long id) {
 
         Folder folder;
 
@@ -84,8 +84,8 @@ public class FolderController {
     }
 
     @GetMapping("/top-folders")
-    public ResponseEntity<?> getChildFolders(@AuthenticationPrincipal String loginUser) {
-        log.info("[INFO] 최상위 폴더 가져오기");
+    public ResponseEntity<?> getTopFolders(@AuthenticationPrincipal String loginUser) {
+        log.info("최상위 폴더 가져오기");
         List<BookmarkNodeResponse> childFolders = folderService.getChildrenOfRoot(loginUser);
         return ResponseEntity.ok().body(childFolders);
     }

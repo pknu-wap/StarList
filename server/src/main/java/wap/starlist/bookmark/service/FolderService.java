@@ -14,6 +14,7 @@ import wap.starlist.bookmark.domain.Root;
 import wap.starlist.bookmark.dto.response.BookmarkNodeResponse;
 import wap.starlist.bookmark.repository.FolderRepository;
 import wap.starlist.bookmark.repository.RootRepository;
+import wap.starlist.error.exception.TopFoldersNotFoundException;
 
 @Slf4j
 @Service
@@ -80,11 +81,11 @@ public class FolderService {
     }
 
     public List<BookmarkNodeResponse> getChildrenOfRoot(String memberProviderId) {
-        Optional<Root> found = rootRepository.findByMemberProviderId(memberProviderId);
+        Root found = rootRepository.findByMemberProviderId(memberProviderId)
+                .orElseThrow(TopFoldersNotFoundException::new);
 
-        return found.map(root -> root.getFolders().stream()
-                        .map(BookmarkNodeResponse::fromFolder).toList())
-                .orElse(Collections.emptyList());
+        return found.getFolders().stream()
+                .map(BookmarkNodeResponse::fromFolder).toList();
     }
 
 }
