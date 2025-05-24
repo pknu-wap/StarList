@@ -1,5 +1,6 @@
 package wap.starlist.error;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import wap.starlist.error.exception.BookmarkNotFoundException;
 import wap.starlist.error.exception.NotFoundException;
 
 @Slf4j
+@Hidden
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
