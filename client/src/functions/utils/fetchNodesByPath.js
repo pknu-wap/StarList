@@ -16,9 +16,11 @@ async function fetchNodesByPath(path) {
     });
 
     // 200 OK 가 아닐 경우
-    if (!response.ok)
-        throw new ApiError(response.status, response.message, response);
-
+    if (!response.ok) {
+        const errorBody = await response.json();
+        throw new ApiError(errorBody.code, errorBody.message)
+    }
+    
     return response.json();
 }
 

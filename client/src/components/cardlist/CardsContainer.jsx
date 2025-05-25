@@ -18,11 +18,11 @@ const CardsContainer = () => {
     if (status === "error") {
         switch(error.code) {
             // 유효하지 않은 토큰이라면
-            case 2002:
+            case "2002":
                 logout();
                 return null;
             // 데이터가 없다면
-            case 3001:
+            case "3001":
                 return <p>아무 것도 없네요</p>;
             
             default:
