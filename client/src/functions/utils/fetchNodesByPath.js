@@ -22,4 +22,4 @@ async function fetchNodesByPath(path) {
     return response.json();
 }
 
-export { fetchNodesByPath };
+export default fetchNodesByPath;

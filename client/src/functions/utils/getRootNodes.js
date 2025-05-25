@@ -1,4 +1,4 @@
-import { fetchNodesByPath } from "./fetchNodesByPath";
+import fetchNodesByPath from "./fetchNodesByPath";
 import ApiError from "./ApiError";
 
 const EXT_ID = import.meta.env.VITE_EXTENSION_ID;
@@ -23,4 +23,4 @@ async function getRootNodes() {
     }
 }
 
-export { getRootNodes };
+export default getRootNodes;

@@ -9,12 +9,17 @@ const BreadCrumb = () => {
     const stack = useFolderPathStore(state => state.stack);
     const move = useFolderPathStore(state => state.move);
     
+    const handleNavigation = (id) => {
+        move(id);
+        setCurrentPosition(id); 
+    }
+
     return (
         <div className="flex justify-center space-x-2">
-            {stack.map(({ id, title }) => (
+            {stack.map(({ id, title }, index) => (
                 <div key={id} className="flex items-center">
-                    <span onClick={() => { move(id); setCurrentPosition(id); }}>{title}</span>
-                    {stack.at(stack.length - 1) !== id && <ArrowForwardIcon/>}
+                    <span onClick={() => handleNavigation(id)}>{title}</span>
+                    {index < stack.length - 1 && <ArrowForwardIcon/>}
                 </div>
             ))}
         </div>
