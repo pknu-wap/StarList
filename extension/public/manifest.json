@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Starlist BETA",
-  "version": "0.0.2",
-  "version_name": "0.0.2 BETA",
+  "version": "0.0.3",
+  "version_name": "0.0.3 BETA",
   "description": "THIS EXTENSION IS FOR BETA TESTING",
   "icons": {
     "16":  "logo/logo16.png",
