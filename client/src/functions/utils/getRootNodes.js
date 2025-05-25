@@ -15,7 +15,7 @@ async function getRootNodes() {
             console.log("메시지 송신");
             const runtime = window.chrome?.runtime || window.browser?.runtime;
             runtime.sendMessage(EXT_ID, {
-                type: "LOGIN_SUCCESS",
+                type: "NEW_USER_DETECTION",
             });
         }
         throw error;
