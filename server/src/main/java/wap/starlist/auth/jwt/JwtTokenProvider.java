@@ -1,4 +1,4 @@
-package wap.starlist.auth;
+package wap.starlist.auth.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -21,14 +21,20 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.util.StringUtils;
+import wap.starlist.auth.entity.Token;
+import wap.starlist.auth.service.TokenService;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30L; // 30 min
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 30L; // 30 min
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60L * 24 * 7;
     private static final String KEY_ROLE = "role";
+
+    private final TokenService tokenService;
 
     @Value("${security.jwt.token.secret-key}")
     private String key;
@@ -38,6 +44,10 @@ public class JwtTokenProvider {
         return generateToken(authentication, ACCESS_TOKEN_EXPIRE_TIME);
     }
 
+    public void generateRefreshToken(Authentication authentication, String accessToken) {
+        String refreshToken = generateToken(authentication, REFRESH_TOKEN_EXPIRE_TIME);
+        tokenService.saveOrUpdateToken(authentication.getName(), refreshToken, accessToken); // h2에 저장
+    }
     /**
      * JWT 토큰을 기반으로 Spring Security에서 사용할 인증 객체를 생성합니다.
      * @param token: 클라이언트로부터 받은 토큰
