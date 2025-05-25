@@ -65,9 +65,9 @@ public class JwtTokenProvider {
 
             log.warn("[JWT] 토큰 만료됨: {}, 사용자 정보: subject={}", e.getMessage(), subject);
         } catch (SecurityException | MalformedJwtException e) {
-            log.warn("[JWT] 잘못된 서명 또는 구조: {}", e.getMessage());
+            log.warn("[JWT] 잘못된 서명 또는 구조: {}, 수신한 토큰={}", e.getMessage(), token);
         } catch (Exception e) {
-            log.warn("[JWT] 토큰 검증 실패: {}", e.getMessage());
+            log.warn("[JWT] 토큰 검증 실패: {}, 수신한 토큰={}", e.getMessage(), token);
         }
         return false;
     }
