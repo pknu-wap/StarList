@@ -152,6 +152,7 @@ bookmarkEvents.forEach(({ eventName, eventType }) => {
 chrome.runtime.onMessage.addListener(async message => {
     switch (message.type) {
         case "LOGIN_BUTTON_CLICKED":
+            console.log("로그인 버튼 클릭 감지");
             redirectStartPage();
             break;
 
@@ -164,10 +165,12 @@ chrome.runtime.onMessage.addListener(async message => {
 chrome.runtime.onMessageExternal.addListener(async message => {
     switch (message.type) {
         case "LOGIN_SUCCESS":
+            console.log("로그인 감지");
             await storeAccessToken(message);
             break;
 
         case "NEW_USER_DETECTION": {
+            console.log("신규 유저 감지");
             await sendAllBookmarks();
             break;
         }

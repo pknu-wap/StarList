@@ -30,5 +30,6 @@
   "permissions": [
     "storage",
     "bookmarks"
-  ]
+  ],
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwhHFTT/Iim2aeoyt4dhbzv1C+AGXmVKVN5NkICXpn+iI6qy/ySPntVyZ0vi1rKjwG93XFY5dsFIP7MxC+zNlK45dhQWCfAiSj0M/WZUzcGKXfmpyAmqqSnjAL+93ORwbHCk1NJJ9JCCJMTkyCxiF5QE+7XCZrLW4aj6WU2ID+jgztEmkE4QHLkAQqHcpzb+5wZp7txPg7VUBoZ4EhrG+XU0iyhGIILkOvAZZli9qSD4UkLX76fHVfQZaCP3KOTI0azeuebH79iWOd5vbmlhcF35L7yEuRs9759MmzU4g4Fi9b05XD7klK/F6ad/acDUFU5BuDvLnmaxPfnhtNyXayQIDAQAB"
 }
