@@ -23,11 +23,11 @@ import java.util.List;
 public class BookmarkTreeNode {
 
     private String id; // google에서 제공하는 북마크 id를 의미
-    //private String googleId; // google id
     private Boolean syncing;
     private String title;
     private Long dateAdded;
     private Long dateGroupModified;
+    private Long dataLastUsed;
     private Integer index;
     private Integer parentId;
     private String url;
@@ -84,6 +84,8 @@ public class BookmarkTreeNode {
                 .title(title)
                 .url(url)
                 .image(imgUrl)
+                .syncing(syncing)
+                .dateLastUsed(dataLastUsed)
                 .dateAdded(dateAdded)
                 .dateGroupModified(dateGroupModified)
                 .parentId(parentId)
