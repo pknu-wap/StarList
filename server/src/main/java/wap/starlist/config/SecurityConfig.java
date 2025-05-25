@@ -13,8 +13,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import wap.starlist.auth.constants.CorsProperties;
-import wap.starlist.auth.security.TokenAuthenticationFilter;
-import wap.starlist.auth.security.OAuth2SuccessHandler;
+import wap.starlist.auth.jwt.TokenAuthenticationFilter;
+import wap.starlist.auth.handler.OAuth2SuccessHandler;
 import wap.starlist.auth.service.CustomOAuth2UserService;
 
 import java.util.List;
