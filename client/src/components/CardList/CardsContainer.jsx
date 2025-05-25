@@ -36,11 +36,11 @@ const CardsContainer = () => {
             {data.map(node => (
                 node.url === null
                     ? <FolderCard
-                        key={node.id}
+                        key={node.index}
                         info={node}
                         />
                     : <BookmarkCard
-                        key={node.id} 
+                        key={node.index} 
                         info={node}
                         />
             ))}
