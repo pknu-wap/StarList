@@ -8,6 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
@@ -57,13 +59,15 @@ public class JwtTokenProvider {
             Jwts.parser().verifyWith(secretKey).build()
                     .parseSignedClaims(token);
             return true;
-        } catch (ExpiredJwtException e) {
-            // 로그 찍고 false 반환
-            System.out.println("[JWT] 토큰 만료됨: " + e.getMessage());
+        } catch (ExpiredJwtException e) { // 로그 찍고 false 반환
+            Claims claims = e.getClaims();
+            String subject = claims != null ? claims.getSubject() : null;
+
+            log.warn("[JWT] 토큰 만료됨: {}, 사용자 정보: subject={}", e.getMessage(), subject);
         } catch (SecurityException | MalformedJwtException e) {
-            System.out.println("[JWT] 잘못된 서명 또는 구조: " + e.getMessage());
+            log.warn("[JWT] 잘못된 서명 또는 구조: {}", e.getMessage());
         } catch (Exception e) {
-            System.out.println("[JWT] 토큰 검증 실패: " + e.getMessage());
+            log.warn("[JWT] 토큰 검증 실패: {}", e.getMessage());
         }
         return false;
     }
