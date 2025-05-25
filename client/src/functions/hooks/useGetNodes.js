@@ -1,20 +1,16 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { getNodesByFolderId } from "../utils/getNodesByFolderId";
-import useCurrentPositionStore from "./useCurrentPositionStore";
-import { getRootNodes } from "../utils/getRootNodes";
+import getNodesByFolderId from "../utils/getNodesByFolderId";
+import getRootNodes from "../utils/getRootNodes";
 
 // 백엔드로부터 가져온 리스트를 React Query 를 사용하여
 // 캐싱, 변경 추적, 최신화를 가능하게 하는 함수
-function useGetNodes() {
-    // 현재 폴더 위치 상태를 구독
-    const currentPosition = useCurrentPositionStore(state => state.currentPosition);
-
+function useGetNodes(folderId) {
     return useQuery({
-        queryKey: ["nodes", currentPosition],
+        queryKey: ["nodes", folderId],
         queryFn: () => {
-            return currentPosition === 0
+            return folderId === 0
                 ? getRootNodes()
-                : getNodesByFolderId(currentPosition);
+                : getNodesByFolderId(folderId);
         },
 
         // 캐시된 데이터가 언제까지 "fresh" 상태인지를 나타내는 옵션 (fresh 하지 않다면 refetch)
@@ -36,4 +32,4 @@ function useGetNodes() {
     });
 }
 
-export { useGetNodes };
+export default useGetNodes;

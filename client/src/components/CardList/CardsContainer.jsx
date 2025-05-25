@@ -1,24 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
+import { useAuth } from "../../context/AuthContext";
+import useCurrentPositionStore from "../../functions/hooks/useCurrentPositionStore";
+import useGetNodes from "../../functions/hooks/useGetNodes";
 
 import BookmarkCard from "./BookmarkCard";
 import FolderCard from "./FolderCard";
 
-const CardsContainer = ({ nodes, status, error }) => { 
-    const [selectedIds, setSelectedIds] = useState([]);
-
-    const toggle = id => {
-        setSelectedIds(prev =>
-            prev.includes(id)
-                ? prev.filter(x => x !== id)
-                : [...prev, id]
-        );
-    };
+const CardsContainer = () => {
+    const folderId = useCurrentPositionStore(state => state.currentPosition);
+    const { data = [], status, error } = useGetNodes(folderId);
+    console.log(data);  // 디버깅용
+    const { logout } = useAuth();
 
     if (status === "loading")
         return <p>로딩중...</p>;
 
     if (status === "error") {
         switch(error.code) {
+            // 유효하지 않은 토큰이라면
+            case 2002:
+                logout();
+                return null;
             // 데이터가 없다면
             case 3001:
                 return <p>아무 것도 없네요</p>;
@@ -31,19 +33,15 @@ const CardsContainer = ({ nodes, status, error }) => {
     // 정상적으로 데이터를 받아온다면
     return (
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {nodes.map(node => (
+            {data.map(node => (
                 node.url === null
                     ? <FolderCard
                         key={node.id}
                         info={node}
-                        selected={selectedIds.includes(node.id)}
-                        onToggle={() => toggle(node.id)}
                         />
                     : <BookmarkCard
                         key={node.id} 
                         info={node}
-                        selected={selectedIds.includes(node.id)}
-                        onToggle={() => toggle(node.id)}
                         />
             ))}
         </div>

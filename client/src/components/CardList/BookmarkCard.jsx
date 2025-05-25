@@ -1,24 +1,14 @@
 import React from "react";
+
+import { useCardSelection } from "../../context/CardSelectionContext";
+
 import ToggleButton from "./ToggleButton";
 
-/**
- * 북마크 카드 컴포넌트
- * @param {object} info // 북마크 정보
- * @param {boolean} selected   // 부모가 넘겨줄 선택 상태
- * @param {() => void} onToggle // 부모가 넘겨줄 토글 핸들러
- */
-
-const BookmarkCard = ({ info, selected, onToggle }) => { // 시간 필요시 image,dataAdded prop 추가
-    /*
-    const formattedTime = new Date(dataAdded * 1000).toLocaleTimeString("ko-KR", {
-        hour: "2-digit",
-        minute: "2-digit",
-    });
-    
-    */
+const BookmarkCard = ({ info }) => {
+    const { selectedCards, toggle } = useCardSelection();
+    const selected = selectedCards.includes(info.id);
 
     return (
-
         <div className={`relative w-full sm:max-w-[280px] md:max-w-[320px] lg:max-w-[366px] aspect-[3/2] 
                             rounded-[39px] bg-white shadow-card
                             p-4 flex flex-col justify-end group transition-colors duration-200
@@ -38,8 +28,8 @@ const BookmarkCard = ({ info, selected, onToggle }) => { // 시간 필요시 ima
                 }`
             }>
                 <ToggleButton
-                    selected={selected}
-                    onClick={onToggle} />
+                    selected={selectedCards}
+                    onClick={() => toggle(info.id)} />
             </div>
             {/* 제목 */}
             <a
@@ -52,13 +42,6 @@ const BookmarkCard = ({ info, selected, onToggle }) => { // 시간 필요시 ima
             >
                 {info.title}
             </a>
-
-            {/* 시간 
-                <span className="text-[22px] font-medium text-[#8d87a2] whitespace-nowrap">
-                    {formattedTime}
-                </span>
-                */}
-
         </div>
     );
 }
