@@ -48,6 +48,21 @@ public class JwtTokenProvider {
         String refreshToken = generateToken(authentication, REFRESH_TOKEN_EXPIRE_TIME);
         tokenService.saveOrUpdateToken(authentication.getName(), refreshToken, accessToken); // h2에 저장
     }
+
+    public String reissueAccessToken(String accessToken) {
+        if (StringUtils.hasText(accessToken)) {
+            Token token = tokenService.getUserTokenFrom(accessToken);
+            String refreshToken = token.getRefreshToken();
+
+            if (validateToken(refreshToken)) {
+                String reissueAccessToken = generateAccessToken(getAuthentication(refreshToken));
+                tokenService.updateToken(reissueAccessToken, token);
+                return reissueAccessToken;
+            }
+        }
+        return null;
+    }
+
     /**
      * JWT 토큰을 기반으로 Spring Security에서 사용할 인증 객체를 생성합니다.
      * @param token: 클라이언트로부터 받은 토큰
