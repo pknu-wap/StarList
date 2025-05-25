@@ -15,13 +15,11 @@ const AuthSuccessPage = () => {
         if (accessToken) {
             // 브라우저에 따라 runtime 을 다르게 선택
             const runtime = window.chrome?.runtime || window.browser?.runtime;
-            if (runtime?.sendMessage) {
-                // 익스텐션에 토큰을 실어 메시지 송신
-                runtime.sendMessage(EXT_ID, {
-                    type: "LOGIN_SUCCESS",
-                    token: accessToken
-                });
-            }
+            runtime.sendMessage(EXT_ID, {
+                type: "LOGIN_SUCCESS",
+                token: accessToken
+            });
+            
             // 로그인 상태 저장
             login(accessToken);
 
