@@ -1,5 +1,5 @@
-import React from "react";
-import { useAuth } from "../../context/AuthContext";
+import React, { useEffect } from "react";
+import useAuthStore from "../../functions/hooks/useAuthStore";
 import useCurrentPositionStore from "../../functions/hooks/useCurrentPositionStore";
 import useGetNodes from "../../functions/hooks/useGetNodes";
 
@@ -7,10 +7,18 @@ import BookmarkCard from "./BookmarkCard";
 import FolderCard from "./FolderCard";
 
 const CardsContainer = () => {
-    const folderId = useCurrentPositionStore(state => state.currentPosition);
+    const folderId = useCurrentPositionStore(s => s.currentPosition);
+    const logout = useAuthStore(s => s.logout);
+    
     const { data = [], status, error } = useGetNodes(folderId);
+
     console.log(data);  // 디버깅용
-    const { logout } = useAuth();
+
+    useEffect(() => {
+        if (status === "error" && error.code === "2002")
+            logout();
+    }, [status, error, logout]);
+
 
     if (status === "loading")
         return <p>로딩중...</p>;
@@ -19,8 +27,7 @@ const CardsContainer = () => {
         switch(error.code) {
             // 유효하지 않은 토큰이라면
             case "2002":
-                logout();
-                return null;
+                return <p>세션이 만료되었습니다. 다시 로그인 해주세요</p>
             // 데이터가 없다면
             case "3001":
                 return <p>아무 것도 없네요</p>;
