@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import useAuthStore from "../../functions/hooks/useAuthStore";
-import useCurrentPositionStore from "../../functions/hooks/useCurrentPositionStore";
+import useFolderHistoryStore from "../../functions/hooks/useFolderHistoryStore";
 import useGetNodes from "../../functions/hooks/useGetNodes";
 
 import BookmarkCard from "./BookmarkCard";
 import FolderCard from "./FolderCard";
 
 const CardsContainer = () => {
-    const folderId = useCurrentPositionStore(s => s.currentPosition);
+    const folderId = useFolderHistoryStore(s => s.getCurrentPosition(s));
     const logout = useAuthStore(s => s.logout);
-    
+
     const { data = [], status, error } = useGetNodes(folderId);
 
     console.log(data);  // 디버깅용
