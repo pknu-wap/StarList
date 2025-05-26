@@ -3,8 +3,6 @@ import { create } from "zustand";
 const useFolderHistoryStore = create((set) => ({
     history: [{ id: 0, title: "나의 북마크" }],
 
-    getCurrentPosition: (state) => state.history[state.history.length - 1].id,
-
     push: (node) => set((state) => ({
         history: [...state.history, node]
     })),

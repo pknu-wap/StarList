@@ -7,7 +7,8 @@ import BookmarkCard from "./BookmarkCard";
 import FolderCard from "./FolderCard";
 
 const CardsContainer = () => {
-    const folderId = useFolderHistoryStore(s => s.getCurrentPosition(s));
+    const history = useFolderHistoryStore(s => s.history);
+    const folderId = history[history.length - 1].id;
     const logout = useAuthStore(s => s.logout);
 
     const { data = [], status, error } = useGetNodes(folderId);
