@@ -4,17 +4,17 @@ const useAuthStore = create((set) => {
   const token = sessionStorage.getItem("accessToken");
 
   return {
-    accessToken: token,
+      accessToken: token,
 
-    login: (token) => {
-      sessionStorage.setItem("accessToken", token);
-      set({ accessToken: token });
-    },
-    
-    logout: () => {
-      sessionStorage.removeItem("accessToken");
-      set({ accessToken: null });
-    }
+      login: (token) => {
+        sessionStorage.setItem("accessToken", token);
+        set({ accessToken: token });
+      },
+      
+      logout: () => {
+        sessionStorage.removeItem("accessToken");
+        set({ accessToken: null });
+      }
   };
 })
 
