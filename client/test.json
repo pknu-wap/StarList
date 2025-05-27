@@ -15,26 +15,27 @@
       "index": 0,
       "children": [
         {
-          "id": "22",
-          "title": "우테코 참고 레퍼런스",
+          "id": "11",
+          "title": "스터디 자료",
           "parentId": "1",
+          "folderType": null,
           "dateGroupModified": 1716637200,
           "index": 0,
           "children": [
             {
-              "id": "23",
-              "title": "[우테코] 원시값 포장과 일급컬렉션",
-              "parentId": "22",
-              "url": "https://itstory1592.tistory.com/116",
+              "id": "111",
+              "title": "React 공식문서",
+              "parentId": "11",
+              "url": "https://reactjs.org",
               "dateAdded": 1716639000,
               "dateLastUsed": 1716642600,
               "index": 0
             },
             {
-              "id": "24",
-              "title": "[우테코] 피드백 정리",
-              "parentId": "22",
-              "url": "https://velog.io/@dlguswl936",
+              "id": "112",
+              "title": "Zustand 튜토리얼",
+              "parentId": "11",
+              "url": "https://docs.pmnd.rs/zustand",
               "dateAdded": 1716640800,
               "dateLastUsed": 1716644400,
               "index": 1
@@ -52,7 +53,7 @@
       "index": 1,
       "children": [
         {
-          "id": "30",
+          "id": "21",
           "title": "예시 북마크",
           "parentId": "2",
           "url": "https://example.com",
