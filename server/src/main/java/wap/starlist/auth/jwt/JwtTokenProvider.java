@@ -3,6 +3,7 @@ package wap.starlist.auth.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.Jwts.SIG;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
@@ -46,7 +47,9 @@ public class JwtTokenProvider {
 
     public void generateRefreshToken(Authentication authentication, String accessToken) {
         String refreshToken = generateToken(authentication, REFRESH_TOKEN_EXPIRE_TIME);
-        tokenService.saveOrUpdateToken(authentication.getName(), refreshToken, accessToken); // h2에 저장
+        log.info("[JWT] 리프레시 토큰이 생성되었습니다. 사용자 sub (Google Id): {}", authentication.getName());
+
+        tokenService.saveOrUpdateToken(authentication.getName(), refreshToken, accessToken);
     }
 
     public String reissueAccessToken(String accessToken) {
@@ -55,7 +58,11 @@ public class JwtTokenProvider {
             String refreshToken = token.getRefreshToken();
 
             if (validateToken(refreshToken)) {
-                String reissueAccessToken = generateAccessToken(getAuthentication(refreshToken));
+                log.info("[JWT] 리프레시 토큰이 유효하기에 새 AccessToken을 발급합니다.");
+
+                Authentication authentication = getAuthentication(refreshToken);
+                String reissueAccessToken = generateAccessToken(authentication);
+
                 tokenService.updateToken(reissueAccessToken, token);
                 return reissueAccessToken;
             }
@@ -89,12 +96,14 @@ public class JwtTokenProvider {
             String subject = claims != null ? claims.getSubject() : null;
 
             log.warn("[JWT] 토큰 만료됨: {}, 사용자 정보: subject={}", e.getMessage(), subject);
+            return false;
         } catch (SecurityException | MalformedJwtException e) {
             log.warn("[JWT] 잘못된 서명 또는 구조: {}, 수신한 토큰={}", e.getMessage(), token);
+            throw e;
         } catch (Exception e) {
             log.warn("[JWT] 토큰 검증 실패: {}, 수신한 토큰={}", e.getMessage(), token);
+            throw e;
         }
-        return false;
     }
 
     @PostConstruct
@@ -110,13 +119,16 @@ public class JwtTokenProvider {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining());
 
-        return Jwts.builder()
+        String jwt = Jwts.builder()
                 .subject(authentication.getName())
                 .claim(KEY_ROLE, authorities)
                 .issuedAt(now)
                 .expiration(expiredDate)
-                .signWith(secretKey, Jwts.SIG.HS512)
+                .signWith(secretKey, SIG.HS512)
                 .compact();
+        log.info("[JWT] 토큰이 생성되었습니다.");
+
+        return jwt;
     }
 
     private Claims parseClaims(String token) {

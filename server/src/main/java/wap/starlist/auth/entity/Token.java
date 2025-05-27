@@ -22,9 +22,10 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String accessToken;
 
+    @Column(length = 1000)
     private String refreshToken;
 
     private String sub;
@@ -37,8 +38,9 @@ public class Token {
                 .build();
     }
 
-    public void updateAccessToken(String newAccessToken) {
+    public Token updateAccessToken(String newAccessToken) {
         this.accessToken = newAccessToken;
+        return this;
     }
 
     public Token updateRefreshToken(String newRefreshToken) {

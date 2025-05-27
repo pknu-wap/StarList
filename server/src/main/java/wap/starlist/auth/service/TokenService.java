@@ -1,6 +1,7 @@
 package wap.starlist.auth.service;
 
 import static wap.starlist.error.ErrorCode.ACCESS_TOKEN_EXPIRED;
+import static wap.starlist.error.ErrorCode.NOT_FOUND;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,15 +21,18 @@ public class TokenService {
     @Transactional
     public void saveOrUpdateToken(String memberSubId, String refreshToken, String accessToken) {
         Token token = tokenRepository.findBySub(memberSubId)
-                .map(t -> t.updateRefreshToken(refreshToken))
+                .map(t -> t.updateAccessToken(accessToken).updateRefreshToken(refreshToken))
                 .orElseGet(() -> Token.create(memberSubId, refreshToken, accessToken));
 
+        log.info("[JWT] 토큰이 생성되었습니다. 사용자 sub (Google Id): {}", token.getSub());
+
         tokenRepository.save(token);
+        log.info("[JWT] 토큰이 저장되었습니다.");
     }
 
     public Token getUserTokenFrom(String accessToken) {
         return tokenRepository.findByAccessToken(accessToken)
-                .orElseThrow(() -> new TokenException(ACCESS_TOKEN_EXPIRED));
+                .orElseThrow(() -> new TokenException(NOT_FOUND));
     }
 
     @Transactional
