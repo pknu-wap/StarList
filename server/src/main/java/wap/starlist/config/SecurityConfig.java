@@ -13,6 +13,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import wap.starlist.auth.constants.CorsProperties;
+import wap.starlist.auth.handler.JwtAuthenticationEntryPoint;
 import wap.starlist.auth.jwt.TokenAuthenticationFilter;
 import wap.starlist.auth.handler.OAuth2SuccessHandler;
 import wap.starlist.auth.service.CustomOAuth2UserService;
@@ -26,6 +27,7 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final CorsProperties corsProperties;
 
     @Bean
@@ -60,6 +62,10 @@ public class SecurityConfig {
 
                 // jwt
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+
+                // 로그인 과정 중 예외 핸들링
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .build();
     }
 
