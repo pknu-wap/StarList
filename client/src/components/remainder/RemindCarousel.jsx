@@ -40,14 +40,14 @@ const getScaleClass = (offset) => {
 
 const RemindCarousel = () => {
     // 리마인더 북마크 데이터 가져오기
-    const { data: bookmarks = [], isLoding, error } = useRemindBookmarks();
-
+    const { data: bookmarks = [], isLoading, error } = useRemindBookmarks();
     // 현재 중앙에 보이는 슬라이드 인덱스 상태 저장
     const [activeIndex, setActiveIndex] = useState(2); // 시작 위치는 2번째부터
+    const [swiperInstance, setSwiperInstance] = useState(null);
     // 커스텀 네비게이션 버튼
     const prevRef = useRef(null);
     const nextRef = useRef(null);
-    const [swiperInstance, setSwiperInstance] = useState(null);
+
 
 
     // Swiper 초기화 후에 커스텀 네비게이션 버튼을 연결
@@ -61,17 +61,17 @@ const RemindCarousel = () => {
         }
     }, [swiperInstance]);
 
-    if (isLoding) return <div>로딩 중...</div>;
-    if (error) return <div>에러 발생: {error.message}</div>;
-
     return (
-        <div className="w-full pt-[43px] flex flex-col items-start">
-            <div className="flex flex-col items-start">
+        <div className="w-full pt-[43px] flex flex-col items-center">
+            <div className="left-0 flex flex-row items-end">
                 <p className="w-[115px] h-[43px] text-[32px] font-bold text-left text-black">리마인드</p>
                 <p className="w-[298px] h-[23px] text-[15px] font-bold text-left text-main-500">
                     최근에 덜 본 북마크를 다시 추천해드려요.
                 </p>
             </div>
+
+
+            {/* 캐러셀 / 플레이스 홀더 */}
             <div className="w-[1494px] pt-[100px] relative">
                 {/* 좌측 버튼 */}
                 <button
@@ -90,54 +90,74 @@ const RemindCarousel = () => {
                 >
                     <ArrowRight className="w-6 h-6" />
                 </button>
-                <Swiper
-                    modules={[Navigation]}
-                    navigation={{
-                        prevEl: prevRef.current,
-                        nextEl: nextRef.current,
-                        // 클릭 가능하게
-                        clickable: true,
-                    }}
-                    slidesPerView={5}
-                    centeredSlides
-                    onSwiper={setSwiperInstance}
-                    onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)} // 슬라이드가 넘어갈 때 중앙 인덱스를 추적
-                    initialSlide={2}
-                    loop
-                    className="!overflow-visible"
-                >
-                    {bookmarks.map((bm, idx) => {
-                        // 중앙 북마크와의 거리 계산
-                        let offset = idx - activeIndex;
-                        const len = bookmarks.length;
-                        if (offset > 2) offset -= len;
-                        if (offset < -2) offset += len;
 
-                        return (
-                            <SwiperSlide key={idx}>
-                                <div
-                                    className={`relative transition-all duration-300 ease-in-out
-                                                mx-2 ${getScaleClass(offset)}`}
+                {/* 로딩 중에는 빈 상태 유지 */}
+                {isLoading ? null
+                    /* 로딩 완료 후, 에러이거나 데이터가 하나도 없으면 플레이스홀더 */
+                    : (error || bookmarks.length === 0) ? (
+                        <div className="h-full flex items-center justify-center">
+                            <span className="text-gray-300 text-2xl">아무것도 없네요</span>
+                        </div>
+                        // 데이터가 있으면 Swiper 렌더링
+                    ) : (
+                        <Swiper
+                            modules={[Navigation]}
+                            navigation
+                            slidesPerView="auto"
+                            spaceBetween={16}
+                            centeredSlides
+                            initialSlide={2}
+                            loop
+                            onSwiper={setSwiperInstance}
+                            onSlideChange={(swiper) =>
+                                setActiveIndex(swiper.realIndex)
+                            } // 슬라이드가 넘어갈 때 중앙 인덱스를 추적
+                            className="!overflow-visible"
+                        >
+                            {bookmarks.map((bm, idx) => {
+                                // 중앙 북마크와의 거리 계산
+                                let offset = idx - activeIndex;
+                                const len = bookmarks.length;
+                                if (offset > len / 2) offset -= len;
+                                if (offset < -len / 2) offset += len;
 
-                                    style={{
-                                        minWidth: offset === 0 ? "36.6px" : "28.0px",
-                                        minHeight: offset === 0 ? "24.4px" : "18.0px",
-                                    }}
-                                >
-                                    {/* 카드 */}
-                                    <RemindCard {...bm} />
+                                // 카드 크기 직접 지정
+                                const width =
+                                    offset === 0
+                                        ? 363
+                                        : Math.abs(offset) === 1
+                                            ? 284
+                                            : 160;
+                                const height =
+                                    offset === 0
+                                        ? 240
+                                        : Math.abs(offset) === 1
+                                            ? 168
+                                            : 106;
 
-                                    {/* 오버레이 */}
-                                    <div
-                                        className={`absolute inset-0 rounded-[39px] bg-black
-                                                    ${getOverlayOpacity(offset)} 
-                                                    pointer-events-none transition-all duration-300`}
-                                    />
-                                </div>
-                            </SwiperSlide>
-                        );
-                    })}
-                </Swiper>
+                                return (
+                                    <SwiperSlide key={idx}>
+                                        <div
+                                            className={`relative transition-all duration-300 ease-in-out mx-2 ${getScaleClass(
+                                                offset
+                                            )}`}
+                                            style={{ width, height }} // 직접 width/height 지정
+                                        >
+                                            {/* 카드 */}
+                                            <RemindCard {...bm} />
+
+                                            {/* 오버레이 */}
+                                            <div
+                                                className={`absolute inset-0 rounded-[39px] bg-black ${getOverlayOpacity(
+                                                    offset
+                                                )} pointer-events-none transition-opacity duration-300`}
+                                            />
+                                        </div>
+                                    </SwiperSlide>
+                                );
+                            })}
+                        </Swiper>
+                    )}
             </div>
         </div>
     );
