@@ -11,6 +11,7 @@ import wap.starlist.bookmark.dto.request.FolderCreateRequest;
 import wap.starlist.bookmark.dto.response.BookmarkNodeResponse;
 import wap.starlist.bookmark.dto.response.FolderErrorResponse;
 import wap.starlist.bookmark.dto.response.FolderResponse;
+import wap.starlist.bookmark.dto.response.FolderTreeNode;
 import wap.starlist.bookmark.service.FolderService;
 
 import java.net.URI;
@@ -88,5 +89,12 @@ public class FolderController {
         log.info("최상위 폴더 가져오기");
         List<BookmarkNodeResponse> childFolders = folderService.getChildrenOfRoot(loginUser);
         return ResponseEntity.ok().body(childFolders);
+    }
+
+    @GetMapping("/tree")
+    public ResponseEntity<?> getTree(@AuthenticationPrincipal String loginUser) {
+        log.info("폴더 구조 가져오기 [user]: {}", loginUser);
+        FolderTreeNode root = folderService.getTreeOf(loginUser);
+        return ResponseEntity.ok(root);
     }
 }
