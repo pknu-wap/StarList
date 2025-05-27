@@ -63,7 +63,7 @@ const RemindCarousel = () => {
 
     return (
         <div className="w-full pt-[43px] flex flex-col items-center">
-            <div className="left-0 flex flex-row items-end">
+            <div className="w-[1494px] mx-auto flex items-baseline justify-start space-x-2">
                 <p className="w-[115px] h-[43px] text-[32px] font-bold text-left text-black">리마인드</p>
                 <p className="w-[298px] h-[23px] text-[15px] font-bold text-left text-main-500">
                     최근에 덜 본 북마크를 다시 추천해드려요.
@@ -72,7 +72,7 @@ const RemindCarousel = () => {
 
 
             {/* 캐러셀 / 플레이스 홀더 */}
-            <div className="w-[1494px] pt-[100px] relative">
+            <div className="w-[1494px] mx-auto pt-[100px] relative h-[240px]">
                 {/* 좌측 버튼 */}
                 <button
                     ref={prevRef}
