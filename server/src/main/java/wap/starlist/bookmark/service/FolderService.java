@@ -12,6 +12,7 @@ import wap.starlist.bookmark.domain.Bookmark;
 import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.domain.Root;
 import wap.starlist.bookmark.dto.response.BookmarkNodeResponse;
+import wap.starlist.bookmark.dto.response.FolderTreeNode;
 import wap.starlist.bookmark.repository.FolderRepository;
 import wap.starlist.bookmark.repository.RootRepository;
 import wap.starlist.error.exception.TopFoldersNotFoundException;
@@ -54,7 +55,6 @@ public class FolderService {
     }
 
     /**
-     *
      * @param id: jpa에서 자동으로 생성되는 id값을 의미한다. 이를 통해 member에 해당하는 폴더를 찾기 위해 불필요한 쿼리를 작성하지 않아도 된다.
      * @return
      */
@@ -88,4 +88,25 @@ public class FolderService {
                 .map(BookmarkNodeResponse::fromFolder).toList();
     }
 
+    public FolderTreeNode getTreeOf(String memberProviderId) {
+        Root found = rootRepository.findByMemberProviderId(memberProviderId)
+                .orElseThrow(TopFoldersNotFoundException::new);
+
+        FolderTreeNode root = FolderTreeNode.from(found);
+        for (Folder top : found.getFolders()) {
+            FolderTreeNode topFolder = collectFolder(top);
+            root.getChildren().add(topFolder);
+        }
+
+        return root;
+    }
+
+    private FolderTreeNode collectFolder(Folder folder) {FolderTreeNode parent = FolderTreeNode.from(folder);
+        for (Folder childEntity : folder.getFolders()) {
+            FolderTreeNode child = collectFolder(childEntity);
+            parent.addChild(child);
+        }
+
+        return parent;
+    }
 }
