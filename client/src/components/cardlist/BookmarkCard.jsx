@@ -1,11 +1,12 @@
 import React from "react";
-
-import { useCardSelection } from "../../context/CardSelectionContext";
+import useSelectedCardsStore from "../../functions/hooks/useSelectedCardsStore";
 
 import ToggleButton from "./ToggleButton";
 
 const BookmarkCard = ({ info }) => {
-    const { selectedCards, toggle } = useCardSelection();
+    const selectedCards = useSelectedCardsStore(s => s.selectedCards);
+    const toggle = useSelectedCardsStore(s => s.toggle);
+    
     const selected = selectedCards.includes(info.id);
 
     return (
@@ -28,7 +29,7 @@ const BookmarkCard = ({ info }) => {
                 }`
             }>
                 <ToggleButton
-                    selected={selectedCards}
+                    selected={selected}
                     onClick={() => toggle(info.id)} />
             </div>
             {/* 제목 */}

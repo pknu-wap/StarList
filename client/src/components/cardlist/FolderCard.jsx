@@ -1,14 +1,11 @@
 import React from "react";
-import useCurrentPositionStore from "../../functions/hooks/useCurrentPositionStore";
-import useFolderPathStore from "../../functions/hooks/useFolderPathStore";
+import useFolderHistoryStore from "../../functions/hooks/useFolderHistoryStore";
 
 const FolderCard = ({ info }) => {
-    const setCurrentPosition = useCurrentPositionStore(state => state.setCurrentPosition);
-    const push = useFolderPathStore(state => state.push);
-
+    const push = useFolderHistoryStore(s => s.push);
+    
     const onClick = () => {
         push({ id: info.id, title: info.title });
-        setCurrentPosition(info.id);
     };
 
     return (
