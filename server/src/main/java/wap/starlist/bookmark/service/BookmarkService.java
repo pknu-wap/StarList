@@ -118,6 +118,24 @@ public class BookmarkService {
         return root;
     }
 
+    public List<Bookmark> search(String memberProviderId, String query) {
+        log.info("[Bookmark search]: query={}", query);
+
+        // N번 수행
+        List<Bookmark> foundBookmarks = bookmarkRepository.findByTitleContaining(query);
+
+        // M log N번 수행
+        return foundBookmarks.stream()
+                .filter(bookmark -> {
+                    Folder folder = bookmark.getFolder();
+                    while (folder.getParent() != null) {
+                        folder = folder.getParent();
+                    }
+                    Root root = folder.getRoot();
+                    return root.getMember().getProviderId().equals(memberProviderId);
+                }).toList();
+    }
+
     // DFS로 트리를 탐색
     // 연관관계의 주인은 하위 폴더 & 북마크이므로 자식이 부모와 연관관계를 설정하고 return 해야함
     private Folder collectNode(BookmarkTreeNode node) {
