@@ -98,6 +98,8 @@ public class FolderService {
             root.getChildren().add(topFolder);
         }
 
+        log.info("[service#getTreeOf] user: {}, found root id: {}, folders size: {}",
+                found.getMember().getName(), found.getId(), found.getFolders().size());
         return root;
     }
 
@@ -118,7 +120,8 @@ public class FolderService {
                 }).toList();
     }
 
-    private FolderTreeNode collectFolder(Folder folder) {FolderTreeNode parent = FolderTreeNode.from(folder);
+    private FolderTreeNode collectFolder(Folder folder) {
+        FolderTreeNode parent = FolderTreeNode.from(folder);
         for (Folder childEntity : folder.getFolders()) {
             FolderTreeNode child = collectFolder(childEntity);
             parent.addChild(child);
