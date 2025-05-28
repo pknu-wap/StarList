@@ -161,4 +161,31 @@ public class BookmarkController {
         }
     }
 
+    // 특정 북마크 리마인드 비활성화
+    @PatchMapping("/{id}/remind-disable")
+    public ResponseEntity<?> disableRemind(@PathVariable Long id, @RequestBody ReminderBookmarkRequest request) {
+        // 요청 검증 (remindDisabled 필드가 true여야 함)
+        if (!Boolean.TRUE.equals(request.getRemindDisabled())) {
+            ReminderBookmarkErrorResponse error = ReminderBookmarkErrorResponse.builder()
+                    .code("INVALID_REQUEST")
+                    .message("[ERROR] remindDisabled 필드는 true여야 합니다.")
+                    .build();
+
+            return ResponseEntity.badRequest().body(error);
+        }
+
+        // 비활성화 시도
+        try {
+            bookmarkService.disableRemind((id));
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException exception) {
+            // 존재하지 않는 id 요청 시
+            ReminderBookmarkErrorResponse error = ReminderBookmarkErrorResponse.builder()
+                    .code("NOT_FOUND")
+                    .message("[ERROR] 해당 북마크를 찾을 수 없습니다.")
+                    .build();
+
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
 }
