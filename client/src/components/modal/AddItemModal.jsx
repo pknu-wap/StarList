@@ -23,9 +23,14 @@ const AddItemModal = ({
 
     // tree가 바뀌면 첫 폴더 자동 선택
     useEffect(() => {
-        console.log("tree:", tree);
-        if (tree && tree.length) setLocation(tree[0]);
-    }, [tree]);
+        if (tree && tree.length) {
+            // location이 없거나, 현재 location이 tree 배열에 없으면 tree[0]으로 재설정
+            if (!location || !tree.some(item => item.id === location.id)) {
+                setLocation(tree[0]);
+            }
+        }
+    }, [tree, location]);
+
 
     const handleChange = (e) => {
         setForm(f => ({ ...f, [e.target.name]: e.target.value }));
