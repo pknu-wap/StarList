@@ -27,10 +27,18 @@ const BookmarkCard = ({ info }) => {
         <>
             <div
                 onClick={handleClick}
-                className={`relative aspect-[3/2] w-full rounded-[30px] border bg-white shadow-card sm:max-w-[280px] md:max-w-[320px] lg:max-w-[360px] ${isSelected ? "border-main-500" : "border-gray-300"} group flex flex-col justify-end p-4 transition-colors duration-200 hover:bg-gradient-to-b hover:from-gray-200 hover:to-white`}
+                className={`relative aspect-[360/240] w-full rounded-[30px] border bg-white shadow-card sm:max-w-[280px] md:max-w-[320px] lg:max-w-[360px] ${isSelected ? "border-main-500" : "border-gray-300"} group flex flex-col justify-end transition-colors duration-200 hover:bg-gradient-to-b hover:from-gray-200 hover:to-white`}
             >
+                <img
+                    src={info.url}
+                    alt={info.title}
+                    className="absolute inset-0 z-0 h-full w-full rounded-[30px] object-cover"
+                    loading="lazy"
+                    style={{}}
+                />
+                <div className="pointer-events-none absolute inset-0 z-10 rounded-[30px] bg-bookmark-overlay" />
                 <div
-                    className={`absolute left-[25px] top-[25px] transition-opacity duration-200 ${isSelected ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
+                    className={`absolute left-[25px] top-[25px] transition-opacity duration-200 ${isSelected ? "opacity-100" : "opacity-0 group-hover:opacity-100"} `}
                 >
                     <ToggleButton
                         selected={isSelected}
@@ -40,8 +48,7 @@ const BookmarkCard = ({ info }) => {
                         }}
                     />
                 </div>
-
-                <div className="absolute inset-x-6 bottom-6 flex items-center justify-between">
+                <div className="absolute inset-x-4 bottom-4 flex items-center justify-between">
                     <CardTitle>{info.title}</CardTitle>
                     <button
                         onClick={(e) => {
@@ -54,7 +61,6 @@ const BookmarkCard = ({ info }) => {
                     </button>
                 </div>
             </div>
-
             {isOpen && (
                 <EditModal
                     mode="bookmark"

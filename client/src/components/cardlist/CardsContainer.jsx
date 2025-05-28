@@ -69,7 +69,7 @@ const CardsContainer = () => {
         );
     }
 
-    // 데이터가 있을때
+    // 데이터 있을때
     return (
         <div ref={containerRef} className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {data.map((node) =>

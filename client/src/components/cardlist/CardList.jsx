@@ -5,7 +5,7 @@ import CardsContainer from "./CardsContainer";
 
 const CardList = () => {
     return (
-        <div className="max-w-screen-[1520px] mx-auto flex flex-col px-[150px] py-[150px]">
+        <div className="mx-auto flex w-full max-w-[1520px] flex-col px-4 py-8 sm:px-8 sm:py-10 md:px-12 md:py-16 lg:px-24 lg:py-24 xl:px-32 xl:py-[80px] 2xl:px-[150px] 2xl:py-[150px]">
             <Toolbar />
             <CardsContainer />
         </div>
