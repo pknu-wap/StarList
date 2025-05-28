@@ -3,6 +3,7 @@ package wap.starlist.bookmark.controller;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,11 +14,14 @@ import wap.starlist.bookmark.domain.Root;
 import wap.starlist.bookmark.dto.request.BookmarkCreateRequest;
 import wap.starlist.bookmark.dto.request.BookmarkTreeNode;
 import wap.starlist.bookmark.dto.request.BookmarksDeleteRequest;
+import wap.starlist.bookmark.dto.request.ReminderBookmarkRequest;
 import wap.starlist.bookmark.dto.response.BookmarkErrorResponse;
 import wap.starlist.bookmark.dto.response.BookmarkNodeResponse;
 import wap.starlist.bookmark.dto.response.BookmarkResponse;
 import wap.starlist.bookmark.dto.response.BookmarksDeleteResponse;
 import wap.starlist.bookmark.dto.response.SearchResponse;
+import wap.starlist.bookmark.dto.response.ReminderBookmarkErrorResponse;
+import wap.starlist.bookmark.dto.response.ReminderBookmarksResponse.ReminderBookmarkInfo;
 import wap.starlist.bookmark.service.BookmarkService;
 import wap.starlist.bookmark.service.FolderService;
 import wap.starlist.bookmark.service.RootService;
@@ -120,4 +124,41 @@ public class BookmarkController {
 //            return ResponseEntity.badRequest().body(e.getMessage());
 //        }
 //    }
+
+    // 리마인드 대상 북마크 조회
+    @GetMapping("/reminders")
+    public ResponseEntity<?> getReminders() {
+        try {
+            // 3개월 전 사용된 리마인드 대상 북마크 조회
+            List<Bookmark> targets = bookmarkService.getReminderBookmarks();
+            bookmarkService.markReminded(targets);
+
+            // DTO 변환
+            List<ReminderBookmarkInfo> result = targets.stream()
+                    .map(b -> ReminderBookmarkInfo.builder()
+                            .id(b.getId())
+                            .googleId(b.getGoogleId() != null ? b.getGoogleId().toString() : null)
+                            .syncing(b.getSyncing())
+                            .title(b.getTitle())
+                            .dateAdded(b.getDateAdded())
+                            .index(b.getPosition())
+                            .parentId(b.getParentId())
+                            .url(b.getUrl())
+                            .build())
+                    .toList();
+
+            // 배열 반환
+            return ResponseEntity.ok(result);
+
+        } catch (DataAccessException ex) {
+            // DB 오류
+            ReminderBookmarkErrorResponse error = ReminderBookmarkErrorResponse.builder()
+                    .code("DATABASE_ERROR")
+                    .message("데이터베이스 오류가 발생했습니다.")
+                    .build();
+
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
 }
