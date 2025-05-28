@@ -1,5 +1,7 @@
 package wap.starlist.bookmark.service;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -135,6 +138,17 @@ public class BookmarkService {
                     return root.getMember().getProviderId().equals(memberProviderId);
                 }).toList();
     }
+
+    // 3개월 전 북마크 중 최대 15개 조회
+    @Transactional(readOnly = true)
+    public List<Bookmark> getReminderBookmarks() {
+        long threeMonthsAgo = Instant.now()
+                .minus(3, ChronoUnit.MONTHS)
+                .toEpochMilli();
+
+        return bookmarkRepository.findReminderTargets(threeMonthsAgo, PageRequest.of(0, 15));
+    }
+
 
     // DFS로 트리를 탐색
     // 연관관계의 주인은 하위 폴더 & 북마크이므로 자식이 부모와 연관관계를 설정하고 return 해야함
