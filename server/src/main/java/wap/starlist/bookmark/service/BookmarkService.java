@@ -156,6 +156,14 @@ public class BookmarkService {
         bookmarks.forEach(bookmark -> bookmark.setLastRemindTime(now));
     }
 
+    // 특정 북마크 리마인드 비활성화
+    @Transactional
+    public void disableRemind(Long id) {
+        Bookmark bookmark = bookmarkRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 북마크가 존재하지 않습니다."));
+        bookmark.setRemindDisabled(true);
+        bookmarkRepository.save(bookmark);
+    }
 
     // DFS로 트리를 탐색
     // 연관관계의 주인은 하위 폴더 & 북마크이므로 자식이 부모와 연관관계를 설정하고 return 해야함
