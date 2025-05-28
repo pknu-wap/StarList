@@ -1,16 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 
-/**
- * options: 트리 구조 [{ id, title, children? }]
- * selected: 현재 선택된 노드
- * setSelected: 선택된 노드 업데이트 함수
- */
 const DropDown = ({ options, selected, setSelected }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [expanded, setExpanded] = useState(new Set());
     const wrapperRef = useRef();
 
-    // 외부 클릭 시 드롭다운 닫기
     useEffect(() => {
         const handleOutside = (e) => {
             if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
@@ -34,7 +28,6 @@ const DropDown = ({ options, selected, setSelected }) => {
         setIsOpen(false);
     };
 
-    // 재귀 트리 렌더
     const renderTree = (nodes, level = 0) =>
         nodes.map((node) => {
             const hasChildren = Array.isArray(node.children) && node.children.length > 0;
@@ -50,10 +43,10 @@ const DropDown = ({ options, selected, setSelected }) => {
                     >
                         {hasChildren && (
                             <button
-                                type="button"                          // ★ submit 방지
+                                type="button"
                                 onClick={(e) => {
-                                    e.preventDefault();                  // ★ 기본 동작(제출) 차단
-                                    e.stopPropagation();                 // 클릭 이벤트가 부모로 올라가지 않게
+                                    e.preventDefault();
+                                    e.stopPropagation();
                                     toggle(node.id);
                                 }}
                                 className="w-4 h-4 flex-shrink-0 mr-1"
