@@ -1,29 +1,55 @@
-import React, { useState } from 'react';
-import AddBookMark from '../modal/AddBookMark';
-
+import React, { useState, useRef, useEffect } from "react";
+import AddSelectMenu from "./AddSelectMenu";
+import AddBookmarkModal from "../modal/AddBookmarkModal";
+import AddFolderModal from "../modal/AddFolderModal";
 
 const AddButton = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 창 오픈 여부
+    const [openMenu, setOpenMenu] = useState(false);
+    const [openModal, setOpenModal] = useState(""); // "bookmark" | "folder" | ""
+    const buttonRef = useRef();
 
-    const handleOpenModal = () => {
-        setIsModalOpen(true);
+    // 외부 클릭 시 메뉴 닫기
+    useEffect(() => {
+        const handler = (e) => {
+            if (buttonRef.current && !buttonRef.current.contains(e.target)) {
+                setOpenMenu(false);
+            }
+        };
+        if (openMenu) {
+            document.addEventListener("mousedown", handler);
+        }
+        return () => document.removeEventListener("mousedown", handler);
+    }, [openMenu]);
+
+    // 선택시 모달 오픈
+    const handleSelect = (type) => {
+        setOpenMenu(false);
+        setOpenModal(type);
     };
 
     const handleCloseModal = () => {
-        setIsModalOpen(false);
+        setOpenModal("");
     };
 
     return (
-        <div>
+        <div className="relative inline-block" ref={buttonRef}>
             <button
-                onClick={handleOpenModal}
-                className="add-bookmark-button"
+                className="w-[48px] h-[48px] bg-gradient-to-r from-[#7349D6] to-[#1A1A1A] rounded-full shadow flex items-center justify-center text-white text-xl"
+                onClick={() => setOpenMenu(v => !v)}
             >
-                북마크 추가
+                +
             </button>
-
-            {isModalOpen && (
-                <AddBookMark onClose={handleCloseModal} />
+            {openMenu && (
+                <AddSelectMenu
+                    onSelect={handleSelect}
+                    onClose={() => setOpenMenu(false)}
+                />
+            )}
+            {openModal === "bookmark" && (
+                <AddBookmarkModal onClose={handleCloseModal} />
+            )}
+            {openModal === "folder" && (
+                <AddFolderModal onClose={handleCloseModal} />
             )}
         </div>
     );

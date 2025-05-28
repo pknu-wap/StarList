@@ -1,8 +1,7 @@
-// src/hooks/useFolderTree.js
 import { useQuery } from "@tanstack/react-query";
 
 const fetchFolderTree = async () => {
-    const res = await fetch("https://run.mocky.io/v3/cc9cd71c-4b80-4362-a7cf-2fa2ffa21d94");
+    const res = await fetch("/folders/tree");
     if (!res.ok) throw new Error("mock 서버 응답 실패");
     const root = await res.json();
     return Array.isArray(root.children) ? root.children : [];

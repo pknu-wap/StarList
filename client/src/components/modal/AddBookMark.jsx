@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import DropDown from "./DropDown";
 import useFolderTree from "../../functions/hooks/useFolderTree";
 
-export default function AddBookMark({ onClose }) {
+const AddBookMark = ({ onClose }) => {
     const {
         data: tree = [],
         isLoading,
@@ -94,3 +94,5 @@ export default function AddBookMark({ onClose }) {
         </div>
     );
 }
+
+export default AddBookMark;

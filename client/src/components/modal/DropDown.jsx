@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from "react";
  * selected: 현재 선택된 노드
  * setSelected: 선택된 노드 업데이트 함수
  */
-export default function DropDown({ options, selected, setSelected }) {
+const DropDown = ({ options, selected, setSelected }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [expanded, setExpanded] = useState(new Set());
     const wrapperRef = useRef();
@@ -86,3 +86,5 @@ export default function DropDown({ options, selected, setSelected }) {
         </div>
     );
 }
+
+export default DropDown;
