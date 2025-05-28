@@ -24,9 +24,10 @@ const AddBookmarkModal = ({ onClose }) => {
         // postBookmark 호출!
         await postBookmark({ title, url, parentId: location.id });
     };
-
+    console.log("tree", tree);
     return (
         <AddItemModal
+
             title="새 북마크 추가"
             icon={BookmarkIcon}
             fields={[
