@@ -1,35 +1,34 @@
-import React, { useState, useEffect } from "react";
-import DropDown from "./DropDown"; //  props로 tree 넘겨서 사용
+import React, { useState, useEffect, useRef } from "react";
+import DropDown from "./DropDown";
 
 const AddItemModal = ({
-    title,              // "새 북마크 추가", "새 폴더 추가" 등
-    icon,               // svg 아이콘 컴포넌트
-    fields,             // [{ name, label, placeholder }]
-    tree,               // 폴더 트리 데이터 (없으면 위치 필드 생략)
+    title,
+    icon,
+    fields,
+    tree,
     isLoading = false,
-    defaultValues = {}, // { title: "", url: "", ... }
-    defaultLocation,    // 최초 선택 폴더 (없으면 tree[0])
+    defaultValues = {},
+    defaultLocation,
     buttonText = "추가하기",
-    onSubmit,           // (form) => void | Promise<void>
+    onSubmit,
     onClose,
 }) => {
-    // 입력값 state
     const [form, setForm] = useState(
         fields.reduce((acc, cur) => ({ ...acc, [cur.name]: defaultValues[cur.name] || "" }), {})
     );
-    // 폴더 선택 state
-    const [location, setLocation] = useState(defaultLocation || (tree?.[0] ?? null));
+    const [location, setLocation] = useState(defaultLocation || (tree && tree[0] ? tree[0] : null));
     const [errorMsg, setErrorMsg] = useState("");
+    const prevTreeRef = useRef(tree);
 
-    // tree가 바뀌면 첫 폴더 자동 선택
+    // tree가 바뀌었을 때 location 값 유지, tree에 없는 경우에만 tree[0]로 이동
     useEffect(() => {
-        if (tree && tree.length) {
-            // location이 없거나, 현재 location이 tree 배열에 없으면 tree[0]으로 재설정
-            if (!location || !tree.some(item => item.id === location.id)) {
-                setLocation(tree[0]);
-            }
+        if (!tree || !tree.length) return; // 트리가 비면 location 유지
+        // location이 없거나 tree에 없는 경우만 강제 업데이트
+        if (!location || !tree.some(item => item.id === location.id)) {
+            setLocation(tree[0]);
         }
-    }, [tree, location]);
+        prevTreeRef.current = tree;
+    }, [tree]);
 
 
     const handleChange = (e) => {
@@ -39,15 +38,18 @@ const AddItemModal = ({
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrorMsg("");
+        if (!location) {
+            setErrorMsg("폴더를 선택하세요.");
+            return;
+        }
         try {
-            await onSubmit({ ...form, location });  // 부모에서 넘겨준 onSubmit 
+            await onSubmit({ ...form, location });
             onClose();
         } catch (err) {
             setErrorMsg(err.message || "오류가 발생했습니다.");
         }
     };
 
-    // 로딩 처리
     if (isLoading) return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white rounded-[30px] w-[624px] h-[537px] flex items-center justify-center text-lg">로딩 중...</div>
@@ -90,7 +92,7 @@ const AddItemModal = ({
                         </div>
                     ))}
                     {/* 폴더 드롭다운 */}
-                    {tree && (
+                    {tree && tree.length > 0 && (
                         <div>
                             <label className="block text-2xl font-medium text-black mb-2">
                                 위치
