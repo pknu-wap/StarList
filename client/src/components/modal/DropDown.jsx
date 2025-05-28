@@ -1,0 +1,90 @@
+import { useState, useRef, useEffect } from "react";
+
+/**
+ * options: 트리 구조 [{ id, title, children? }]
+ * selected: 현재 선택된 노드
+ * setSelected: 선택된 노드 업데이트 함수
+ */
+const DropDown = ({ options, selected, setSelected }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [expanded, setExpanded] = useState(new Set());
+    const wrapperRef = useRef();
+
+    // 외부 클릭 시 드롭다운 닫기
+    useEffect(() => {
+        const handleOutside = (e) => {
+            if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleOutside);
+        return () => document.removeEventListener("mousedown", handleOutside);
+    }, []);
+
+    const toggle = (id) => {
+        setExpanded((prev) => {
+            const s = new Set(prev);
+            s.has(id) ? s.delete(id) : s.add(id);
+            return s;
+        });
+    };
+
+    const handleSelect = (node) => {
+        setSelected(node);
+        setIsOpen(false);
+    };
+
+    // 재귀 트리 렌더
+    const renderTree = (nodes, level = 0) =>
+        nodes.map((node) => {
+            const hasChildren = Array.isArray(node.children) && node.children.length > 0;
+            const isExpanded = expanded.has(node.id);
+            const isSel = selected?.id === node.id;
+
+            return (
+                <div key={node.id}>
+                    <div
+                        className={`flex items-center cursor-pointer hover:bg-gray-50 ${isSel ? "bg-gray-100" : ""}`}
+                        style={{ paddingLeft: `${level * 1}rem` }}
+                        onClick={() => handleSelect(node)}
+                    >
+                        {hasChildren && (
+                            <button
+                                type="button"                          // ★ submit 방지
+                                onClick={(e) => {
+                                    e.preventDefault();                  // ★ 기본 동작(제출) 차단
+                                    e.stopPropagation();                 // 클릭 이벤트가 부모로 올라가지 않게
+                                    toggle(node.id);
+                                }}
+                                className="w-4 h-4 flex-shrink-0 mr-1"
+                            >
+                                {isExpanded ? "▼" : "▶"}
+                            </button>
+                        )}
+                        <span className="flex-1 py-1">{node.title}</span>
+                    </div>
+                    {hasChildren && isExpanded && renderTree(node.children, level + 1)}
+                </div>
+            );
+        });
+
+    return (
+        <div className="relative inline-block w-full" ref={wrapperRef}>
+            <button
+                type="button"
+                className="w-full text-left border border-gray-300 rounded px-3 py-2 flex justify-between items-center"
+                onClick={() => setIsOpen((v) => !v)}
+            >
+                {selected?.title || "폴더 선택"}
+                <span className="ml-2">{isOpen ? "▲" : "▼"}</span>
+            </button>
+            {isOpen && (
+                <div className="absolute mt-1 w-full max-h-60 overflow-auto bg-white border border-gray-300 rounded shadow-lg z-10">
+                    {renderTree(options)}
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default DropDown;
