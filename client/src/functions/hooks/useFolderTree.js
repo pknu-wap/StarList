@@ -10,6 +10,7 @@ const fetchFolderTree = async () => {
     });
     if (!res.ok) throw new Error("서버 응답 실패: " + res.status);
     const data = await res.json();
+    console.log("folders/tree 응답", data);
     return Array.isArray(data)
         ? data
         : Array.isArray(data.children)
