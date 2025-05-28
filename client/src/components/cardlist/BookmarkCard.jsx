@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import useSelectedCardsStore from "../../functions/hooks/useSelectedCardsStore";
 
-import CardTitle from "./CardTitle";
 import ToggleButton from "./ToggleButton";
 import { EditButton } from "../../assets/";
 import EditModal from "./EditModal";
@@ -29,13 +28,13 @@ const BookmarkCard = ({ info }) => {
                 onClick={handleClick}
                 className={`relative aspect-[360/240] w-full rounded-[30px] border bg-white shadow-card sm:max-w-[280px] md:max-w-[320px] lg:max-w-[360px] ${isSelected ? "border-main-500" : "border-gray-300"} group flex flex-col justify-end transition-colors duration-200 hover:bg-gradient-to-b hover:from-gray-200 hover:to-white`}
             >
-                <img
+                {/* <img
                     src={info.url}
                     alt={info.title}
                     className="absolute inset-0 z-0 h-full w-full rounded-[30px] object-cover"
                     loading="lazy"
                     style={{}}
-                />
+                /> */}
                 <div className="pointer-events-none absolute inset-0 z-10 rounded-[30px] bg-bookmark-overlay" />
                 <div
                     className={`absolute left-[25px] top-[25px] transition-opacity duration-200 ${isSelected ? "opacity-100" : "opacity-0 group-hover:opacity-100"} `}
@@ -48,8 +47,10 @@ const BookmarkCard = ({ info }) => {
                         }}
                     />
                 </div>
-                <div className="absolute inset-x-4 bottom-4 flex items-center justify-between">
-                    <CardTitle>{info.title}</CardTitle>
+                <div className="absolute inset-x-4 bottom-4 z-20 flex items-center justify-between">
+                    <p className="text-main-white w-full truncate text-left text-base font-semibold sm:text-lg md:text-xl">
+                        {info.title}
+                    </p>
                     <button
                         onClick={(e) => {
                             e.stopPropagation();

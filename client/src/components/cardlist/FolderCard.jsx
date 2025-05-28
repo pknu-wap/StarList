@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import useFolderHistoryStore from "../../functions/hooks/useFolderHistoryStore";
 import useSelectedCardsStore from "../../functions/hooks/useSelectedCardsStore";
 
-import CardTitle from "./CardTitle";
 import { FolderCardSvg } from "../../assets/";
 import { EditButton } from "../../assets/";
 import EditModal from "./EditModal";
@@ -34,8 +33,10 @@ const FolderCard = ({ info }) => {
                 <FolderCardSvg
                     className={`h-full w-full stroke-current ${isSelected ? "text-main-500" : "text-gray-300"} transition-colors duration-200`}
                 />
-                <div className="absolute inset-x-6 bottom-6 flex items-center justify-between">
-                    <CardTitle>{info.title}</CardTitle>
+                <div className="absolute inset-x-6 bottom-6 z-20 flex items-center justify-between">
+                    <p className="w-full truncate text-left text-base font-semibold text-main-black sm:text-lg md:text-xl">
+                        {info.title}
+                    </p>
                     <button
                         type="button"
                         onClick={(e) => {

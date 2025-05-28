@@ -9,14 +9,14 @@ import FolderCard from "./FolderCard";
 
 const CardsContainer = () => {
     const history = useFolderHistoryStore((s) => s.history);
-    const folderId = history[history.length - 1].id;
+    const currentPosition = history[history.length - 1].id;
 
     const logout = useAuthStore((s) => s.logout);
 
     const reset = useSelectedCardsStore((s) => s.reset);
     const containerRef = useRef(null);
 
-    const { data = [], status, error } = useGetNodes(folderId);
+    const { data = [], status, error } = useGetNodes(currentPosition);
 
     console.log(data); // 디버깅용
     console.log(error); // 디버깅용
