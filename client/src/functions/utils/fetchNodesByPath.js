@@ -11,16 +11,16 @@ async function fetchNodesByPath(path) {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${accessToken}`
-        }
+            Authorization: `Bearer ${accessToken}`,
+        },
     });
 
     // 200 OK 가 아닐 경우
     if (!response.ok) {
         const errorBody = await response.json();
-        throw new ApiError(errorBody.code, errorBody.message)
+        throw new ApiError(errorBody.code, errorBody.message, response);
     }
-    
+
     return response.json();
 }
 
