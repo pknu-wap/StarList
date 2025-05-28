@@ -149,6 +149,13 @@ public class BookmarkService {
         return bookmarkRepository.findReminderTargets(threeMonthsAgo, PageRequest.of(0, 15));
     }
 
+    // 리마인드 후 lastRemindTime 갱신
+    @Transactional
+    public void markReminded(List<Bookmark> bookmarks) {
+        long now = Instant.now().toEpochMilli();
+        bookmarks.forEach(bookmark -> bookmark.setLastRemindTime(now));
+    }
+
 
     // DFS로 트리를 탐색
     // 연관관계의 주인은 하위 폴더 & 북마크이므로 자식이 부모와 연관관계를 설정하고 return 해야함
