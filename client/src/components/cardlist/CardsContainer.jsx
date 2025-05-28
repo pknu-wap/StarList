@@ -4,7 +4,6 @@ import useFolderHistoryStore from "../../functions/hooks/useFolderHistoryStore";
 import useSelectedCardsStore from "../../functions/hooks/useSelectedCardsStore";
 import useGetNodes from "../../functions/hooks/useGetNodes";
 
-import StatusView from "../status/StatusView";
 import BookmarkCard from "./BookmarkCard";
 import FolderCard from "./FolderCard";
 
@@ -20,7 +19,8 @@ const CardsContainer = () => {
     const { data = [], status, error } = useGetNodes(folderId);
 
     console.log(data); // 디버깅용
-    console.log(error);
+    console.log(error); // 디버깅용
+
     // 유효하지 않은 토큰을 사용하고 있다면 로그아웃
     useEffect(() => {
         if (status === "error" && error.code === "2002") logout();
@@ -42,31 +42,45 @@ const CardsContainer = () => {
         };
     }, [handleClickOutside]);
 
-    // StatusView 으로 loading / error / success UI 처리
-    return StatusView({
-        status,
-        error,
-        children: (
-            <div
-                ref={containerRef}
-                className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-            >
-                {data.length === 0 ? (
-                    <div className="flex min-h-screen w-full items-center justify-center">
-                        <p className="text-center text-2xl text-gray-300">아무 것도 없네요</p>
-                    </div>
-                ) : (
-                    data.map((node) =>
-                        node.url === null ? (
-                            <FolderCard key={node.index} info={node} />
-                        ) : (
-                            <BookmarkCard key={node.index} info={node} />
-                        ),
-                    )
-                )}
+    // 로딩중
+    if (status === "loading") {
+        return (
+            <div className="flex min-h-screen items-center justify-center">
+                <p className="py-4 text-center">로딩중...</p>
             </div>
-        ),
-    });
+        );
+    }
+
+    // 에러 발생
+    if (status === "error") {
+        return (
+            <div className="flex min-h-screen items-center justify-center">
+                <p className="text-center text-2xl text-gray-300">에러 발생: {error.message}</p>
+            </div>
+        );
+    }
+
+    // 데이터가 없을때
+    if (data.length === 0) {
+        return (
+            <div className="flex min-h-screen w-full items-center justify-center">
+                <p className="text-center text-2xl text-gray-300">아무 것도 없네요</p>
+            </div>
+        );
+    }
+
+    // 데이터가 있을때
+    return (
+        <div ref={containerRef} className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {data.map((node) =>
+                node.url === null ? (
+                    <FolderCard key={node.index} info={node} />
+                ) : (
+                    <BookmarkCard key={node.index} info={node} />
+                ),
+            )}
+        </div>
+    );
 };
 
 export default CardsContainer;
