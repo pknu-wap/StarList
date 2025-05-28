@@ -10,9 +10,6 @@ export function ErrorMessage({ code, message }) {
         case "2002":
             text = "세션이 만료되었습니다. 다시 로그인 해주세요";
             break;
-        case "3001":
-            text = "아무 것도 없네요";
-            break;
         default:
             text = `알 수 없는 오류: ${message}`;
     }

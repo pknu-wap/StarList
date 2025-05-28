@@ -51,12 +51,18 @@ const CardsContainer = () => {
                 ref={containerRef}
                 className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
             >
-                {data.map((node) =>
-                    node.url === null ? (
-                        <FolderCard key={node.index} info={node} />
-                    ) : (
-                        <BookmarkCard key={node.index} info={node} />
-                    ),
+                {data.length === 0 ? (
+                    <div className="flex min-h-screen w-full items-center justify-center">
+                        <p className="text-center text-2xl text-gray-300">아무 것도 없네요</p>
+                    </div>
+                ) : (
+                    data.map((node) =>
+                        node.url === null ? (
+                            <FolderCard key={node.index} info={node} />
+                        ) : (
+                            <BookmarkCard key={node.index} info={node} />
+                        ),
+                    )
                 )}
             </div>
         ),
