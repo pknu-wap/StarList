@@ -1,20 +1,29 @@
+import useAuthStore from "../hooks/useAuthStore";
 import { useQuery } from "@tanstack/react-query";
 
 const fetchFolderTree = async () => {
-    const res = await fetch("/folders/tree");
-    if (!res.ok) throw new Error("서버 응답 실패");
+    const token = useAuthStore.getState().accessToken?.trim();
+    const res = await fetch("/folders/tree", {
+        headers: {
+            Authorization: token ? `Bearer ${token}` : undefined,
+        },
+    });
+    if (!res.ok) throw new Error("서버 응답 실패: " + res.status);
     const data = await res.json();
-    // data가 배열(최상위 노드 리스트)이거나, 객체 + children(트리) 둘 다 지원
-    if (Array.isArray(data)) return data;
-    if (Array.isArray(data.children)) return data.children;
-    return [];
+    return Array.isArray(data)
+        ? data
+        : Array.isArray(data.children)
+            ? data.children
+            : [];
 };
 
-export default function useFolderTree() {
-    return useQuery({
+
+const useFolderTree = () =>
+    useQuery({
         queryKey: ["folderTree"],
         queryFn: fetchFolderTree,
         staleTime: 600_000,
         retry: 1,
     });
-}
+
+export default useFolderTree;
