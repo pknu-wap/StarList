@@ -20,7 +20,7 @@ const CardsContainer = () => {
     const { data = [], status, error } = useGetNodes(folderId);
 
     console.log(data); // 디버깅용
-
+    console.log(error);
     // 유효하지 않은 토큰을 사용하고 있다면 로그아웃
     useEffect(() => {
         if (status === "error" && error.code === "2002") logout();

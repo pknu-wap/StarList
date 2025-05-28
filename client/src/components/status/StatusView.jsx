@@ -20,6 +20,7 @@ export function ErrorMessage({ code, message }) {
 }
 
 export default function StatusView({ status, error, children }) {
+    console.log("StatusView status:", status, "error:", error);
     if (status === "loading") {
         return (
             <div className="flex min-h-screen items-center justify-center">
