@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import wap.starlist.bookmark.domain.Bookmark;
+import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.domain.Root;
 import wap.starlist.bookmark.dto.request.BookmarkCreateRequest;
 import wap.starlist.bookmark.dto.request.BookmarkTreeNode;
@@ -16,7 +17,9 @@ import wap.starlist.bookmark.dto.response.BookmarkErrorResponse;
 import wap.starlist.bookmark.dto.response.BookmarkNodeResponse;
 import wap.starlist.bookmark.dto.response.BookmarkResponse;
 import wap.starlist.bookmark.dto.response.BookmarksDeleteResponse;
+import wap.starlist.bookmark.dto.response.SearchResponse;
 import wap.starlist.bookmark.service.BookmarkService;
+import wap.starlist.bookmark.service.FolderService;
 import wap.starlist.bookmark.service.RootService;
 
 import java.net.URI;
@@ -29,14 +32,15 @@ public class BookmarkController {
 
     private final BookmarkService bookmarkService;
     private final RootService rootService;
+    private final FolderService folderService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody BookmarkCreateRequest request) {
+    public ResponseEntity<?> create(@AuthenticationPrincipal String loginUser, @RequestBody BookmarkCreateRequest request) {
         String title = request.getTitle();
         String url = request.getUrl();
 
         // 북마크 저장
-        Bookmark createdBookmark = bookmarkService.createBookmark(title, url);
+        Bookmark createdBookmark = bookmarkService.createBookmark(loginUser, title, url);
 
         // 저장된 북마크 위치 URI
         URI location = URI.create("/bookmarks/" + createdBookmark.getId());
@@ -80,21 +84,28 @@ public class BookmarkController {
     @PostMapping("/sync")
     public ResponseEntity<?> sync(@AuthenticationPrincipal String loginUser,
                                   @RequestBody List<BookmarkTreeNode> bookmarkTreeNodes) {
-        System.out.println("[INFO] 응답 받음");
+        log.info("sync 응답 받음. [user]: {}", loginUser);
         try {
 
             // Root-Folder-Bookmark의 연관관계 설정 및 적용
             Root unlinkedRoot = bookmarkService.saveAll(bookmarkTreeNodes);
 
-            System.out.println("[INFO] Root를 제외한 연관관계 설정 완료");
+            log.info("Root를 제외한 연관관계 설정 완료");
             // Root-Member의 연관관계 설정 및 적용
             rootService.assign(unlinkedRoot, loginUser);
         } catch (IllegalArgumentException e) {
-            System.out.println("[ERROR] 실패");
-            System.out.println("[" + e.getClass() + "] : " + e.getMessage());
+            log.error("sync 실패");
+            log.error("[{}] : {}", e.getClass(), e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok("성공했습니다.");
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> search(@AuthenticationPrincipal String loginUser, @RequestParam String query) {
+        List<Bookmark> searchedBookmarks = bookmarkService.search(loginUser, query);
+        List<Folder> searchedFolder = folderService.search(loginUser, query);
+        return ResponseEntity.ok(SearchResponse.of(searchedBookmarks, searchedFolder));
     }
 
     //TODO: 사용되지 않지만 BookmarkNodeResponse로 변경하기

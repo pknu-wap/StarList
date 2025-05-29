@@ -1,0 +1,11 @@
+{
+    "printWidth": 120,
+    "tabWidth": 4,
+    "semi": true,
+    "singleQuote": false,
+    "endOfLine": "auto",
+    "useTabs": false,
+    "arrowParens": "always",
+    "tailwindConfig": "./tailwind.config.js",
+    "plugins": ["prettier-plugin-tailwindcss"]
+}

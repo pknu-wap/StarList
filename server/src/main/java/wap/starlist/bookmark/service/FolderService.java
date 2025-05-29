@@ -98,10 +98,30 @@ public class FolderService {
             root.getChildren().add(topFolder);
         }
 
+        log.info("[service#getTreeOf] user: {}, found root id: {}, folders size: {}",
+                found.getMember().getName(), found.getId(), found.getFolders().size());
         return root;
     }
 
-    private FolderTreeNode collectFolder(Folder folder) {FolderTreeNode parent = FolderTreeNode.from(folder);
+    public List<Folder> search(String memberProviderId, String query) {
+        log.info("[Folder search]: query={}", query);
+        // N번
+        List<Folder> foundFolders = folderRepository.findByTitleContaining(query);
+
+        // M log N번
+        return foundFolders.stream()
+                .filter(folder -> {
+                    Folder parent = folder.getParent();
+                    while (parent != null && parent.getParent() != null) {
+                        parent = folder.getParent();
+                    }
+                    Root root = parent.getRoot();
+                    return root.getMember().getProviderId().equals(memberProviderId);
+                }).toList();
+    }
+
+    private FolderTreeNode collectFolder(Folder folder) {
+        FolderTreeNode parent = FolderTreeNode.from(folder);
         for (Folder childEntity : folder.getFolders()) {
             FolderTreeNode child = collectFolder(childEntity);
             parent.addChild(child);
