@@ -4,23 +4,15 @@ import { useQuery } from "@tanstack/react-query";
 const fetchFolderTree = async () => {
     const token = useAuthStore.getState().accessToken?.trim();
     if (!token) {
-        // 토큰이 없으면 API 호출 시도 자체를 하지 않음 (undefined 반환)
-        return undefined;
+        return []; // null 대신 항상 배열 반환
     }
     const res = await fetch("/folders/tree", {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     });
-    console.log("fetchFolderTree: /folders/tree 응답 status =", res.status);
-
-    if (!res.ok) {
-        const text = await res.text();
-        console.log("fetchFolderTree: 에러 body =", text);
-        throw new Error("서버 응답 실패: " + res.status);
-    }
+    if (!res.ok) throw new Error("서버 응답 실패: " + res.status);
     const data = await res.json();
-    // 실제로 필요한 데이터 구조가 배열이 아닐 때 children에서 추출
     return Array.isArray(data)
         ? data
         : Array.isArray(data.children)
