@@ -23,7 +23,7 @@ public class Folder {
     private String title;
 
     @Column(nullable = false)
-    private Integer googleId;
+    private Long googleId;
 
     // 부모 Root 혹은 Folder 내에 몇 번째 항목인지
     private Integer position;
