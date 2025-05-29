@@ -1,6 +1,5 @@
+import { useQueryClient } from "@tanstack/react-query";
 import AddItemModal from "./AddItemModal";
-
-import DropDown from "./DropDown";
 import useFolderTree from "../../functions/hooks/useFolderTree";
 import { postBookmark } from "../../functions/utils/postBookmark";
 
@@ -18,6 +17,7 @@ const BookmarkIcon = (
 );
 
 const AddBookmarkModal = ({ onClose }) => {
+    const queryClient = useQueryClient();
     const { data: tree = [], isLoading } = useFolderTree();
     console.log("[AddBookmarkModal] tree:", tree, "isLoading:", isLoading);
 
@@ -25,6 +25,7 @@ const AddBookmarkModal = ({ onClose }) => {
         console.log("[AddBookmarkModal] 북마크 추가 시도: title:", title, "url:", url, "location:", location);
         // postBookmark 호출
         await postBookmark({ title, url, parentId: location.id });
+        queryClient.invalidateQueries({ queryKey: ["nodes"] }); // 모든 폴더의 북마크 목록 쿼리 무효화
     };
     console.log("tree", tree);
     return (
