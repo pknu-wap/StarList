@@ -18,11 +18,12 @@ const BookmarkIcon = (
 );
 
 const AddBookmarkModal = ({ onClose }) => {
-    console.log("AddBookmarkModal tree", tree, "isLoading", isLoading);
     const { data: tree = [], isLoading } = useFolderTree();
+    console.log("[AddBookmarkModal] tree:", tree, "isLoading:", isLoading);
 
     const handleBookmarkSubmit = async ({ title, url, location }) => {
-        // postBookmark 호출!
+        console.log("[AddBookmarkModal] 북마크 추가 시도: title:", title, "url:", url, "location:", location);
+        // postBookmark 호출
         await postBookmark({ title, url, parentId: location.id });
     };
     console.log("tree", tree);
