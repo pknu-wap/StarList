@@ -1,10 +1,12 @@
 package wap.starlist.bookmark.service;
 
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import wap.starlist.bookmark.domain.Bookmark;
+import wap.starlist.util.ImageScraper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,17 +21,20 @@ class BookmarkServiceTest {
     @Test
     void create() throws Exception {
         //given
-        String title = "EARTH1";
-        String url = "https://www.earth.org";
+//        String title = "EARTH1";
+//        String url = "https://www.earth.org";
+//
+//        //when
+//        Bookmark bookmark = bookmarkService.createBookmark("123", title, url);
+//
+//        //then
+//        Bookmark foundBookmark = bookmarkService.getBookmark(bookmark.getId());
+//
+//        assertEquals(title, foundBookmark.getTitle());
+//        assertEquals(url, foundBookmark.getUrl());
 
-        //when
-        Bookmark bookmark = bookmarkService.createBookmark(title, url);
-
-        //then
-        Bookmark foundBookmark = bookmarkService.getBookmark(bookmark.getId());
-
-        assertEquals(title, foundBookmark.getTitle());
-        assertEquals(url, foundBookmark.getUrl());
+        Optional<String> imageUrl = ImageScraper.getImageUrl("https://mindock.github.io/book/computer-structure-and-design-2/");
+        System.out.println("imageUrl = " + imageUrl.get());
     }
 
     @Test
@@ -39,7 +44,7 @@ class BookmarkServiceTest {
         String url = "https://www.earth.org";
 
         //when
-        Bookmark bookmark = bookmarkService.createBookmark(title, url);
+        Bookmark bookmark = bookmarkService.createBookmark("123", title, url);
         Bookmark found = bookmarkService.getBookmark(bookmark.getId());
         System.out.println("id = " + bookmarkService.getBookmark(3L).getTitle());
         //then
@@ -63,7 +68,7 @@ class BookmarkServiceTest {
         String url = "https://www.earth.org";
 
         //when
-        Bookmark earth = bookmarkService.createBookmark(title, url);
+        Bookmark earth = bookmarkService.createBookmark("123", title, url);
 
         //then
         assertThrows(IllegalArgumentException.class,

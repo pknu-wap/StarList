@@ -6,7 +6,7 @@ import SearchBar from "./SearchBar";
 
 const Toolbar = () => {
     return (
-        <div className="flex items-center justify-between p-4">
+        <div className="flex w-full items-center justify-between">
             <BreadCrumb />
             <div className="flex items-center space-x-2">
                 <AddButton />
@@ -14,6 +14,6 @@ const Toolbar = () => {
             </div>
         </div>
     );
-}
+};
 
 export default Toolbar;

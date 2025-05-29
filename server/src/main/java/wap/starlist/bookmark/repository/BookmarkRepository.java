@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
-    Optional<Bookmark> findByUrl(String url);
+    List<Bookmark> findByUrl(String url);
 
     List<Bookmark> findByFolder_Root_IdAndTitleContaining(Long rootId, String title);
 

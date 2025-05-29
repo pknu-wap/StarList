@@ -19,6 +19,7 @@ public class BookmarkNodeResponse {
     private Integer parentId;
     private String url;
     private String folderType;
+    private String image;
 
     public static BookmarkNodeResponse fromFolder(Folder folder) {
         return BookmarkNodeResponse.builder()
@@ -41,6 +42,7 @@ public class BookmarkNodeResponse {
                 .dateGroupModified(bookmark.getDateGroupModified())
                 .index(bookmark.getPosition())
                 .url(bookmark.getUrl())
+                .image(bookmark.getImage())
                 .build();
 
     }

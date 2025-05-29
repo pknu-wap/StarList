@@ -8,8 +8,7 @@ const EXT_ID = import.meta.env.VITE_EXTENSION_ID;
 async function getRootNodes() {
     try {
         return await fetchNodesByPath("/folders/top-folders");
-    }
-    catch (error) {
+    } catch (error) {
         // 데이터가 없다면 신규 유저이므로 서비스 워커에 메시지를 송신
         if (error.code === "3001") {
             console.log("메시지 송신");

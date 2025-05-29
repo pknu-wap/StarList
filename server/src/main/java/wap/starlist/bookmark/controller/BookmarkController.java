@@ -1,5 +1,6 @@
 package wap.starlist.bookmark.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
@@ -39,12 +40,12 @@ public class BookmarkController {
     private final FolderService folderService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody BookmarkCreateRequest request) {
+    public ResponseEntity<?> create(@AuthenticationPrincipal String loginUser, @RequestBody BookmarkCreateRequest request) {
         String title = request.getTitle();
         String url = request.getUrl();
 
         // 북마크 저장
-        Bookmark createdBookmark = bookmarkService.createBookmark(title, url);
+        Bookmark createdBookmark = bookmarkService.createBookmark(loginUser, title, url);
 
         // 저장된 북마크 위치 URI
         URI location = URI.create("/bookmarks/" + createdBookmark.getId());
@@ -109,7 +110,13 @@ public class BookmarkController {
     public ResponseEntity<?> search(@AuthenticationPrincipal String loginUser, @RequestParam String query) {
         List<Bookmark> searchedBookmarks = bookmarkService.search(loginUser, query);
         List<Folder> searchedFolder = folderService.search(loginUser, query);
-        return ResponseEntity.ok(SearchResponse.of(searchedBookmarks, searchedFolder));
+
+        // 리스트에 전부 추가하여 전송, 북마크가 폴더보다 앞선다.
+        List<BookmarkNodeResponse> response = new ArrayList<>();
+        response.addAll(searchedBookmarks.stream().map(BookmarkNodeResponse::fromBookmark).toList());
+        response.addAll(searchedFolder.stream().map(BookmarkNodeResponse::fromFolder).toList());
+
+        return ResponseEntity.ok(response);
     }
 
     //TODO: 사용되지 않지만 BookmarkNodeResponse로 변경하기
