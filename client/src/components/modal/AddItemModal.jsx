@@ -27,11 +27,6 @@ const AddItemModal = ({
             setLocation(tree[0]);
         }
     }, [tree]);
-
-    useEffect(() => {
-        console.log("[AddItemModal] location state 변화:", location);
-    }, [location]);
-
     const handleChange = (e) => {
         setForm(f => ({ ...f, [e.target.name]: e.target.value }));
     };
