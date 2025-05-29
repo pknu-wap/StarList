@@ -12,6 +12,7 @@ export { default as CheckBoxChecked } from './buttons/check-box-check.svg?react'
 export { default as CheckBoxHover } from './buttons/check-box-hover.svg?react';
 export { default as ArrowRight } from './buttons/arrow-right.svg?react';
 export { default as ArrowLeft } from './buttons/arrow-left.svg?react';
+export { default as PlusIcon } from './buttons/plus-icon.svg?react';
 
 // 로고
 export { default as MainpageLogo } from './logo/logo.svg?react';
