@@ -1,4 +1,4 @@
-import API_BASE_URL from "./baseUrl";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 import useAuthStore from "../hooks/useAuthStore";
 
 // 북마크 추가
