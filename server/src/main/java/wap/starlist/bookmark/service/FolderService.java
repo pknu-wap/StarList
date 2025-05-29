@@ -111,11 +111,15 @@ public class FolderService {
         // M log N번
         return foundFolders.stream()
                 .filter(folder -> {
-                    Folder parent = folder.getParent();
-                    while (parent != null && parent.getParent() != null) {
-                        parent = folder.getParent();
+                    Folder current = folder;
+                    while (current.getParent() != null) {
+                        current = current.getParent();
                     }
-                    Root root = parent.getRoot();
+                    Root root = current.getRoot();
+                    if (root == null || root.getMember() == null) {
+                        log.warn("동기화되지 않은 폴더를 검색하였습니다. folder: {}", folder.getTitle());
+                        return false; // 동기화되지 않은 폴더나 root가 없는 폴더는 제외
+                    }
                     return root.getMember().getProviderId().equals(memberProviderId);
                 }).toList();
     }
