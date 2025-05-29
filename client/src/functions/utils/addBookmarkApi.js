@@ -1,0 +1,33 @@
+import API_BASE_URL from "./baseUrl";
+import useAuthStore from "../hooks/useAuthStore";
+
+// 북마크 추가
+export const addBookmarkApi = async ({ title, url, folderId }) => {
+    const token = useAuthStore.getState().accessToken?.trim();
+    const res = await fetch(`${API_BASE_URL}/bookmarks`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ title, url, folderId }),
+    });
+    if (!res.ok) throw new Error("북마크 추가 실패");
+    return res.json();
+};
+
+
+// 폴더 추가
+export const addFolderApi = async ({ title, userId }) => {
+    const token = useAuthStore.getState().accessToken?.trim();
+    const res = await fetch(`${API_BASE_URL}/folders`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ title, userId }),
+    });
+    if (!res.ok) throw new Error("폴더 추가 실패");
+    return res.json();
+};
