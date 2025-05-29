@@ -53,6 +53,14 @@ public class Bookmark {
     @JoinColumn(name = "folder_id")
     private Folder folder;
 
+    // 사용자가 "알림 안 함" 처리 시 "true"
+    @Setter
+    private boolean remindDisabled = false;
+
+    // 마지막으로 알림을 보낸 시각 (중복 방지용)
+    @Setter
+    private Long lastRemindTime;
+
     public void mapToFolder(Folder parentFolder) {
         this.folder = parentFolder;
     }
