@@ -13,11 +13,15 @@ export { default as CheckBoxHover } from './buttons/check-box-hover.svg?react';
 export { default as ArrowRight } from './buttons/arrow-right.svg?react';
 export { default as ArrowLeft } from './buttons/arrow-left.svg?react';
 export { default as PlusIcon } from './buttons/plus-icon.svg?react';
+export { default as EditButton } from "./buttons/edit-icon.svg?react";
 
 // 로고
-export { default as MainpageLogo } from './logo/logo.svg?react';
+export { default as Logo } from "./logo/logo.svg?react";
 
 // 타이틀
-export { default as MainText } from './titles/main-text.svg?react';
-export { default as MainTitle } from './titles/title-main.svg?react';
-export { default as Title } from './titles/title.svg?react'; 
+export { default as MainText } from "./titles/main-text.svg?react";
+export { default as MainTitle } from "./titles/title-main.svg?react";
+export { default as Title } from "./titles/title.svg?react";
+
+// 카드
+export { default as FolderCardSvg } from "./cards/folder normal.svg?react";

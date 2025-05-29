@@ -31,10 +31,11 @@ const DropDown = ({ options, selected, setSelected }) => {
 
     const renderTree = (nodes, level = 0) =>
         nodes.map((node) => {
+            console.log("renderTree nodes", nodes);
             const hasChildren = Array.isArray(node.children) && node.children.length > 0;
             const isExpanded = expanded.has(node.id);
             const isSel = selected?.id === node.id;
-
+            console.log("DropDown options", options);
             return (
                 <div key={node.id}>
                     <div

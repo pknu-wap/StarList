@@ -5,7 +5,7 @@ import RemindCarousel from "../components/remainder/RemindCarousel";
 
 const MainPage = () => {
     return (
-        <div>
+        <div className="grid grid-rows-[1fr_3fr_6fr] gap-y-6 px-4 py-2">
             <Header />
             <RemindCarousel />
             <CardList />
