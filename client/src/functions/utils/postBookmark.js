@@ -1,10 +1,11 @@
 import useAuthStore from "../hooks/useAuthStore";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // 북마크 추가 함수
 export const postBookmark = async ({ title, url, parentId }) => {
     const token = useAuthStore.getState().accessToken?.trim();
 
-    const res = await fetch("/bookmarks", {
+    const res = await fetch(`${API_BASE_URL}/bookmarks`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
