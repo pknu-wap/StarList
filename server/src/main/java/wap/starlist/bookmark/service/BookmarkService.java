@@ -127,11 +127,20 @@ public class BookmarkService {
         // M log N번 수행
         return foundBookmarks.stream()
                 .filter(bookmark -> {
-                    Folder folder = bookmark.getFolder();
-                    while (folder.getParent() != null) {
-                        folder = folder.getParent();
+                    Folder current = bookmark.getFolder();
+                    if (current == null) {
+                        log.warn("폴더에 속하지 않은 북마크를 검색하였습니다. bookmark: {}", bookmark.getTitle());
+                        return false;
                     }
-                    Root root = folder.getRoot();
+
+                    while (current.getParent() != null) {
+                        current = current.getParent();
+                    }
+                    Root root = current.getRoot();
+                    if (root == null || root.getMember() == null) {
+                        log.warn("동기화되지 않은 북마크를 검색하였습니다. bookmark: {}", bookmark.getTitle());
+                        return false;
+                    }
                     return root.getMember().getProviderId().equals(memberProviderId);
                 }).toList();
     }
