@@ -156,7 +156,7 @@ public class BookmarkService {
         // 현재 노드의 자식들을 탐색하며 db에 저장 or 다시 탐색한다
         for (BookmarkTreeNode child : node.getChildren()) {
             if (isBookmark(child)) { // Bookmark
-                String imgUrl = scrapImage(node.getUrl()); // 이미지 가져오기
+                String imgUrl = scrapImage(child.getUrl()); // 이미지 가져오기
                 Bookmark childBookmark = child.toBookmark(imgUrl);
 
                 childBookmark.mapToFolder(currentFolder);
@@ -192,7 +192,7 @@ public class BookmarkService {
             imgUrl = ImageScraper.getImageUrl(url)
                     .orElseThrow(() -> new IllegalArgumentException("[ERROR] 이미지 스크랩 실패"));
             log.info("스크랩 이미지 url: {}", imgUrl);
-        } catch (IOException e) {
+        } catch (IllegalArgumentException | IOException e){
             log.warn("해당 URL을 파싱할 수 없음: {}", url, e);
         }
         return imgUrl;
