@@ -12,7 +12,7 @@ public class FolderResponse {
 
     private String title;
 
-    private Long googleId;
+    private Integer googleId;
 
     private Integer position;
 
@@ -21,6 +21,8 @@ public class FolderResponse {
     private Long dateAdded;
 
     private Long dateGroupModified;
+
+    private String message;
 
     // Folder를 전달받아 response 객체를 생성하는 정적 팩토리 메서드
     public static FolderResponse from(Folder folder) {
