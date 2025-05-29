@@ -190,6 +190,7 @@ public class BookmarkService {
             //TODO: orElse로 기본 이미지 가져오기
             imgUrl = ImageScraper.getImageUrl(url)
                     .orElse("");
+            log.info("스크랩 이미지 url: {}", imgUrl);
         } catch (IOException e) {
             log.warn("썸네일 이미지 파싱 실패: {}", url, e);
         }
