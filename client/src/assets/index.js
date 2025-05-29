@@ -15,7 +15,7 @@ export { default as ArrowLeft } from "./buttons/arrow-left.svg?react";
 export { default as EditButton } from "./buttons/edit-icon.svg?react";
 
 // 로고
-export { default as MainpageLogo } from "./logo/logo.svg?react";
+export { default as Logo } from "./logo/logo.svg?react";
 
 // 타이틀
 export { default as MainText } from "./titles/main-text.svg?react";
