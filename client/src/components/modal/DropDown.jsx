@@ -27,7 +27,7 @@ const DropDown = ({ options, selected, setSelected }) => {
         setSelected(node);
         setIsOpen(false);
     };
-
+    console.log("DropDown options", options);
     const renderTree = (nodes, level = 0) =>
         nodes.map((node) => {
             console.log("renderTree nodes", nodes);

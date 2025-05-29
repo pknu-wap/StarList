@@ -22,6 +22,7 @@ const AddItemModal = ({
 
     // tree가 바뀌었을 때 location 값 유지, tree에 없는 경우에만 tree[0]로 이동
     useEffect(() => {
+        console.log("AddItemModal: tree", tree, "location", location);
         if (!tree || !tree.length) return; // 트리가 비면 location 유지
         // location이 없거나 tree에 없는 경우만 강제 업데이트
         if (!location || !tree.some(item => item.id === location.id)) {

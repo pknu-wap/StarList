@@ -18,6 +18,7 @@ const BookmarkIcon = (
 );
 
 const AddBookmarkModal = ({ onClose }) => {
+    console.log("AddBookmarkModal tree", tree, "isLoading", isLoading);
     const { data: tree = [], isLoading } = useFolderTree();
 
     const handleBookmarkSubmit = async ({ title, url, location }) => {

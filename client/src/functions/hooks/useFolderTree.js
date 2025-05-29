@@ -12,7 +12,13 @@ const fetchFolderTree = async () => {
             Authorization: `Bearer ${token}`,
         },
     });
-    if (!res.ok) throw new Error("서버 응답 실패: " + res.status);
+    console.log("fetchFolderTree: /folders/tree 응답 status =", res.status);
+
+    if (!res.ok) {
+        const text = await res.text();
+        console.log("fetchFolderTree: 에러 body =", text);
+        throw new Error("서버 응답 실패: " + res.status);
+    }
     const data = await res.json();
     // 실제로 필요한 데이터 구조가 배열이 아닐 때 children에서 추출
     return Array.isArray(data)
