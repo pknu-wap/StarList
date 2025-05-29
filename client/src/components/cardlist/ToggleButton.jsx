@@ -6,7 +6,7 @@ import { CheckBoxChecked, CheckBoxEmpty, CheckBoxHover } from "../../assets";
 const ToggleButton = ({
     selected,
     onClick,
-    className = "w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-[34px] lg:h-[34px]"
+    className = "w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-[34px] lg:h-[34px]",
 }) => {
     const [isHovered, setIsHovered] = useState(false);
 
@@ -19,11 +19,11 @@ const ToggleButton = ({
 
     let IconComponent;
     if (selected) {
-        IconComponent = <CheckBoxChecked className="w-full h-full" />;
+        IconComponent = <CheckBoxChecked className="h-full w-full" />;
     } else if (isHovered) {
-        IconComponent = <CheckBoxHover className="w-full h-full" />;
+        IconComponent = <CheckBoxHover className="h-full w-full" />;
     } else {
-        IconComponent = <CheckBoxEmpty className="w-full h-full" />;
+        IconComponent = <CheckBoxEmpty className="h-full w-full" />;
     }
 
     return (
@@ -33,11 +33,7 @@ const ToggleButton = ({
             aria-pressed={selected}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={`
-        ${className}                      /* 반응형 w/h 유틸리티 */
-        inline-flex items-center justify-center
-        rounded-full
-      `}
+            className={` ${className} /* 반응형 w/h 유틸리티 */ inline-flex items-center justify-center rounded-full`}
         >
             {IconComponent}
         </button>

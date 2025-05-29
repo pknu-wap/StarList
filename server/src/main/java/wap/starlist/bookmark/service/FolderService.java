@@ -98,10 +98,34 @@ public class FolderService {
             root.getChildren().add(topFolder);
         }
 
+        log.info("[service#getTreeOf] user: {}, found root id: {}, folders size: {}",
+                found.getMember().getName(), found.getId(), found.getFolders().size());
         return root;
     }
 
-    private FolderTreeNode collectFolder(Folder folder) {FolderTreeNode parent = FolderTreeNode.from(folder);
+    public List<Folder> search(String memberProviderId, String query) {
+        log.info("[Folder search]: query={}", query);
+        // N번
+        List<Folder> foundFolders = folderRepository.findByTitleContaining(query);
+
+        // M log N번
+        return foundFolders.stream()
+                .filter(folder -> {
+                    Folder current = folder;
+                    while (current.getParent() != null) {
+                        current = current.getParent();
+                    }
+                    Root root = current.getRoot();
+                    if (root == null || root.getMember() == null) {
+                        log.warn("동기화되지 않은 폴더를 검색하였습니다. folder: {}", folder.getTitle());
+                        return false; // 동기화되지 않은 폴더나 root가 없는 폴더는 제외
+                    }
+                    return root.getMember().getProviderId().equals(memberProviderId);
+                }).toList();
+    }
+
+    private FolderTreeNode collectFolder(Folder folder) {
+        FolderTreeNode parent = FolderTreeNode.from(folder);
         for (Folder childEntity : folder.getFolders()) {
             FolderTreeNode child = collectFolder(childEntity);
             parent.addChild(child);

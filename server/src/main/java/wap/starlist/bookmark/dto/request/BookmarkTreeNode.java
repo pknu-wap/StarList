@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import wap.starlist.bookmark.domain.Bookmark;
 import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.domain.Root;
@@ -16,6 +17,7 @@ import java.util.List;
  * sync 요청을 받을 때만 사용한다. 그 이후엔 클라이언트에서 id값으로 요청을 주고받기 때문이다.
  * 이 id값은 serverId를 의미하고
  */
+@Slf4j
 @Getter
 @Builder
 @NoArgsConstructor
@@ -79,6 +81,7 @@ public class BookmarkTreeNode {
 
     public Bookmark toBookmark(String imgUrl) {
         System.out.println("[INFO] to BOOKMARK");
+        log.info("[TreeNode -> BOOKMARK] title={}, imgUrl={}", title, imgUrl);
         return Bookmark.builder()
                 .googleId(Long.parseLong(id))
                 .title(title)

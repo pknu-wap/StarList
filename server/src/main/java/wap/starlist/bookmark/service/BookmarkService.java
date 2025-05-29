@@ -33,13 +33,13 @@ public class BookmarkService {
     private final RootRepository rootRepository;
 
     @Transactional // 트랜잭션을 보장하기 위해
-    public Bookmark createBookmark(String title, String url) {
+    public Bookmark createBookmark(String memberProviderId, String title, String url) {
         // 중복 확인
-        Optional<Bookmark> found = bookmarkRepository.findByUrl(url);
+        List<Bookmark> found = bookmarkRepository.findByUrl(url);
 
-        if (found.isPresent()) {
+        if (!found.isEmpty()) {
             // 이미 있다면 추가된 날짜 수정
-            Bookmark bookmark = found.get();
+            Bookmark bookmark = found.get(0);
             bookmark.updateDateAdded();
             return bookmarkRepository.save(bookmark);
         }
@@ -118,6 +118,33 @@ public class BookmarkService {
         return root;
     }
 
+    public List<Bookmark> search(String memberProviderId, String query) {
+        log.info("[Bookmark search]: query={}", query);
+
+        // N번 수행
+        List<Bookmark> foundBookmarks = bookmarkRepository.findByTitleContaining(query);
+
+        // M log N번 수행
+        return foundBookmarks.stream()
+                .filter(bookmark -> {
+                    Folder current = bookmark.getFolder();
+                    if (current == null) {
+                        log.warn("폴더에 속하지 않은 북마크를 검색하였습니다. bookmark: {}", bookmark.getTitle());
+                        return false;
+                    }
+
+                    while (current.getParent() != null) {
+                        current = current.getParent();
+                    }
+                    Root root = current.getRoot();
+                    if (root == null || root.getMember() == null) {
+                        log.warn("동기화되지 않은 북마크를 검색하였습니다. bookmark: {}", bookmark.getTitle());
+                        return false;
+                    }
+                    return root.getMember().getProviderId().equals(memberProviderId);
+                }).toList();
+    }
+
     // DFS로 트리를 탐색
     // 연관관계의 주인은 하위 폴더 & 북마크이므로 자식이 부모와 연관관계를 설정하고 return 해야함
     private Folder collectNode(BookmarkTreeNode node) {
@@ -138,7 +165,7 @@ public class BookmarkService {
         // 현재 노드의 자식들을 탐색하며 db에 저장 or 다시 탐색한다
         for (BookmarkTreeNode child : node.getChildren()) {
             if (isBookmark(child)) { // Bookmark
-                String imgUrl = scrapImage(node.getUrl()); // 이미지 가져오기
+                String imgUrl = scrapImage(child.getUrl()); // 이미지 가져오기
                 Bookmark childBookmark = child.toBookmark(imgUrl);
 
                 childBookmark.mapToFolder(currentFolder);
@@ -170,10 +197,12 @@ public class BookmarkService {
         String imgUrl = "";
         try {
             //TODO: orElse로 기본 이미지 가져오기
+            log.info("이미지 가져오기 - {}", url);
             imgUrl = ImageScraper.getImageUrl(url)
-                    .orElse("");
-        } catch (IOException e) {
-            log.warn("썸네일 이미지 파싱 실패: {}", url, e);
+                    .orElseThrow(() -> new IllegalArgumentException("[ERROR] 이미지 스크랩 실패"));
+            log.info("스크랩 이미지 url: {}", imgUrl);
+        } catch (IllegalArgumentException | IOException e){
+            log.warn("해당 URL을 파싱할 수 없음: {}", url, e);
         }
         return imgUrl;
     }
