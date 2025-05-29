@@ -3,12 +3,12 @@ import useAuthStore from "../hooks/useAuthStore";
 
 // 북마크 추가
 export const addBookmarkApi = async ({ title, url, folderId }) => {
-    const token = useAuthStore.getState().accessToken?.trim();
+    const { accessToken } = useAuthStore.getState();
     const res = await fetch(`${API_BASE_URL}/bookmarks`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            "Authorization": `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ title, url, folderId }),
     });
@@ -16,15 +16,14 @@ export const addBookmarkApi = async ({ title, url, folderId }) => {
     return res.json();
 };
 
-
 // 폴더 추가
 export const addFolderApi = async ({ title, userId }) => {
-    const token = useAuthStore.getState().accessToken?.trim();
+    const { accessToken } = useAuthStore.getState();
     const res = await fetch(`${API_BASE_URL}/folders`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            "Authorization": `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ title, userId }),
     });
