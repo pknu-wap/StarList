@@ -3,18 +3,29 @@
 
 /* 2) CSS 변수 정의 (필요에 따라 확장) */
 :root {
-  --color-primary: #1e40af;
-  --color-secondary: #64748b;
-  --font-sans: "PretendardVariable", sans-serif;
+    --color-primary: #1e40af;
+    --color-secondary: #64748b;
+    --font-sans: "PretendardVariable", sans-serif;
 }
 
 /* 3) 전역 리셋 */
 *,
 *::before,
 *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-sans);
+    background: #fff;
+    box-sizing: border-box;
 }
 
 /* 4) Tailwind 기본 지시문 */
@@ -24,10 +35,10 @@
 
 /* 5) 글로벌 앵커 스타일 */
 a {
-  @apply text-inherit no-underline;
+    @apply text-inherit no-underline;
 }
 a:visited {
-  @apply text-inherit;
+    @apply text-inherit;
 }
 
 /* 6) 추가 전역 유틸 클래스 예시 */
