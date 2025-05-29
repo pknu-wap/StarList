@@ -1,14 +1,16 @@
 import useAuthStore from "../hooks/useAuthStore";
 import { useQuery } from "@tanstack/react-query";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const fetchFolderTree = async () => {
     const token = useAuthStore.getState().accessToken?.trim();
-    console.log("[fetchFolderTree] token:", token);
     if (!token) {
         console.log("[fetchFolderTree] 토큰 없음, 빈 배열 반환");
         return [];
     }
-    const res = await fetch("/folders/tree", {
+    // 절대경로로 수정!
+    const res = await fetch(`${API_BASE_URL}/folders/tree`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -32,7 +34,6 @@ const fetchFolderTree = async () => {
 
 const useFolderTree = () => {
     const token = useAuthStore(state => state.accessToken);
-    console.log("[useFolderTree] accessToken 상태:", token);
     return useQuery({
         queryKey: ["folderTree", token], // 토큰이 바뀔 때 refetch
         queryFn: fetchFolderTree,
