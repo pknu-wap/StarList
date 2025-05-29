@@ -48,8 +48,6 @@ const RemindCarousel = () => {
     const prevRef = useRef(null);
     const nextRef = useRef(null);
 
-
-
     // Swiper 초기화 후에 커스텀 네비게이션 버튼을 연결
     useEffect(() => {
         if (swiperInstance && prevRef.current && nextRef.current) {
@@ -62,105 +60,92 @@ const RemindCarousel = () => {
     }, [swiperInstance]);
 
     return (
-        <div className="w-full pt-[43px] flex flex-col items-center">
-            <div className="w-[1494px] mx-auto flex items-baseline justify-start space-x-2">
-                <p className="w-[115px] h-[43px] text-[32px] font-bold text-left text-black">리마인드</p>
-                <p className="w-[298px] h-[23px] text-[15px] font-bold text-left text-main-500">
+        <div className="flex flex-col items-center justify-between px-10">
+            {/* 제목 */}
+            <div className="flex w-full items-center justify-start space-x-2">
+                <p className="text-left text-3xl font-bold text-black sm:text-lg md:text-2xl lg:text-3xl">리마인드</p>
+                <p className="text-left text-lg font-bold text-main-500 sm:text-sm md:text-base lg:text-lg">
                     최근에 덜 본 북마크를 다시 추천해드려요.
                 </p>
             </div>
 
-
             {/* 캐러셀 / 플레이스 홀더 */}
-            <div className="w-[1494px] mx-auto pt-[100px] relative h-[240px]">
+            <div className="relative my-auto w-full">
                 {/* 좌측 버튼 */}
                 <button
                     ref={prevRef}
-                    className="absolute left-0 top-1/2 transform -translate-y-1/2 z-30 p-2 bg-white rounded-full shadow-md"
+                    className="absolute left-0 top-1/2 z-30 -translate-y-1/2 transform rounded-full bg-white p-2 shadow-md"
                     type="button"
                 >
-                    <ArrowLeft className="w-6 h-6" />
+                    <ArrowLeft className="h-6 w-6" />
                 </button>
 
                 {/* 우측 버튼 */}
                 <button
                     ref={nextRef}
-                    className="absolute right-0 top-1/2 transform -translate-y-1/2 z-30 p-2 bg-white rounded-full shadow-md"
+                    className="absolute right-0 top-1/2 z-30 -translate-y-1/2 transform rounded-full bg-white p-2 shadow-md"
                     type="button"
                 >
-                    <ArrowRight className="w-6 h-6" />
+                    <ArrowRight className="h-6 w-6" />
                 </button>
 
                 {/* 로딩 중에는 빈 상태 유지 */}
-                {isLoading ? null
-                    /* 로딩 완료 후, 에러이거나 데이터가 하나도 없으면 플레이스홀더 */
-                    : (error || bookmarks.length === 0) ? (
-                        <div className="h-full flex items-center justify-center">
-                            <span className="text-gray-300 text-2xl">아무것도 없네요</span>
-                        </div>
-                        // 데이터가 있으면 Swiper 렌더링
-                    ) : (
-                        <Swiper
-                            modules={[Navigation]}
-                            navigation
-                            slidesPerView="auto"
-                            spaceBetween={16}
-                            centeredSlides
-                            initialSlide={2}
-                            loop
-                            onSwiper={setSwiperInstance}
-                            onSlideChange={(swiper) =>
-                                setActiveIndex(swiper.realIndex)
-                            } // 슬라이드가 넘어갈 때 중앙 인덱스를 추적
-                            className="!overflow-visible"
-                        >
-                            {bookmarks.map((bm, idx) => {
-                                // 중앙 북마크와의 거리 계산
-                                let offset = idx - activeIndex;
-                                const len = bookmarks.length;
-                                if (offset > len / 2) offset -= len;
-                                if (offset < -len / 2) offset += len;
+                {isLoading ? null /* 로딩 완료 후, 에러이거나 데이터가 하나도 없으면 플레이스홀더 */ : error ||
+                  bookmarks.length === 0 ? (
+                    <div className="flex items-center justify-center">
+                        <span className="text-2xl text-gray-300">아무것도 없네요</span>
+                    </div>
+                ) : (
+                    // 데이터가 있으면 Swiper 렌더링
+                    <Swiper
+                        modules={[Navigation]}
+                        navigation
+                        slidesPerView="auto"
+                        spaceBetween={16}
+                        centeredSlides
+                        initialSlide={2}
+                        loop
+                        onSwiper={setSwiperInstance}
+                        onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)} // 슬라이드가 넘어갈 때 중앙 인덱스를 추적
+                        className="!overflow-visible"
+                    >
+                        {bookmarks.map((bm, idx) => {
+                            // 중앙 북마크와의 거리 계산
+                            let offset = idx - activeIndex;
+                            const len = bookmarks.length;
+                            if (offset > len / 2) offset -= len;
+                            if (offset < -len / 2) offset += len;
 
-                                // 카드 크기 직접 지정
-                                const width =
-                                    offset === 0
-                                        ? 363
-                                        : Math.abs(offset) === 1
-                                            ? 284
-                                            : 160;
-                                const height =
-                                    offset === 0
-                                        ? 240
-                                        : Math.abs(offset) === 1
-                                            ? 168
-                                            : 106;
+                            // 카드 크기 직접 지정
+                            const width = offset === 0 ? 363 : Math.abs(offset) === 1 ? 284 : 160;
+                            const height = offset === 0 ? 240 : Math.abs(offset) === 1 ? 168 : 106;
 
-                                return (
-                                    <SwiperSlide key={idx}>
+                            return (
+                                <SwiperSlide key={idx}>
+                                    <div
+                                        className={`relative mx-2 transition-all duration-300 ease-in-out ${getScaleClass(
+                                            offset,
+                                        )}`}
+                                        style={{ width, height }} // 직접 width/height 지정
+                                    >
+                                        {/* 카드 */}
+                                        <RemindCard {...bm} />
+
+                                        {/* 오버레이 */}
                                         <div
-                                            className={`relative transition-all duration-300 ease-in-out mx-2 ${getScaleClass(
-                                                offset
-                                            )}`}
-                                            style={{ width, height }} // 직접 width/height 지정
-                                        >
-                                            {/* 카드 */}
-                                            <RemindCard {...bm} />
-
-                                            {/* 오버레이 */}
-                                            <div
-                                                className={`absolute inset-0 rounded-[39px] bg-black ${getOverlayOpacity(
-                                                    offset
-                                                )} pointer-events-none transition-opacity duration-300`}
-                                            />
-                                        </div>
-                                    </SwiperSlide>
-                                );
-                            })}
-                        </Swiper>
-                    )}
+                                            className={`absolute inset-0 rounded-[39px] bg-black ${getOverlayOpacity(
+                                                offset,
+                                            )} pointer-events-none transition-opacity duration-300`}
+                                        />
+                                    </div>
+                                </SwiperSlide>
+                            );
+                        })}
+                    </Swiper>
+                )}
             </div>
         </div>
     );
-}
+};
 
 export default RemindCarousel;
