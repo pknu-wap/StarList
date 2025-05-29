@@ -35,12 +35,12 @@ public class BookmarkController {
     private final FolderService folderService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody BookmarkCreateRequest request) {
+    public ResponseEntity<?> create(@AuthenticationPrincipal String loginUser, @RequestBody BookmarkCreateRequest request) {
         String title = request.getTitle();
         String url = request.getUrl();
 
         // 북마크 저장
-        Bookmark createdBookmark = bookmarkService.createBookmark(title, url);
+        Bookmark createdBookmark = bookmarkService.createBookmark(loginUser, title, url);
 
         // 저장된 북마크 위치 URI
         URI location = URI.create("/bookmarks/" + createdBookmark.getId());

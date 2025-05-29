@@ -33,13 +33,13 @@ public class BookmarkService {
     private final RootRepository rootRepository;
 
     @Transactional // 트랜잭션을 보장하기 위해
-    public Bookmark createBookmark(String title, String url) {
+    public Bookmark createBookmark(String memberProviderId, String title, String url) {
         // 중복 확인
-        Optional<Bookmark> found = bookmarkRepository.findByUrl(url);
+        List<Bookmark> found = bookmarkRepository.findByUrl(url);
 
-        if (found.isPresent()) {
+        if (!found.isEmpty()) {
             // 이미 있다면 추가된 날짜 수정
-            Bookmark bookmark = found.get();
+            Bookmark bookmark = found.get(0);
             bookmark.updateDateAdded();
             return bookmarkRepository.save(bookmark);
         }
@@ -188,11 +188,12 @@ public class BookmarkService {
         String imgUrl = "";
         try {
             //TODO: orElse로 기본 이미지 가져오기
+            log.info("이미지 가져오기 - {}", url);
             imgUrl = ImageScraper.getImageUrl(url)
-                    .orElse("");
+                    .orElseThrow(() -> new IllegalArgumentException("[ERROR] 이미지 스크랩 실패"));
             log.info("스크랩 이미지 url: {}", imgUrl);
         } catch (IOException e) {
-            log.warn("썸네일 이미지 파싱 실패: {}", url, e);
+            log.warn("해당 URL을 파싱할 수 없음: {}", url, e);
         }
         return imgUrl;
     }
