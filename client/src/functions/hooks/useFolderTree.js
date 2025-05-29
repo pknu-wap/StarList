@@ -9,7 +9,7 @@ const fetchFolderTree = async () => {
         console.log("[fetchFolderTree] 토큰 없음, 빈 배열 반환");
         return [];
     }
-    // 절대경로로 수정!
+
     const res = await fetch(`${API_BASE_URL}/folders/tree`, {
         headers: {
             Authorization: `Bearer ${token}`,
