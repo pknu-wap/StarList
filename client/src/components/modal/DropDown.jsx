@@ -27,7 +27,8 @@ const DropDown = ({ options, selected, setSelected }) => {
         setSelected(node);
         setIsOpen(false);
     };
-    console.log("DropDown options", options);
+    console.log("[DropDown] options:", options, "selected:", selected);
+
     const renderTree = (nodes, level = 0) =>
         nodes.map((node) => {
             const hasChildren = Array.isArray(node.children) && node.children.length > 0;

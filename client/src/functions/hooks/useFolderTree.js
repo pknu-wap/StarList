@@ -3,25 +3,36 @@ import { useQuery } from "@tanstack/react-query";
 
 const fetchFolderTree = async () => {
     const token = useAuthStore.getState().accessToken?.trim();
+    console.log("[fetchFolderTree] token:", token);
     if (!token) {
-        return []; // null 대신 항상 배열 반환
+        console.log("[fetchFolderTree] 토큰 없음, 빈 배열 반환");
+        return [];
     }
     const res = await fetch("/folders/tree", {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     });
-    if (!res.ok) throw new Error("서버 응답 실패: " + res.status);
+    console.log("[fetchFolderTree] fetch status:", res.status);
+    if (!res.ok) {
+        const errorBody = await res.text();
+        console.log("[fetchFolderTree] fetch 실패, errorBody:", errorBody);
+        return [];
+    }
     const data = await res.json();
-    return Array.isArray(data)
+    console.log("[fetchFolderTree] data 응답:", data);
+    const ret = Array.isArray(data)
         ? data
         : Array.isArray(data.children)
             ? data.children
             : [];
+    console.log("[fetchFolderTree] 최종 반환:", ret);
+    return ret;
 };
 
 const useFolderTree = () => {
     const token = useAuthStore(state => state.accessToken);
+    console.log("[useFolderTree] accessToken 상태:", token);
     return useQuery({
         queryKey: ["folderTree", token], // 토큰이 바뀔 때 refetch
         queryFn: fetchFolderTree,

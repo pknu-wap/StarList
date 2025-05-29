@@ -21,11 +21,16 @@ const AddItemModal = ({
 
     // tree가 바뀌었을 때 location 값 유지, tree에 없는 경우에만 tree[0]로 이동
     useEffect(() => {
+        console.log("[AddItemModal] useEffect: tree:", tree, "location:", location);
         if (!tree || !tree.length) return;
         if (!location || !tree.some(item => item.id === location.id)) {
             setLocation(tree[0]);
         }
     }, [tree]);
+
+    useEffect(() => {
+        console.log("[AddItemModal] location state 변화:", location);
+    }, [location]);
 
     const handleChange = (e) => {
         setForm(f => ({ ...f, [e.target.name]: e.target.value }));
