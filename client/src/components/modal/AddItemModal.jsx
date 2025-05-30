@@ -4,7 +4,7 @@ import DropDown from "./DropDown";
 // AddItemModal 컴포넌트: 항목을 추가하는 모달창
 const AddItemModal = ({
     title,             // 모달 상단 제목
-    icon,              // 모달 상단 아이콘
+    icon: Icon,              // 모달 상단 아이콘
     fields,            // 입력 필드 정보 배열 [{ name, label, placeholder }]
     tree,              // 위치 선택용 트리 구조 배열
     isLoading = false, // 로딩 상태
@@ -66,7 +66,7 @@ const AddItemModal = ({
     // 로딩 중일 때 렌더링되는 UI
     if (isLoading) return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-[30px] w-[624px] h-[537px] flex items-center justify-center text-lg">
+            <div className="bg-white rounded-[20px] w-[90%] max-w-[624px] h-[90%] max-h-[537px] flex items-center justify-center text-lg">
                 로딩 중...
             </div>
         </div>
@@ -76,30 +76,49 @@ const AddItemModal = ({
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div
-                className="w-[624px] relative rounded-[30px] bg-white"
+                className={`
+                        bg-white
+                        rounded-[20px] sm:rounded-[30px]
+                        w-[90%] max-w-[424px]
+                        sm:w-[80%] sm:max-w-[624px]
+                        relative
+                    `}
                 style={{ boxShadow: "0px 2.46px 17.33px 0 rgba(0,0,0,0.25)" }}
             >
                 {/* 헤더 영역: 아이콘, 제목, 닫기 버튼 */}
-                <div className="w-full h-[33px] flex items-center relative mt-[49px] mb-[40px]">
-                    {icon}
-                    <span className="ml-[64px] text-[27px] font-semibold text-black">
+                <div className="
+                            flex items-center justify-center relative 
+                            mt-[32px] sm:mt-[49px] mb-[32px] sm:mb-[40px] 
+                            px-6 sm:px-12
+                            space-x-2 sm:space-x-4
+                        "
+                >
+                    {Icon && <Icon className="w-8 h-8 text-main-500" />}
+                    <span className="ml-[32px] sm:ml-[64px] text-[20px] sm:text-[27px] font-semibold text-black">
                         {title}
                     </span>
                     <button
-                        className="absolute right-[32px] text-2xl text-gray-400 hover:text-gray-600"
+                        className="absolute right-[16px] sm:right-[32px] text-2xl text-gray-400 hover:text-gray-600"
                         onClick={onClose}
-                        style={{ top: -35 }}
+                        style={{ top: "-35px" }}
                     >
                         ✕
                     </button>
                 </div>
 
                 {/* 폼 영역 */}
-                <form onSubmit={handleSubmit} className="px-12 pb-8 flex flex-col gap-8 relative">
+                <form onSubmit={handleSubmit} className="px-6 sm:px-12 pb-[24px] sm:pb-8 flex flex-col gap-6 sm:gap-8">
                     {/* 동적 필드 렌더링 */}
                     {fields.map(({ name, label, placeholder }) => (
-                        <div key={name}>
-                            <label className="block text-2xl font-medium text-black mb-2">
+                        <div
+                            key={name}
+                            className="flex flex-col 
+                                    sm:flex-row sm:items-center 
+                                    sm:space-x-[21px] 
+                                    mb-6
+                                "
+                        >
+                            <label className="text-[18px] sm:text-2xl font-medium text-black sm:w-32">
                                 {label}
                             </label>
                             <input
@@ -108,7 +127,14 @@ const AddItemModal = ({
                                 value={form[name]}
                                 onChange={handleChange}
                                 placeholder={placeholder}
-                                className="w-full h-[61px] rounded-[18px] bg-gray-50 text-[22px] px-6"
+                                className={`
+                                        flex-1
+                                        h-[48px] sm:h-[61px]
+                                        rounded-[12px] sm:rounded-[18px]
+                                        bg-gray-50
+                                        text-[16px] sm:text-[22px]
+                                        px-4 sm:px-6
+                                    `}
                                 required
                             />
                         </div>
@@ -117,7 +143,7 @@ const AddItemModal = ({
                     {/* 폴더 선택 드롭다운 */}
                     {tree && tree.length > 0 && (
                         <div>
-                            <label className="block text-2xl font-medium text-black mb-2">
+                            <label className="block text-[18px] sm:text-2xl font-medium text-black mb-2">
                                 위치
                             </label>
                             <DropDown options={tree} selected={location} setSelected={setLocation} />
@@ -134,7 +160,16 @@ const AddItemModal = ({
                     {/* 제출 버튼 */}
                     <button
                         type="submit"
-                        className="w-full h-[70px] rounded-[18px] bg-gradient-to-r from-main-500 to-main-black text-[23px] font-bold text-white shadow mt-3"
+                        className={`
+                            w-full
+                            h-[60px] sm:h-[70px]
+                            rounded-[12px] sm:rounded-[18px]
+                            bg-gradient-to-r from-main-500 to-main-black
+                            text-[18px] sm:text-[23px]
+                            font-bold text-white
+                            shadow
+                            mt-3
+                        `}
                     >
                         {buttonText}
                     </button>
