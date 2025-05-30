@@ -45,7 +45,7 @@ const DropDown = ({ options, selected, setSelected }) => {
                 <div key={node.id}>
                     {/* 노드 항목 */}
                     <div
-                        className={`flex items-center h-[45px]cursor-pointer hover:bg-gray-50 ${isSel ? "bg-gray-100" : ""}`}
+                        className={`flex items-center h-[61px] cursor-pointer hover:bg-gray-50 ${isSel ? "bg-gray-100" : ""}`}
                         style={{ paddingLeft: `${level * 1}rem` }} // 들여쓰기 레벨 적용
                         onClick={() => handleSelect(node)}
                     >
