@@ -3,7 +3,7 @@ const AddSelectMenu = ({ onSelect, onClose }) => {
     // onSelect("bookmark") 또는 onSelect("folder")로 호출
     return (
         <div
-            className="absolute left-1/2 -translate-x-1/2 mt-3 w-[120px] rounded-xl bg-white shadow-lg py-3 z-50 flex flex-col items-center"
+            className="absolute left-1/2 -translate-x-1/2 mt-3 w-[167px] rounded-xl bg-white shadow-card py-3 z-50 flex flex-col items-center"
             style={{ minWidth: 120 }}
             onClick={e => e.stopPropagation()}
         >

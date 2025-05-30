@@ -8,7 +8,7 @@ const Toolbar = () => {
     return (
         <div className="flex w-full items-center justify-between">
             <BreadCrumb />
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-[21px]">
                 <AddButton />
                 <SearchBar />
             </div>

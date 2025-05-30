@@ -62,9 +62,9 @@ const RemindCarousel = () => {
     return (
         <div className="flex flex-col items-center justify-between px-10">
             {/* 제목 */}
-            <div className="flex w-full items-center justify-start space-x-2">
-                <p className="text-left text-3xl font-bold text-black sm:text-lg md:text-2xl lg:text-3xl">리마인드</p>
-                <p className="text-left text-lg font-bold text-main-500 sm:text-sm md:text-base lg:text-lg">
+            <div className="flex w-full items-baseline space-x-2">
+                <p className="text-left text-3xl font-bold text-black sm:text-lg md:text-2xl lg:text-3xl leading-none">리마인드</p>
+                <p className="text-left text-lg font-bold text-main-500 sm:text-sm md:text-base lg:text-lg leading-none">
                     최근에 덜 본 북마크를 다시 추천해드려요.
                 </p>
             </div>
@@ -91,7 +91,7 @@ const RemindCarousel = () => {
 
                 {/* 로딩 중에는 빈 상태 유지 */}
                 {isLoading ? null /* 로딩 완료 후, 에러이거나 데이터가 하나도 없으면 플레이스홀더 */ : error ||
-                  bookmarks.length === 0 ? (
+                    bookmarks.length === 0 ? (
                     <div className="flex items-center justify-center">
                         <span className="text-2xl text-gray-300">아무것도 없네요</span>
                     </div>

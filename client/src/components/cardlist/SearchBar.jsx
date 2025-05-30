@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useSearchStore from "../../functions/hooks/useSearchStore";
+import { Search } from "../../assets";
 
 const SearchBar = () => {
     const setKeyword = useSearchStore((s) => s.setKeyword);
@@ -20,7 +21,7 @@ const SearchBar = () => {
     };
 
     return (
-        <form name="search" onSubmit={handleSubmit}>
+        <form name="search" onSubmit={handleSubmit} className="relative w-[358px]">
             <input
                 type="text"
                 name="keyword"
@@ -29,8 +30,9 @@ const SearchBar = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onBlur={handleBlur}
-                className="rounded border px-3 py-2"
+                className="w-full h-[43px] rounded-[78px] border-2 border-black px-6 placeholder-gray-500 focus:outline-none focus:bg-gray-50"
             />
+            <Search className="absolute right-4 top-1/2 w-6 h-6 -translate-y-1/2 text-gray-500" />
         </form>
     );
 };
