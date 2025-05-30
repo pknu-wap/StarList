@@ -38,20 +38,40 @@ const AddButton = () => {
                 type="button"
                 onClick={() => setOpenMenu(v => !v)}
                 className={`
-                        flex items-center justify-center
+                        relative flex items-center justify-center
                         w-[80px]   sm:w-[90px]
                         md:w-[100px] lg:w-[120px]
                         h-8 sm:h-9
-                        md:h-10      lg:h-[43px]
+                        md:h-10 lg:h-[43px]
                         rounded-full sm:rounded-full
                         md:rounded-full lg:rounded-[78px]
-                        bg-gradient-to-r from-main-500 to-main-black
-                        shadow-md sm:shadow-md
-                        md:shadow-md lg:shadow-[0px_4px_14.9px_rgba(0,0,0,0.25)]
-                    `}
+                        
+                        /* 기본 그림자 */
+                        shadow-md  
+                        /* 호버시 그림자 강화 */
+                        hover:shadow-[0px_4px_14.9px_rgba(0,0,0,0.25)]
+                        transition-shadow duration-200 ease-in-out
+
+                        /* group 선언해서 내부 오버레이에 hover 바인딩 */
+                        group
+
+                        /* 그라데이션 배경은 그대로 */
+                        bg-gradient-to-r from-main-500 to-indigo-900
+                `}
             >
+                {/* 배경 오버레이: 기본엔 투명, hover시 검정 25% */}
+                <div
+                    className="
+                        absolute inset-0
+                        bg-transparent        /* 기본엔 투명 */
+                        group-hover:bg-black/25  /* hover 시 검정25% */
+                        rounded-full           /* 버튼과 같은 border */
+                        transition-colors duration-200
+                    "
+                />
                 <PlusIcon
                     className={`
+                            relative z-10
                             w-4 h-4
                             sm:w-4 sm:h-4
                             md:w-5 md:h-5
@@ -61,6 +81,7 @@ const AddButton = () => {
                         `}
                 />
                 <span className={`
+                            relative z-10
                             text-xs sm:text-sm
                             md:text-base lg:text-base
                             font-medium text-white
