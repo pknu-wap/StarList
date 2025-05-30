@@ -45,7 +45,7 @@ const DropDown = ({ options, selected, setSelected }) => {
                 <div key={node.id}>
                     {/* 노드 항목 */}
                     <div
-                        className={`flex items-center cursor-pointer hover:bg-gray-50 ${isSel ? "bg-gray-100" : ""}`}
+                        className={`flex items-center h-[45px]cursor-pointer hover:bg-gray-50 ${isSel ? "bg-gray-100" : ""}`}
                         style={{ paddingLeft: `${level * 1}rem` }} // 들여쓰기 레벨 적용
                         onClick={() => handleSelect(node)}
                     >
@@ -79,7 +79,7 @@ const DropDown = ({ options, selected, setSelected }) => {
                     w-[300px] sm:w-[429px]
                     rounded-[12px] sm:rounded-[18px]
                     bg-main-50 overflow-y-auto
-                    px-4 
+                    px-4 overflow-hidden
                     transition-[max-height] duration-300 ease-out
                     ${isOpen ? "max-h-[500px]" : "max-h-[61px]"}
                 `}
