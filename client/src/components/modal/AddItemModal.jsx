@@ -29,7 +29,6 @@ const AddItemModal = ({
 
     // tree가 변경될 때 실행되는 effect
     useEffect(() => {
-        console.log("[AddItemModal] useEffect: tree:", tree, "location:", location);
         if (!tree || !tree.length) return;
         // 현재 location이 없거나 tree에 없는 경우, tree[0]으로 설정
         if (!location || !tree.some(item => item.id === location.id)) {
@@ -65,7 +64,7 @@ const AddItemModal = ({
 
     // 로딩 중일 때 렌더링되는 UI
     if (isLoading) return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-start items-center z-50">
             <div className="bg-white rounded-[20px] w-[90%] max-w-[624px] h-[90%] max-h-[537px] flex items-center justify-center text-lg">
                 로딩 중...
             </div>
@@ -141,14 +140,14 @@ const AddItemModal = ({
                     ))}
 
                     {/* 폴더 선택 드롭다운 */}
-                    {tree && tree.length > 0 && (
-                        <div>
-                            <label className="block text-[18px] sm:text-2xl font-medium text-black mb-2">
-                                위치
-                            </label>
-                            <DropDown options={tree} selected={location} setSelected={setLocation} />
-                        </div>
-                    )}
+
+                    <div>
+                        <label className="block text-[18px] sm:text-2xl font-medium text-black mb-2">
+                            위치
+                        </label>
+                        <DropDown options={tree} selected={location} setSelected={setLocation} />
+                    </div>
+
 
                     {/* 오류 메시지 출력 */}
                     {errorMsg && (
