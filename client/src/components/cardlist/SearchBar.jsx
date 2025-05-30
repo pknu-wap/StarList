@@ -21,18 +21,52 @@ const SearchBar = () => {
     };
 
     return (
-        <form name="search" onSubmit={handleSubmit} className="relative w-[358px]">
+        <form
+            name="search"
+            onSubmit={handleSubmit}
+            className={`
+                    relative
+                    w-full
+                    sm:w-[280px]
+                    md:w-[358px]
+                    lg:w-[358px]
+                `}
+        >
             <input
                 type="text"
                 name="keyword"
                 placeholder="검색"
                 required
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={e => setInput(e.target.value)}
                 onBlur={handleBlur}
-                className="w-full h-[43px] rounded-[78px] border-2 border-black px-6 placeholder-gray-500 focus:outline-none focus:bg-gray-50"
+                className={`
+                        w-full
+                        h-8 sm:h-9
+                        md:h-10 lg:h-[43px]
+                        rounded-full
+                        border-2 border-black
+                        px-3 sm:px-4
+                        md:px-5 lg:px-6
+                        text-xs sm:text-sm
+                        md:text-base lg:text-base
+                        placeholder-gray-500
+                        focus:outline-none focus:bg-gray-50
+                    `}
             />
-            <Search className="absolute right-4 top-1/2 w-6 h-6 -translate-y-1/2 text-gray-500" />
+            <Search
+                className={`
+                        absolute
+                        right-2 sm:right-3
+                        md:right-4 lg:right-4
+                        top-1/2 -translate-y-1/2
+                        w-4 h-4
+                        sm:w-5 sm:h-5
+                        md:w-6 md:h-6
+                        lg:w-6 lg:h-6
+                        text-gray-500
+                    `}
+            />
         </form>
     );
 };
