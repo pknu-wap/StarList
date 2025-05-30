@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../components/header/Header";
 import CardList from "../components/cardlist/CardList";
 import RemindCarousel from "../components/remainder/RemindCarousel";
+import ScrollToTopButton from "../components/cardlist/ScrollToTopButton";
 
 const MainPage = () => {
     return (
@@ -9,6 +10,7 @@ const MainPage = () => {
             <Header />
             <RemindCarousel />
             <CardList />
+            <ScrollToTopButton />
         </div>
     );
 };
