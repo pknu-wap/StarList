@@ -107,18 +107,17 @@ const AddItemModal = ({
                 </div>
 
                 {/* 폼 영역 */}
-                <form onSubmit={handleSubmit} className="px-6 sm:px-12 pb-[24px] sm:pb-8 flex flex-col gap-6 sm:gap-8">
+                <form onSubmit={handleSubmit} className="items-center px-[60px] sm:px-[50px] pb-[24px] sm:pb-8 flex flex-col gap-6 sm:gap-[21px]">
                     {/* 동적 필드 렌더링 */}
                     {fields.map(({ name, label, placeholder }) => (
                         <div
                             key={name}
                             className="flex flex-col 
                                     sm:flex-row sm:items-center 
-                                    sm:space-x-[21px] 
                                     mb-6
                                 "
                         >
-                            <label className="text-[18px] sm:text-2xl font-medium text-black sm:w-32">
+                            <label className="text-[18px] sm:text-2xl font-medium text-black sm:w-[68px]">
                                 {label}
                             </label>
                             <input
@@ -129,7 +128,8 @@ const AddItemModal = ({
                                 placeholder={placeholder}
                                 className={`
                                         flex-1
-                                        h-[48px] sm:h-[61px]
+                                        w-[300px] sm:w-[429px]
+                                        h-[60px] sm:h-[61px]
                                         rounded-[12px] sm:rounded-[18px]
                                         bg-gray-50
                                         text-[16px] sm:text-[22px]
@@ -161,14 +161,15 @@ const AddItemModal = ({
                     <button
                         type="submit"
                         className={`
-                            w-full
-                            h-[60px] sm:h-[70px]
+                            w-[320px] sm:w-[344px]
+                            h-[50px] sm:h-[70px]
                             rounded-[12px] sm:rounded-[18px]
                             bg-gradient-to-r from-main-500 to-main-black
                             text-[18px] sm:text-[23px]
                             font-bold text-white
-                            shadow
+                            shadow-[0px_2px_14px_0px_rgba(0,0,0,0.25)]
                             mt-3
+                            hover:scale-105 active:scale-95 transition-transform duration-150 cursor-pointer
                         `}
                     >
                         {buttonText}
