@@ -30,7 +30,7 @@ const SearchBar = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onBlur={handleBlur}
-                className="w-full rounded-[78px] border-2 border-black px-6 py-2 placeholder-gray-500 focus:outline-none focus:bg-gray-50"
+                className="w-full h-[43px] rounded-[78px] border-2 border-black px-6 placeholder-gray-500 focus:outline-none focus:bg-gray-50"
             />
             <Search className="absolute right-4 top-1/2 w-6 h-6 -translate-y-1/2 text-gray-500" />
         </form>

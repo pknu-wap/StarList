@@ -35,17 +35,21 @@ const AddButton = () => {
     return (
         <div className="relative inline-block" ref={buttonRef}>
             <button
-                className="w-[120px] h-[43px] relative"
-                style={{
-                    filter: "drop-shadow(0px 4px 14.9px rgba(0,0,0,0.25))",
-                }}
+                type="button"
                 onClick={() => setOpenMenu(v => !v)}
+                className="
+          flex 
+          items-center 
+          justify-center 
+          w-[120px] 
+          h-[43px] 
+          rounded-[78px]
+          bg-gradient-to-r from-main-500 to-main-black 
+          shadow-[0px_4px_14.9px_rgba(0,0,0,0.25)]
+        "
             >
-                <div className="w-[120px] h-[43px] absolute left-[-1.5px] top-[-1.5px] rounded-[78px] bg-gradient-to-r from-main-500 to-main-black z-0"></div>
-                <PlusIcon className="absolute left-6 top-[11px] w-5 h-5 text-white z-10" />
-                <p className="w-[34px] h-[22px] absolute left-[57px] top-2.5 text-base font-medium text-center text-white z-10 flex items-center justify-center">
-                    New
-                </p>
+                <PlusIcon className="w-5 h-5 text-white mr-2" />
+                <span className="text-base font-medium text-white">New</span>
             </button>
             {openMenu && (
                 <AddSelectMenu
