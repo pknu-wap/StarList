@@ -51,20 +51,20 @@ const DropDown = ({ options, selected, setSelected }) => {
                     >
                         {/* 자식 노드가 있으면 펼침/접힘 버튼 표시 */}
                         {hasChildren && (
-                            <button
+                            <span
                                 type="button"
                                 onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
                                     toggle(node.id);
                                 }}
-                                className="w-4 h-4 flex-shrink-0 mr-1"
+                                className="mr-2"
                             >
                                 {isExpanded ? "▼" : "▶"}
-                            </button>
+                            </span>
                         )}
                         {/* 노드 제목 */}
-                        <span className="flex-1 py-1">{node.title}</span>
+                        <span>{node.title}</span>
                     </div>
                     {/* 자식 노드가 펼쳐진 경우 재귀 렌더링 */}
                     {hasChildren && isExpanded && renderTree(node.children, level + 1)}
@@ -73,37 +73,31 @@ const DropDown = ({ options, selected, setSelected }) => {
         });
 
     return (
-        <div className="relative inline-block w-full" ref={wrapperRef}>
-            {/* 드롭다운 버튼 */}
-            <button
-                type="button"
-                onClick={() => setIsOpen((v) => !v)}
-                className="
-                        w-[300px] sm:w-[429px]
-                        h-[60px] sm:h-[61px] rounded-[12px] sm:rounded-[18px]
-                        text-[16px] sm:text-[22px]
-                        bg-gray-50
-                        px-4 sm:px-6
-                    "
-            >
-                {/* 선택된 노드 제목 또는 기본 텍스트 */}
-                {selected?.title || "폴더 선택"}
-                <span className="ml-2 items-start">{isOpen ? "▶" : "▼"}</span>
-            </button>
-
-            {/* 드롭다운 메뉴 */}
+        <div ref={wrapperRef} className="w-full max-w-[429px]">
             <div
                 className={`
-                        absolute left-0 mt-1 w-full
-                        bg-gray-50 border rounded shadow-lg z-10
-                        overflow-hidden
-                        transition-[max-height,opacity] duration-300 ease-out
-                        ${isOpen ? "max-h-[240px] opacity-100" : "max-h-0 opacity-0"}
-                        `
-                }
+                    w-[300px] sm:w-[429px]
+                    rounded-[12px] sm:rounded-[18px]
+                    bg-main-50 overflow-y-auto
+                    px-4 
+                    transition-[max-height] duration-300 ease-out
+                    ${isOpen ? "max-h-[500px]" : "max-h-[61px]"}
+                `}
             >
-                <div className="overflow-auto h-full">
-                    {renderTree(options)}
+                {/** 현재 선택된 항목 버튼 */}
+                <div
+                    className="flex items-center justify-between px-4 h-[61px] cursor-pointer"
+                    onClick={() => setIsOpen((v) => !v)}
+                >
+                    <span className="text-[22px] text-gray-500">
+                        {selected?.title || "폴더 선택"}
+                    </span>
+                    <span>{isOpen ? "▲" : "▼"}</span>
+                </div>
+
+                {/** 펼쳐질 트리 리스트 */}
+                <div>
+                    {isOpen && renderTree(options)}
                 </div>
             </div>
         </div>
