@@ -5,6 +5,7 @@ export { default as SettingIcon } from './icons/settings-icon.svg?react';
 export { default as ArrowForwardIcon } from './icons/arrow-forward.svg?react';
 export { default as PlusBookmark } from './icons/add-bookmark.svg?react';
 export { default as PlusFolder } from './icons/add-folder.svg?react';
+export { default as Search } from './buttons/search.svg?react';
 
 // 아이콘 버튼
 export { default as CheckBoxEmpty } from "./buttons/check-box-empty.svg?react";
