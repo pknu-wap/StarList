@@ -1,12 +1,11 @@
 package wap.starlist.bookmark.service;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +17,6 @@ import wap.starlist.bookmark.domain.Bookmark;
 import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.domain.Root;
 import wap.starlist.bookmark.dto.request.BookmarkTreeNode;
-import wap.starlist.bookmark.dto.response.BookmarkNodeResponse;
 import wap.starlist.bookmark.repository.BookmarkRepository;
 import wap.starlist.bookmark.repository.FolderRepository;
 import wap.starlist.bookmark.repository.RootRepository;
@@ -48,7 +46,7 @@ public class BookmarkService {
         }
 
         // 웹 페이지의 이미지 파싱
-        String imgUrl = scrapImage(url);
+        String imgUrl = scrapImageOrEmpty(url);
 
         // 전달받은 값으로 임시 북마크 생성
         Bookmark bookmark = Bookmark.builder()
@@ -178,7 +176,7 @@ public class BookmarkService {
     // 연관관계의 주인은 하위 폴더 & 북마크이므로 자식이 부모와 연관관계를 설정하고 return 해야함
     private Folder collectNode(BookmarkTreeNode node) {
         if (isBookmark(node)) { // Bookmark
-            String imgUrl = scrapImage(node.getUrl()); // 이미지 기져오기
+            String imgUrl = scrapImageOrEmpty(node.getUrl()); // 이미지 기져오기
             Bookmark leafBookmark = node.toBookmark(imgUrl);
 
             bookmarkRepository.save(leafBookmark);
@@ -194,7 +192,7 @@ public class BookmarkService {
         // 현재 노드의 자식들을 탐색하며 db에 저장 or 다시 탐색한다
         for (BookmarkTreeNode child : node.getChildren()) {
             if (isBookmark(child)) { // Bookmark
-                String imgUrl = scrapImage(child.getUrl()); // 이미지 가져오기
+                String imgUrl = scrapImageOrEmpty(child.getUrl()); // 이미지 가져오기
                 Bookmark childBookmark = child.toBookmark(imgUrl);
 
                 childBookmark.mapToFolder(currentFolder);
@@ -222,7 +220,7 @@ public class BookmarkService {
         return System.currentTimeMillis() / MILLIS_PER_SECOND;
     }
 
-    private String scrapImage(String url) {
+    private String scrapImageOrEmpty(String url) {
         String imgUrl = "";
         try {
             //TODO: orElse로 기본 이미지 가져오기
@@ -233,6 +231,13 @@ public class BookmarkService {
         } catch (IllegalArgumentException | IOException e){
             log.warn("해당 URL을 파싱할 수 없음: {}", url, e);
         }
+
+        // imgUrl의 UTF-8 바이트 길이가 2048을 초과하면 빈값 반환 (저장 안함)
+        if (imgUrl.getBytes(StandardCharsets.UTF_8).length > 2048) {
+            log.warn("imgUrl이 VARCHAR(2048) 범위를 초과: {}", imgUrl);
+            return "";
+        }
+
         return imgUrl;
     }
 }
