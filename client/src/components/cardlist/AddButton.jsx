@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import AddSelectMenu from "./AddSelectMenu";
 import AddBookmarkModal from "../modal/AddBookmarkModal";
 import AddFolderModal from "../modal/AddFolderModal";
+import { PlusIcon } from "../../assets";
 
 const AddButton = () => {
     const [openMenu, setOpenMenu] = useState(false);
@@ -34,10 +35,17 @@ const AddButton = () => {
     return (
         <div className="relative inline-block" ref={buttonRef}>
             <button
-                className="w-[48px] h-[48px] bg-gradient-to-r from-[#7349D6] to-[#1A1A1A] rounded-full shadow flex items-center justify-center text-white text-xl"
+                className="w-[120px] h-[43px] relative"
+                style={{
+                    filter: "drop-shadow(0px 4px 14.9px rgba(0,0,0,0.25))",
+                }}
                 onClick={() => setOpenMenu(v => !v)}
             >
-                +
+                <div className="w-[120px] h-[43px] absolute left-[-1.5px] top-[-1.5px] rounded-[78px] bg-gradient-to-r from-main-500 to-main-black z-0"></div>
+                <PlusIcon className="absolute left-6 top-[11px] w-5 h-5 text-white z-10" />
+                <p className="w-[34px] h-[22px] absolute left-[57px] top-2.5 text-base font-medium text-center text-white z-10 flex items-center justify-center">
+                    New
+                </p>
             </button>
             {openMenu && (
                 <AddSelectMenu
@@ -53,6 +61,6 @@ const AddButton = () => {
             )}
         </div>
     );
-}
+};
 
 export default AddButton;
