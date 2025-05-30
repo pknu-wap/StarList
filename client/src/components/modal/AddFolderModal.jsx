@@ -27,7 +27,7 @@ const AddFolderModal = ({ onClose }) => {
             title="새 폴더 추가"        // 모달 제목
             icon={PlusFolder}           // 모달 아이콘
             fields={[
-                { name: "title", label: "폴더명", placeholder: "폴더 이름" }
+                { name: "title", label: "이름", placeholder: "폴더 이름" }
             ]}                            // 입력 필드 설정
             tree={tree}                  // 폴더 트리 옵션
             isLoading={isLoading}        // 로딩 상태
