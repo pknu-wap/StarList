@@ -1,111 +1,111 @@
 import { useState, useRef, useEffect } from "react";
 
-const DownArrow = () => (
-    <svg
-        width={13}
-        height={10}
-        viewBox="0 0 13 10"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="block"
-        preserveAspectRatio="none"
-    >
-        <path
-            d="M6.84766 9.88867L0.785479 0.138672H12.9098L6.84766 9.88867Z"
-            fill="#4D4A57"
-        />
-    </svg>
-);
-
-const UpArrow = () => (
-    <svg
-        width={14}
-        height={11}
-        viewBox="0 0 14 11"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="block"
-        preserveAspectRatio="none"
-    >
-        <path
-            d="M7 10.7354L0.937822 0.985352H13.0622L7 10.7354Z"
-            fill="#4D4A57"
-        />
-    </svg>
-);
-
 // DropDown 컴포넌트: 폴더 트리 구조를 드롭다운 형태로 보여주고 선택할 수 있는 UI
 const DropDown = ({ options, selected, setSelected }) => {
-    const [open, setOpen] = useState(false);
-    const containerRef = useRef(null);
+    // 드롭다운 열기/닫기 상태
+    const [isOpen, setIsOpen] = useState(false);
+    // 트리 노드 확장(펼침) 상태를 Set으로 관리
+    const [expanded, setExpanded] = useState(new Set());
+    // 드롭다운 외부 클릭 감지를 위한 ref
+    const wrapperRef = useRef();
 
-    // 외부 클릭 시 닫기
+    // 컴포넌트 마운트 시 외부 클릭 이벤트 리스너 등록 및 언마운트 시 해제
     useEffect(() => {
-        const handler = (e) => {
-            if (containerRef.current && !containerRef.current.contains(e.target)) {
-                setOpen(false);
+        const handleOutside = (e) => {
+            if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+                setIsOpen(false);
             }
         };
-        document.addEventListener("mousedown", handler);
-        return () => document.removeEventListener("mousedown", handler);
+        document.addEventListener("mousedown", handleOutside);
+        return () => document.removeEventListener("mousedown", handleOutside);
     }, []);
 
+    // 특정 노드의 펼침/접힘 상태 토글
+    const toggle = (id) => {
+        setExpanded((prev) => {
+            const s = new Set(prev);
+            s.has(id) ? s.delete(id) : s.add(id);
+            return s;
+        });
+    };
+
+    // 노드 선택 시 호출: selected 상태 업데이트 후 드롭다운 닫기
+    const handleSelect = (node) => {
+        setSelected(node);
+        setIsOpen(false);
+    };
+
+    // 트리 구조를 재귀적으로 렌더링하는 함수
+    const renderTree = (nodes, level = 0) =>
+        nodes.map((node) => {
+            const hasChildren = Array.isArray(node.children) && node.children.length > 0;
+            const isExpanded = expanded.has(node.id);
+            const isSel = selected?.id === node.id;
+            return (
+                <div key={node.id}>
+                    {/* 노드 항목 */}
+                    <div
+                        className={`flex items-center cursor-pointer hover:bg-gray-50 ${isSel ? "bg-gray-100" : ""}`}
+                        style={{ paddingLeft: `${level * 1}rem` }} // 들여쓰기 레벨 적용
+                        onClick={() => handleSelect(node)}
+                    >
+                        {/* 자식 노드가 있으면 펼침/접힘 버튼 표시 */}
+                        {hasChildren && (
+                            <button
+                                type="button"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    toggle(node.id);
+                                }}
+                                className="w-4 h-4 flex-shrink-0 mr-1"
+                            >
+                                {isExpanded ? "▼" : "▶"}
+                            </button>
+                        )}
+                        {/* 노드 제목 */}
+                        <span className="flex-1 py-1">{node.title}</span>
+                    </div>
+                    {/* 자식 노드가 펼쳐진 경우 재귀 렌더링 */}
+                    {hasChildren && isExpanded && renderTree(node.children, level + 1)}
+                </div>
+            );
+        });
+
     return (
-        <div ref={containerRef} className="relative w-[429px]">
-            {/* 1) 현재 선택된 상태 */}
+        <div className="relative inline-block w-full" ref={wrapperRef}>
+            {/* 드롭다운 버튼 */}
             <button
                 type="button"
-                onClick={() => setOpen((v) => !v)}
+                onClick={() => setIsOpen((v) => !v)}
                 className="
-          flex items-center justify-between
-          w-full h-[61px]
-          bg-[#f4f3f9]
-          rounded-[13px]
-          px-4
-          cursor-pointer
-        "
+                        w-[300px] sm:w-[429px]
+                        h-[60px] sm:h-[61px] rounded-[12px] sm:rounded-[18px]
+                        text-[16px] sm:text-[22px]
+                        bg-gray-50
+                        px-4 sm:px-6
+                    "
             >
-                <span className="text-[22px] text-[#4d4a57]">{selected.name}</span>
-                <DownArrow />
+                {/* 선택된 노드 제목 또는 기본 텍스트 */}
+                {selected?.title || "폴더 선택"}
+                <span className="ml-2 items-start">{isOpen ? "▶" : "▼"}</span>
             </button>
 
-            {/* 2) 확장된 상태 */}
-            {open && (
-                <div
-                    className="
-            absolute left-0 top-[61px]
-            w-full h-[151px]
-            bg-[#f4f3f9]
-            rounded-[13px]
-            overflow-hidden
-            shadow-md
-            z-10
-          "
-                >
-                    {options.map((opt, i) => (
-                        <button
-                            key={opt.id}
-                            type="button"
-                            onClick={() => {
-                                setSelected(opt);
-                                setOpen(false);
-                            }}
-                            className={`
-                flex items-center justify-between
-                w-full h-[45px]
-                px-4
-                text-[22px] text-[#4d4a57]
-                ${i < options.length - 1 ? "" : ""}
-                hover:bg-[#e8e6f2]
-                cursor-pointer
-              `}
-                        >
-                            <span>{opt.name}</span>
-                            {selected.id === opt.id ? <UpArrow /> : <DownArrow />}
-                        </button>
-                    ))}
+            {/* 드롭다운 메뉴 */}
+            <div
+                className={`
+                        absolute left-0 mt-1 w-full
+                        bg-gray-50 border rounded shadow-lg z-10
+                        overflow-hidden
+                        transition-[max-height,opacity] duration-300 ease-out
+                        ${isOpen ? "max-h-[240px] opacity-100" : "max-h-0 opacity-0"}
+                        `
+                }
+            >
+                <div className="overflow-auto h-full">
+                    {renderTree(options)}
                 </div>
-            )}
+            </div>
         </div>
     );
 }

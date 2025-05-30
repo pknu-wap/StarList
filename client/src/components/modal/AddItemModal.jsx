@@ -106,17 +106,20 @@ const AddItemModal = ({
                 </div>
 
                 {/* 폼 영역 */}
-                <form onSubmit={handleSubmit} className="items-center px-[60px] sm:px-[50px] pb-[24px] sm:pb-8 flex flex-col gap-6 sm:gap-[21px]">
+                <form onSubmit={handleSubmit}
+                    className="
+                            items-center 
+                            px-[60px] sm:px-[50px] pb-[24px] sm:pb-8
+                            flex flex-col gap-6 sm:gap-[21px]
+                        "
+                >
                     {/* 동적 필드 렌더링 */}
                     {fields.map(({ name, label, placeholder }) => (
                         <div
                             key={name}
-                            className="flex flex-col 
-                                    sm:flex-row sm:items-center 
-                                    mb-6
-                                "
+                            className="flex flex-row items-center mb-6"
                         >
-                            <label className="text-[18px] sm:text-2xl font-medium text-black sm:w-[68px]">
+                            <label className="text-[18px] sm:text-2xl font-medium text-black pr-[21px]">
                                 {label}
                             </label>
                             <input
@@ -141,11 +144,14 @@ const AddItemModal = ({
 
                     {/* 폴더 선택 드롭다운 */}
 
-                    <div>
-                        <label className="block text-[18px] sm:text-2xl font-medium text-black mb-2">
+                    <div className="flex items-center">
+                        <label className="text-[18px] sm:text-2xl font-medium text-black pr-[21px] whitespace-nowrap">
                             위치
                         </label>
-                        <DropDown options={tree} selected={location} setSelected={setLocation} />
+                        <div className="flex-1">
+                            <DropDown options={tree} selected={location} setSelected={setLocation} />
+                        </div>
+
                     </div>
 
 
