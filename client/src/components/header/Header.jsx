@@ -9,7 +9,7 @@ const Header = () => {
 
     return (
         <header className="border-gray-300-[2px] border-b">
-            <div className="mb-9 mt-2 flex items-center justify-between">
+            <div className="mb-9 mt-2 mx-4 flex items-center justify-between">
                 <LogoIcon onClick={logoClick} />
                 <div className="flex gap-x-4">
                     <ProfileIcon className="h-[30px] w-[30px]" />

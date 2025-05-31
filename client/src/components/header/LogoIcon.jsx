@@ -1,10 +1,12 @@
-import { Title, Logo } from "../../assets";
+import { Logo } from "../../assets";
 
 const LogoIcon = ({ onClick }) => {
     return (
-        <div className="jutify-center flex cursor-pointer items-center gap-x-2" onClick={onClick}>
-            <Logo className="h-[50px] w-[50px] object-cover" />
-            <Title className="h-[50px] w-[80px]" />
+        <div className="flex jutify-center items-center cursor-pointer gap-x-2" onClick={onClick}>
+            <Logo className="w-12 h-12 object-cover" />
+            <div className="w-32 h-8 justify-start text-black text-2xl font-semibold leading-9 tracking-tight select-none">
+                Starlist
+            </div>
         </div>
     );
 };
