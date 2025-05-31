@@ -7,19 +7,24 @@ import { EditButton } from "../../assets/";
 import EditModal from "./EditModal";
 
 const FolderCard = ({ info }) => {
+    // 폴더 카드 클릭시 현재 history 를 변경
     const push = useFolderHistoryStore((s) => s.push);
-    const isSelected = useSelectedCardsStore((s) => s.selectedCards.includes(info.id));
+
+    // Ctrl + 좌클릭을 이용하여 해당 카드를 선택 가능
+    const isSelected = useSelectedCardsStore((s) =>
+        s.selectedCards.some((card) => card.id === info.id && card.type === "folder"),
+    );
     const toggle = useSelectedCardsStore((s) => s.toggle);
+
+    // 옵션 버튼 클릭시 모달창 생성
     const [isOpen, setIsOpen] = useState(false);
 
     // Ctrl 사용 여부에 따른 클릭 처리를 다르게 설정
     const handleClick = (e) => {
-        // Ctrl + 클릭 → 토글
         if (e.ctrlKey || e.metaKey) {
-            // Ctrl + 클릭 → 토글
-            toggle(info.id);
+            e.preventDefault();
+            toggle(info.id, "folder");
         } else {
-            // 일반 클릭 → 현재 위치를 업데이트
             push({ id: info.id, title: info.title });
         }
     };

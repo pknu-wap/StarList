@@ -6,18 +6,21 @@ import { EditButton } from "../../assets/";
 import EditModal from "./EditModal";
 
 const BookmarkCard = ({ info }) => {
-    const isSelected = useSelectedCardsStore((s) => s.selectedCards.includes(info.id));
+    // 카드 선택 여부를 조작하기 위한 코드
+    const isSelected = useSelectedCardsStore((s) =>
+        s.selectedCards.some((card) => card.id === info.id && card.type === "bookmark"),
+    );
     const toggle = useSelectedCardsStore((s) => s.toggle);
+
+    // 옵션 버튼 클릭시 모달창 생성
     const [isOpen, setIsOpen] = useState(false);
 
     // Ctrl 사용 여부에 따른 클릭 처리를 다르게 설정
     const handleClick = (e) => {
         if (e.ctrlKey || e.metaKey) {
-            // Ctrl + 클릭 → 토글
             e.preventDefault();
-            toggle(info.id);
+            toggle(info.id, "bookmark");
         } else {
-            // 일반 클릭 → 새 탭으로 이동
             window.open(info.url, "_blank", "noopener");
         }
     };
@@ -28,13 +31,13 @@ const BookmarkCard = ({ info }) => {
                 onClick={handleClick}
                 className={`relative aspect-[360/240] w-full rounded-[30px] border bg-white shadow-card sm:max-w-[280px] md:max-w-[320px] lg:max-w-[360px] ${isSelected ? "border-main-500" : "border-gray-300"} group flex flex-col justify-end transition-colors duration-200 hover:bg-gradient-to-b hover:from-gray-200 hover:to-white`}
             >
-                {/* <img
-                    src={info.url}
+                <img
+                    src={info.image}
                     alt={info.title}
                     className="absolute inset-0 z-0 h-full w-full rounded-[30px] object-cover"
                     loading="lazy"
                     style={{}}
-                /> */}
+                />
                 <div className="pointer-events-none absolute inset-0 z-10 rounded-[30px] bg-bookmark-overlay" />
                 <div
                     className={`absolute left-[25px] top-[25px] transition-opacity duration-200 ${isSelected ? "opacity-100" : "opacity-0 group-hover:opacity-100"} `}
@@ -43,12 +46,12 @@ const BookmarkCard = ({ info }) => {
                         selected={isSelected}
                         onClick={(e) => {
                             e.stopPropagation();
-                            toggle(info.id);
+                            toggle(info.id, "bookmark");
                         }}
                     />
                 </div>
                 <div className="absolute inset-x-4 bottom-4 z-20 flex items-center justify-between">
-                    <p className="text-main-white w-full truncate text-left text-base font-semibold sm:text-lg md:text-xl">
+                    <p className="w-full truncate text-left text-base font-semibold text-main-white sm:text-lg md:text-xl">
                         {info.title}
                     </p>
                     <button
