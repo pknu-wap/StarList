@@ -1,5 +1,4 @@
 // 아이콘
-export { default as GoogleIcon } from './icons/google.svg?react';
 export { default as ProfileIcon } from './icons/profile.svg?react';
 export { default as SettingIcon } from './icons/settings-icon.svg?react';
 export { default as ArrowForwardIcon } from './icons/arrow-forward.svg?react';
@@ -22,7 +21,7 @@ export { default as Logo } from "./logo/logo.svg?react";
 // 타이틀
 export { default as MainText } from "./titles/main-text.svg?react";
 export { default as MainTitle } from "./titles/title-main.svg?react";
-export { default as Title } from "./titles/title.svg?react";
+export { default as MockUp } from "./titles/mock-up.svg?react";
 
 // 카드
 export { default as FolderCardSvg } from "./cards/folder normal.svg?react";
