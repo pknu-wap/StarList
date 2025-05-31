@@ -10,7 +10,6 @@ import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.domain.Root;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -79,6 +78,34 @@ public class BookmarkTreeNode {
                 .build();
     }
 
+    public Folder toTopFolder(Root root) {
+        return Folder.builder()
+                .googleId(Integer.parseInt(id))
+                .title(title)
+                .position(index)
+                .dateAdded(dateAdded)
+                .dateGroupModified(dateGroupModified)
+                .bookmarks(new ArrayList<>())
+                .folders(new ArrayList<>())
+                .folderType(folderType)
+                .root(root)
+                .build();
+    }
+
+    public Folder toFolderWithParent(Folder folder) {
+        return Folder.builder()
+                .googleId(Integer.parseInt(id))
+                .title(title)
+                .position(index)
+                .dateAdded(dateAdded)
+                .dateGroupModified(dateGroupModified)
+                .bookmarks(new ArrayList<>())
+                .parent(folder)
+                .folders(new ArrayList<>())
+                .folderType(folderType)
+                .build();
+    }
+
     public Bookmark toBookmark(String imgUrl) {
         System.out.println("[INFO] to BOOKMARK");
         log.info("[TreeNode -> BOOKMARK] title={}, imgUrl={}", title, imgUrl);
@@ -93,6 +120,24 @@ public class BookmarkTreeNode {
                 .dateGroupModified(dateGroupModified)
                 .parentId(parentId)
                 .position(index)
+                .build();
+    }
+
+    public Bookmark toBookmark(String imgUrl, Folder folder) {
+        System.out.println("[INFO] to BOOKMARK");
+        log.info("[TreeNode -> BOOKMARK] title={}, imgUrl={}", title, imgUrl);
+        return Bookmark.builder()
+                .googleId(Long.parseLong(id))
+                .title(title)
+                .url(url)
+                .image(imgUrl)
+                .syncing(syncing)
+                .dateLastUsed(dataLastUsed)
+                .dateAdded(dateAdded)
+                .dateGroupModified(dateGroupModified)
+                .parentId(parentId)
+                .position(index)
+                .folder(folder)
                 .build();
     }
 

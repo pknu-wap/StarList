@@ -4,9 +4,11 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Queue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -88,46 +90,33 @@ public class BookmarkService {
         return toDelete.size(); // 삭제된 북마크 개수 반환
     }
 
-
-    // DFS로 트리를 순회, 상위 객체를 저장하기 위해 하위 객체를 준비해야하므로 Bottom-up으로 엔티티를 저장
-    //TODO: 의미가 중복된 컬럼 제거해야함
     @Transactional
-    public Root saveAll(List<BookmarkTreeNode> bookmarkTreeNodes) {
+    public Root saveAll(List<BookmarkTreeNode> bookmarkTreeNodes, String loginUser) {
         if (bookmarkTreeNodes.size() != 1) {
             throw new IllegalArgumentException("[ERROR] 잘못된 북마크 트리 구조입니다. 관리자에게 문의해주세요.");
         }
 
         // 속도 측정
-        StopWatch stopWatch = new StopWatch("saveAll");
-
+        StopWatch stopWatch = new StopWatch("saveAll-new");
         try {
             Root root = bookmarkTreeNodes.get(0).toRoot();
-            List<BookmarkTreeNode> children = bookmarkTreeNodes.get(0).getChildren();
-
             rootRepository.save(root); // 연관관계 설정을 위해 엔티티를 미리 저장
 
+            List<BookmarkTreeNode> children = bookmarkTreeNodes.get(0).getChildren();
+
             for (BookmarkTreeNode child : children) {
-                System.out.println("[INFO] child.getTitle() = " + child.getTitle());
-                stopWatch.start("child_" + child.getTitle());
+                stopWatch.start("user=" + loginUser + "child_" + child.getTitle());
 
-                Folder folder = collectNode(child);
-                if (folder == null) {
-                    continue; // root 직속 자식으로 북마크가 있는 경우는 제외
-                }
-
-                folder.mapToRoot(root);
+                Folder folder = saveTreeByBfs(child, root);
                 root.addFolder(folder);
                 stopWatch.stop();
-            }
-            if (root == null) {
-                throw new IllegalArgumentException("[ERROR] 북마크가 최상위 노드일 순 없습니다.");
             }
 
             return root;
         } finally {
-            log.info("[saveAll] 전체 트리 저장 총 소요 시간: {} ms", stopWatch.getTotalTimeMillis());
+            log.info("[saveAll-new] 전체 트리 저장 총 소요 시간: {} ms", stopWatch.getTotalTimeMillis());
             for (StopWatch.TaskInfo info : stopWatch.getTaskInfo()) {
-                log.info("[saveAll] Task: {}, Time: {} ms", info.getTaskName(), info.getTimeMillis());
+                log.info("[saveAll-new] Task: {}, Time: {} ms", info.getTaskName(), info.getTimeMillis());
             }
         }
     }
@@ -185,43 +174,48 @@ public class BookmarkService {
         bookmarkRepository.save(bookmark);
     }
 
-    // DFS로 트리를 탐색
-    // 연관관계의 주인은 하위 폴더 & 북마크이므로 자식이 부모와 연관관계를 설정하고 return 해야함
-    private Folder collectNode(BookmarkTreeNode node) {
-        if (isBookmark(node)) { // Bookmark
-            String imgUrl = scrapImageOrEmpty(node.getUrl()); // 이미지 기져오기
-            Bookmark leafBookmark = node.toBookmark(imgUrl);
+    private Folder saveTreeByBfs(BookmarkTreeNode topFolder, Root root) {
+        Folder top = null;
+        Queue<BookmarkTreeNode> folderQueue = new ArrayDeque<>();
+        Queue<Object> parentQueue = new ArrayDeque<>();
 
-            bookmarkRepository.save(leafBookmark);
-            return null;
-        }
+        folderQueue.add(topFolder);
+        parentQueue.add(root);
 
-        List<Folder> childFolders = new ArrayList<>();
-        List<Bookmark> childBookmarks = new ArrayList<>();
+        while (!folderQueue.isEmpty() && !parentQueue.isEmpty()) {
+            BookmarkTreeNode current = folderQueue.poll();
+            Object parent = parentQueue.poll();
 
-        Folder currentFolder = node.toFolder(childFolders, childBookmarks); // 자식 없이 먼저 생성
-        folderRepository.save(currentFolder); // ID 생성을 위해 먼저 저장
+            Folder currentFolder;
+            if (parent instanceof Folder) {
+                currentFolder = current.toFolderWithParent((Folder) parent);
+                ((Folder) parent).addChildFolder(currentFolder);
+            } else if (parent instanceof Root) {
+                currentFolder = current.toTopFolder(root);
+                top = currentFolder;
 
-        // 현재 노드의 자식들을 탐색하며 db에 저장 or 다시 탐색한다
-        for (BookmarkTreeNode child : node.getChildren()) {
-            if (isBookmark(child)) { // Bookmark
-                String imgUrl = scrapImageOrEmpty(child.getUrl()); // 이미지 가져오기
-                Bookmark childBookmark = child.toBookmark(imgUrl);
-
-                childBookmark.mapToFolder(currentFolder);
-                bookmarkRepository.save(childBookmark);
-                childBookmarks.add(childBookmark);
-            } else { // Folder
-                Folder childFolder = collectNode(child);
-                childFolders.add(childFolder);
+            } else {
+                throw new IllegalArgumentException("[ERROR] 부모 노드가 Root 혹은 Folder가 아닙니다.");
             }
-        }
 
-        // 연관관계를 수동으로 설정
-        currentFolder.updateChildFolders(childFolders);
-        currentFolder.updateChildBookmarks(childBookmarks);
-        folderRepository.save(currentFolder);
-        return currentFolder;
+            folderRepository.save(currentFolder); // builder-default로 new ArrayList?
+
+            List<Bookmark> bookmarkChildren = new ArrayList<>();
+            // 자식 순회
+            for (BookmarkTreeNode child : current.getChildren()) {
+                if (isBookmark(child)) { // 노드가 북마크인 경우
+                    String imgUrl = scrapImageOrEmpty(child.getUrl()); // 이미지 기져오기
+                    bookmarkChildren.add(child.toBookmark(imgUrl, currentFolder));
+                } else { // 노드가 폴더인 경우
+                    folderQueue.add(child);
+                    parentQueue.add(currentFolder);
+                }
+            }
+
+            currentFolder.updateChildBookmarks(bookmarkChildren);
+            bookmarkRepository.saveAll(bookmarkChildren);
+        }
+        return top;
     }
 
     private boolean isBookmark(BookmarkTreeNode node) {
