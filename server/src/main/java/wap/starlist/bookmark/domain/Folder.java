@@ -45,6 +45,7 @@ public class Folder {
     @JoinColumn(name ="parent_id")
     private Folder parent;
 
+    @Builder.Default
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Folder> folders = new ArrayList<>();
 
@@ -56,6 +57,10 @@ public class Folder {
         for (Folder child : folders) {
             child.setParent(this);
         }
+    }
+
+    public void addChildFolder(Folder child) {
+        this.folders.add(child);
     }
 
     public void updateChildBookmarks(List<Bookmark> bookmarks) {

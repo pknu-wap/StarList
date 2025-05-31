@@ -92,7 +92,7 @@ public class BookmarkController {
         try {
 
             // Root-Folder-Bookmark의 연관관계 설정 및 적용
-            Root unlinkedRoot = bookmarkService.saveAll(bookmarkTreeNodes);
+            Root unlinkedRoot = bookmarkService.saveAll(bookmarkTreeNodes, loginUser);
 
             log.info("Root를 제외한 연관관계 설정 완료");
             // Root-Member의 연관관계 설정 및 적용

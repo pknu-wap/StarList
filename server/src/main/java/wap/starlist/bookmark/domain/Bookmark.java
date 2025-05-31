@@ -20,6 +20,7 @@ public class Bookmark {
 
     private String summary;
 
+    @Column(length = 2048)
     private String image;
 
     private String recommended;
