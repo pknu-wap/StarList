@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StopWatch;
 import wap.starlist.bookmark.domain.Bookmark;
 import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.domain.Root;
@@ -88,7 +89,7 @@ public class BookmarkService {
     }
 
 
-    // 상위 객체를 저장하기 위해 하위 객체를 준비해야하므로 Bottom-up으로 DFS를 통해 구현
+    // DFS로 트리를 순회, 상위 객체를 저장하기 위해 하위 객체를 준비해야하므로 Bottom-up으로 엔티티를 저장
     //TODO: 의미가 중복된 컬럼 제거해야함
     @Transactional
     public Root saveAll(List<BookmarkTreeNode> bookmarkTreeNodes) {
@@ -96,27 +97,81 @@ public class BookmarkService {
             throw new IllegalArgumentException("[ERROR] 잘못된 북마크 트리 구조입니다. 관리자에게 문의해주세요.");
         }
 
-        Root root = bookmarkTreeNodes.get(0).toRoot();
-        List<BookmarkTreeNode> children = bookmarkTreeNodes.get(0).getChildren();
+        // 속도 측정
+        StopWatch stopWatch = new StopWatch("saveAll");
+        stopWatch.start("전체_트리_저장");
 
-        rootRepository.save(root); // 연관관계 설정을 위해 엔티티를 미리 저장
+        try {
+            Root root = bookmarkTreeNodes.get(0).toRoot();
+            List<BookmarkTreeNode> children = bookmarkTreeNodes.get(0).getChildren();
 
-        for (BookmarkTreeNode child : children) {
-            System.out.println("[INFO] child.getTitle() = " + child.getTitle());
-            Folder folder = collectNode(child);
-            if (folder == null) {
-                continue; // root 직속 자식으로 북마크가 있는 경우는 제외
+            rootRepository.save(root); // 연관관계 설정을 위해 엔티티를 미리 저장
+
+            for (BookmarkTreeNode child : children) {
+                System.out.println("[INFO] child.getTitle() = " + child.getTitle());
+                Folder folder = collectNode(child, stopWatch);
+                if (folder == null) {
+                    continue; // root 직속 자식으로 북마크가 있는 경우는 제외
+                }
+
+                folder.mapToRoot(root);
+                root.addFolder(folder);
+            }
+            if (root == null) {
+                throw new IllegalArgumentException("[ERROR] 북마크가 최상위 노드일 순 없습니다.");
             }
 
-            folder.mapToRoot(root);
-            root.addFolder(folder);
+            return root;
+        } finally {
+            stopWatch.stop();
+            log.info("[saveAll] 전체 트리 저장 총 소요 시간: {} ms", stopWatch.getTotalTimeMillis());
+            for (StopWatch.TaskInfo info : stopWatch.getTaskInfo()) {
+                log.info("[saveAll] Task: {}, Time: {} ms", info.getTaskName(), info.getTimeMillis());
+            }
         }
 
-        if (root == null) {
-            throw new IllegalArgumentException("[ERROR] 북마크가 최상위 노드일 순 없습니다.");
-        }
+    }
 
-        return root;
+    // collectNode 오버로딩
+    private Folder collectNode(BookmarkTreeNode node, StopWatch stopWatch) {
+        stopWatch.start("collectNode_" + node.getTitle());
+        try {
+            // 기존 collectNode 로직...
+            if (isBookmark(node)) {
+                String imgUrl = scrapImageOrEmpty(node.getUrl());
+                Bookmark leafBookmark = node.toBookmark(imgUrl);
+
+                bookmarkRepository.save(leafBookmark);
+                return null;
+            }
+
+            List<Folder> childFolders = new ArrayList<>();
+            List<Bookmark> childBookmarks = new ArrayList<>();
+
+            Folder currentFolder = node.toFolder(childFolders, childBookmarks);
+            folderRepository.save(currentFolder);
+
+            for (BookmarkTreeNode child : node.getChildren()) {
+                if (isBookmark(child)) {
+                    String imgUrl = scrapImageOrEmpty(child.getUrl());
+                    Bookmark childBookmark = child.toBookmark(imgUrl);
+
+                    childBookmark.mapToFolder(currentFolder);
+                    bookmarkRepository.save(childBookmark);
+                    childBookmarks.add(childBookmark);
+                } else {
+                    Folder childFolder = collectNode(child, stopWatch); // 재귀
+                    childFolders.add(childFolder);
+                }
+            }
+
+            currentFolder.updateChildFolders(childFolders);
+            currentFolder.updateChildBookmarks(childBookmarks);
+            folderRepository.save(currentFolder);
+            return currentFolder;
+        } finally {
+            stopWatch.stop(); // Task 종료
+        }
     }
 
     public List<Bookmark> search(String memberProviderId, String query) {
