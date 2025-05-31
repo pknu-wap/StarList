@@ -99,7 +99,6 @@ public class BookmarkService {
 
         // 속도 측정
         StopWatch stopWatch = new StopWatch("saveAll");
-        stopWatch.start("전체_트리_저장");
 
         try {
             Root root = bookmarkTreeNodes.get(0).toRoot();
@@ -109,13 +108,16 @@ public class BookmarkService {
 
             for (BookmarkTreeNode child : children) {
                 System.out.println("[INFO] child.getTitle() = " + child.getTitle());
-                Folder folder = collectNode(child, stopWatch);
+                stopWatch.start("child_" + child.getTitle());
+
+                Folder folder = collectNode(child);
                 if (folder == null) {
                     continue; // root 직속 자식으로 북마크가 있는 경우는 제외
                 }
 
                 folder.mapToRoot(root);
                 root.addFolder(folder);
+                stopWatch.stop();
             }
             if (root == null) {
                 throw new IllegalArgumentException("[ERROR] 북마크가 최상위 노드일 순 없습니다.");
@@ -123,54 +125,10 @@ public class BookmarkService {
 
             return root;
         } finally {
-            stopWatch.stop();
             log.info("[saveAll] 전체 트리 저장 총 소요 시간: {} ms", stopWatch.getTotalTimeMillis());
             for (StopWatch.TaskInfo info : stopWatch.getTaskInfo()) {
                 log.info("[saveAll] Task: {}, Time: {} ms", info.getTaskName(), info.getTimeMillis());
             }
-        }
-
-    }
-
-    // collectNode 오버로딩
-    private Folder collectNode(BookmarkTreeNode node, StopWatch stopWatch) {
-        stopWatch.start("collectNode_" + node.getTitle());
-        try {
-            // 기존 collectNode 로직...
-            if (isBookmark(node)) {
-                String imgUrl = scrapImageOrEmpty(node.getUrl());
-                Bookmark leafBookmark = node.toBookmark(imgUrl);
-
-                bookmarkRepository.save(leafBookmark);
-                return null;
-            }
-
-            List<Folder> childFolders = new ArrayList<>();
-            List<Bookmark> childBookmarks = new ArrayList<>();
-
-            Folder currentFolder = node.toFolder(childFolders, childBookmarks);
-            folderRepository.save(currentFolder);
-
-            for (BookmarkTreeNode child : node.getChildren()) {
-                if (isBookmark(child)) {
-                    String imgUrl = scrapImageOrEmpty(child.getUrl());
-                    Bookmark childBookmark = child.toBookmark(imgUrl);
-
-                    childBookmark.mapToFolder(currentFolder);
-                    bookmarkRepository.save(childBookmark);
-                    childBookmarks.add(childBookmark);
-                } else {
-                    Folder childFolder = collectNode(child, stopWatch); // 재귀
-                    childFolders.add(childFolder);
-                }
-            }
-
-            currentFolder.updateChildFolders(childFolders);
-            currentFolder.updateChildBookmarks(childBookmarks);
-            folderRepository.save(currentFolder);
-            return currentFolder;
-        } finally {
-            stopWatch.stop(); // Task 종료
         }
     }
 
