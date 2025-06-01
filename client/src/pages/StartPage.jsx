@@ -24,7 +24,7 @@ StartPage = () => {
             {/* 배경이 되는 컴포넌트 */}
             <StartBlur className="
                 absolute top-[-1100px] left-[-700px]
-                w-[4000px] h-[3500px] z-0 pointer-events-none
+                w-[4000px] h-[4000px] z-0 pointer-events-none
             " />
 
             <div className="flex flex-col items-center justify-center relative z-10">
