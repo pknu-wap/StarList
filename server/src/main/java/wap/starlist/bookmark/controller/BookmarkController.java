@@ -38,6 +38,7 @@ public class BookmarkController {
     private final RootService rootService;
     private final FolderService folderService;
 
+    // TODO: dateLastUsed는 어떻게?
     @PostMapping
     public ResponseEntity<?> create(@AuthenticationPrincipal String loginUser, @RequestBody BookmarkCreateRequest request) {
 
