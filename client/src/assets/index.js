@@ -21,7 +21,9 @@ export { default as Logo } from "./logo/logo.svg?react";
 // 타이틀
 export { default as MainText } from "./titles/main-text.svg?react";
 export { default as MainTitle } from "./titles/title-main.svg?react";
-export { default as MockUp } from "./titles/mock-up.svg?react";
 
 // 카드
 export { default as FolderCardSvg } from "./cards/folder normal.svg?react";
+
+// 이펙트
+export { default as StartBlur } from "./effect/start-blur.svg?react";

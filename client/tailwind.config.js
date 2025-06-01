@@ -24,6 +24,7 @@ export default {
                     100: "#E8E6F0",
                     50: "#f4f3f9",
                 },
+                sub: "87EDFF"
             },
             backgroundImage: {
                 "bookmark-overlay":
