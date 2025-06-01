@@ -79,15 +79,8 @@ public class BookmarkService {
         if (CollectionUtils.isEmpty(ids)) {
             throw new IllegalArgumentException("[ERROR] 삭제할 북마크를 하나 이상 선택해 주세요.");
         }
-
-        List<Bookmark> toDelete = bookmarkRepository.findAllById(ids);
-        if (toDelete.isEmpty()) {
-            return 0; // 존재하는 북마크만 삭제
-        }
-
-        bookmarkRepository.deleteAll(toDelete); // 북마크 일괄 삭제
-
-        return toDelete.size(); // 삭제된 북마크 개수 반환
+        bookmarkRepository.deleteAllByIds(ids);
+        return ids.size();
     }
 
     @Transactional
