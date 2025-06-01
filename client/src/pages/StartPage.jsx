@@ -20,7 +20,7 @@ StartPage = () => {
     };
 
     return (
-        <div className="relative w-screen min-h-screen">
+        <div className="relative w-screen min-h-screen overflow-hidden">
             {/* 배경이 되는 컴포넌트 */}
             <StartBlur className="
                 absolute top-[-1100px] left-[-700px]
