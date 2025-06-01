@@ -20,10 +20,12 @@ import wap.starlist.bookmark.domain.Bookmark;
 import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.domain.Root;
 import wap.starlist.bookmark.dto.request.BookmarkCreateRequest;
+import wap.starlist.bookmark.dto.request.BookmarkEditRequest;
 import wap.starlist.bookmark.dto.request.BookmarkTreeNode;
 import wap.starlist.bookmark.repository.BookmarkRepository;
 import wap.starlist.bookmark.repository.FolderRepository;
 import wap.starlist.bookmark.repository.RootRepository;
+import wap.starlist.error.exception.BookmarkNotFoundException;
 import wap.starlist.error.exception.FolderNotFoundException;
 import wap.starlist.util.ImageScraper;
 
@@ -177,6 +179,21 @@ public class BookmarkService {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 북마크가 존재하지 않습니다."));
         bookmark.setRemindDisabled(true);
         bookmarkRepository.save(bookmark);
+    }
+
+    @Transactional
+    public void edit(Long id, BookmarkEditRequest request) {
+        Bookmark bookmark = bookmarkRepository.findById(id)
+                .orElseThrow(BookmarkNotFoundException::new);
+
+        Folder folder = null;
+        if (request.getFolderId() != null) {
+            folder = folderRepository.findById(request.getFolderId())
+                    .orElseThrow(FolderNotFoundException::new);
+        }
+
+        log.info("[북마크 수정] 제목: {}", request.getTitle());
+        bookmark.update(request.getTitle(), request.getUrl(), folder, request.getPosition());
     }
 
     private Folder saveTreeByBfs(BookmarkTreeNode topFolder, Root root) {
