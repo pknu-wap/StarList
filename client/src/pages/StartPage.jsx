@@ -3,7 +3,9 @@ import LogoIcon from "../components/header/LogoIcon";
 import GoogleLoginButton from "../components/startPageComponents/GoogleLoginButton";
 import MoveExtensionStore from "../components/startPageComponents/MoveExtensionStore";
 import FadeInSection from "../components/startPageComponents/FadeInSection";
+import PersonalGithub from "../components/startPageComponents/PersonalGithub";
 import { MockUp } from "../assets";
+
 
 let StartPage;
 
@@ -88,7 +90,13 @@ StartPage = () => {
                         </div>
                         <div className="flex flex-col">
                             <p className="mb-2 sm:mb-4 text-black text-xl sm:text-2xl lg:text-4xl font-semibold">Contributors</p>
-                            <p className="tracking-wide text-xs sm:text-base">김균호 김남언 김민성 이승훈 조수민</p>
+                            <div className="flex items-end">
+                                <PersonalGithub name="김균호" />
+                                <PersonalGithub name="김남언" />
+                                <PersonalGithub name="김민성" />
+                                <PersonalGithub name="이승훈" />
+                                <PersonalGithub name="조수민" />
+                            </div>
                         </div>
                     </div>
 
