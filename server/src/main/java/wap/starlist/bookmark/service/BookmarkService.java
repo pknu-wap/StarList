@@ -32,8 +32,6 @@ import wap.starlist.util.ImageScraper;
 @RequiredArgsConstructor
 public class BookmarkService {
 
-    private static final long MILLIS_PER_SECOND = 1000L;
-
     private final BookmarkRepository bookmarkRepository;
     private final FolderRepository folderRepository;
     private final RootRepository rootRepository;
@@ -66,7 +64,7 @@ public class BookmarkService {
                 .title(title)
                 .url(url)
                 .image(imgUrl)
-                .dateAdded(currentTime())
+                .dateAdded(System.currentTimeMillis())
                 .folder(folder) // 북마크 -> 폴더 연관관계 설정
                 .build();
 
@@ -227,11 +225,6 @@ public class BookmarkService {
 
     private boolean isBookmark(BookmarkTreeNode node) {
         return node.getChildren() == null;
-    }
-
-    // 현재 시간을 millis를 제외한 long으로 반환
-    private long currentTime() {
-        return System.currentTimeMillis() / MILLIS_PER_SECOND;
     }
 
     private String scrapImageOrEmpty(String url) {
