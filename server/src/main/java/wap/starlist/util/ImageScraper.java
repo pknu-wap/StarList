@@ -2,10 +2,12 @@ package wap.starlist.util;
 
 import java.io.IOException;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+@Slf4j
 public class ImageScraper {
 
     public static Optional<String> getImageUrl(String url) throws IOException {
@@ -25,7 +27,9 @@ public class ImageScraper {
             return Optional.empty();
         }
 
-        Document doc = Jsoup.connect(url).get();
+        Document doc = Jsoup.connect(url)
+                .timeout(2000) // 2초가 지나면 타임아웃
+                .get();
 
         Element ogImage = doc.select("meta[property=og:image]").first();
         if (ogImage == null) {
@@ -42,5 +46,6 @@ public class ImageScraper {
             return Optional.of(doc.absUrl("base").isEmpty() ? content : doc.absUrl("base") + content);
         }
         return Optional.empty();
+
     }
 }
