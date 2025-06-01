@@ -1,4 +1,5 @@
 // 시작 페이지의 목업 컴포넌트
+import Slider from "./slider";
 
 const MockUp = () => {
     const ColorBall = ({ color }) => {
@@ -186,15 +187,22 @@ const MockUp = () => {
                     rounded-bl-[20px] rounded-br-[20px]
                     "
             >
+                {/* 배경 */}
                 <div className="w-16 h-20 left-[1086px] top-[150px] absolute bg-violet-100" />
                 <div className="w-28 h-28 left-[1179px] top-[520px] absolute bg-violet-100 rounded-full" />
                 <div className="w-28 h-28 left-[226px] top-[623px] absolute bg-violet-50 rounded-full" />
                 <div className="w-16 h-16 left-[121px] top-[520px] absolute bg-fuchsia-50 rounded-full" />
                 <div className="w-44 h-44 left-[182px] top-[106px] absolute bg-gradient-to-r from-purple-50 to-purple-100 rounded-full" />
+
+
                 <div className="w-full h-full flex flex-col items-center">
+                    {/* 글자들 */}
                     <p className="text-black text-5xl font-extrabold font-sans leading-[72px] mt-[96px] select-none">Save Links into Folders</p>
                     <p className="text-center text-black text-base font-medium font-sans leading-normal mt-[-10px] select-none">폴더에 당신의 사이트들을 저장하면 우리는 그것을 리마인드 해 줍니다!! 정말 대단하죠?</p>
+                    {/* 회전초밥 */}
+                    <Slider />
                 </div>
+
 
             </div>
         </div>

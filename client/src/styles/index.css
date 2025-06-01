@@ -1,11 +1,13 @@
 /* 1) 커스텀 폰트 로딩 (Pretendard Va*/
 @import url("https://cdn.jsdelivr.net/npm/pretendard/dist/web/variable/pretendardvariable.css");
+@import url("https://fonts.googleapis.com/css?family=Sansita+One&display=swap");
 
 /* 2) CSS 변수 정의 (필요에 따라 확장) */
 :root {
     --color-primary: #1e40af;
     --color-secondary: #64748b;
     --font-sans: "PretendardVariable", sans-serif;
+    --font-sansita: "Sansita One", cursive;
 }
 
 /* 3) 전역 리셋 */
@@ -26,6 +28,17 @@ body {
     font-family: var(--font-sans);
     background: #fff;
     box-sizing: border-box;
+}
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+.animate-marquee {
+    animation: marquee 16s linear infinite;
 }
 
 /* 4) Tailwind 기본 지시문 */

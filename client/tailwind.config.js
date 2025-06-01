@@ -36,6 +36,7 @@ export default {
             },
             fontFamily: {
                 sans: ["Pretendard", "sans-serif"], // 기본 폰트인 sans 계열을 Pretendard 로 오버라이드
+                sansita: ["Sansita One", "cursive"],
                 inter: ["Inter", "sans-serif"],
             },
             boxShadow: {
