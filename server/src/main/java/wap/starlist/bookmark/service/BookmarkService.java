@@ -232,7 +232,7 @@ public class BookmarkService {
         try {
             //TODO: orElse로 기본 이미지 가져오기
             log.info("이미지 가져오기 - {}", url);
-            imgUrl = ImageScraper.getImageUrl(url)
+            imgUrl = ImageScraper.getImageFromOgOrImgTag(url)
                     .orElseThrow(() -> new IllegalArgumentException("[ERROR] 이미지 스크랩 실패"));
             log.info("스크랩 이미지 url: {}", imgUrl);
         } catch (IllegalArgumentException | IOException e){
