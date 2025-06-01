@@ -63,6 +63,10 @@ public class Folder {
         this.folders.add(child);
     }
 
+    public void addChildBookmark(Bookmark child) {
+        this.bookmarks.add(child);
+    }
+
     public void updateChildBookmarks(List<Bookmark> bookmarks) {
         this.bookmarks = bookmarks;
     }
