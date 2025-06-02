@@ -40,7 +40,6 @@ public class BookmarkNodeResponse {
                 .googleId(String.valueOf(bookmark.getGoogleId()))
                 .title(bookmark.getTitle())
                 .dateAdded(bookmark.getDateAdded())
-                .dateGroupModified(bookmark.getDateGroupModified())
                 .index(bookmark.getPosition())
                 .url(bookmark.getUrl())
                 .image(bookmark.getImage())
