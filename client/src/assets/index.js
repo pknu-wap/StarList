@@ -17,6 +17,7 @@ export { default as ArrowLeft } from './buttons/arrow-left.svg?react';
 export { default as PlusIcon } from './buttons/plus-icon.svg?react';
 export { default as EditButton } from './buttons/edit-icon.svg?react';
 export { default as Link } from './icons/link.svg?react';
+export { default as FolderOpen } from './icons/folder-open.svg?react';
 
 // 로고
 export { default as Logo } from './logo/logo.svg?react';

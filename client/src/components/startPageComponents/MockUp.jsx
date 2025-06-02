@@ -219,8 +219,8 @@ const MockUp = () => {
                     <p className="text-black text-6xl font-extrabold font-sans leading-[96px] select-none">
                         Save Links into Folders
                     </p>
-                    <p className="text-center text-black text-xl font-medium font-sans leading-normal select-none">
-                        폴더에 당신의 사이트들을 저장하면 우리는 그것을 리마인드 해 준다. 저장하라!
+                    <p className="text-center text-black text-2xl font-medium font-sans leading-normal select-none">
+                        바쁜 하루, 북마크는 Starlist가 관리해줄게요!
                     </p>
                     <Slider />
                 </div>
