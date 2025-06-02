@@ -23,7 +23,6 @@ import wap.starlist.bookmark.dto.response.BookmarkNodeResponse;
 import wap.starlist.bookmark.dto.response.BookmarkResponse;
 import wap.starlist.bookmark.dto.response.BookmarksDeleteResponse;
 import wap.starlist.bookmark.dto.response.ReminderBookmarkErrorResponse;
-import wap.starlist.bookmark.dto.response.ReminderBookmarksResponse.ReminderBookmarkInfo;
 import wap.starlist.bookmark.service.BookmarkService;
 import wap.starlist.bookmark.service.FolderService;
 import wap.starlist.bookmark.service.RootService;
