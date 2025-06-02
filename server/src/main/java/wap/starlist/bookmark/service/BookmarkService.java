@@ -186,14 +186,9 @@ public class BookmarkService {
         Bookmark bookmark = bookmarkRepository.findById(id)
                 .orElseThrow(BookmarkNotFoundException::new);
 
-        Folder folder = null;
-        if (request.getFolderId() != null) {
-            folder = folderRepository.findById(request.getFolderId())
-                    .orElseThrow(FolderNotFoundException::new);
-        }
 
         log.info("[북마크 수정] 제목: {}", request.getTitle());
-        bookmark.update(request.getTitle(), request.getUrl(), folder, request.getPosition());
+        bookmark.update(request.getTitle(), request.getUrl());
     }
 
     private Folder saveTreeByBfs(BookmarkTreeNode topFolder, Root root) {
