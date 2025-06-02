@@ -14,6 +14,7 @@ const MoveExtensionStore = () => {
                 text-black text-lg sm:text-2xl md:text-3xl font-semibold
                 flex items-center justify-center
                 cursor-pointer
+                hover:bg-gray-50 transition-colors duration-500 ease-in-out 
                 active:scale-95 active:transition-transform active:duration-200
                 mx-auto
             ">
