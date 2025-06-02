@@ -1,28 +1,25 @@
 import useAuthStore from "../hooks/useAuthStore";
 import ApiError from "./ApiError";
+const API_BASE_URL = import.meta.env.API_BASE_URL;
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const MOCKY_URL = import.meta.env.VITE_MOCKY_URL;
-
-// path 에 따른 노드 리스트를 백엔드 API 를 통해 가져오는 함수
-async function fetchNodesByPath(path) {
+async function editBookmark(bookmarkId, payload) {
     const { accessToken } = useAuthStore.getState();
-
-    const response = await fetch(`${MOCKY_URL}${path}`, {
-        method: "GET",
+    const options = {
+        method: "PATCH",
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
         },
-    });
+        body: JSON.stringify(payload),
+    };
+
+    const response = await fetch(`${API_BASE_URL}/${bookmarkId}/edit`, options);
 
     // 200 OK 가 아닐 경우
     if (!response.ok) {
         const errorBody = await response.json();
         throw new ApiError(errorBody.code, errorBody.message, response);
     }
-
-    return response.json();
 }
 
-export default fetchNodesByPath;
+export default editBookmark;
