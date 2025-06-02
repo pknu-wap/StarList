@@ -5,6 +5,7 @@ import useSelectedCardsStore from "../../functions/hooks/useSelectedCardsStore";
 import { FolderCardSvg } from "../../assets/";
 import { EditButton } from "../../assets/";
 import EditModal from "./EditModal";
+import FolderEditModal from "./FolderEditModal";
 
 const FolderCard = ({ info }) => {
     // 폴더 카드 클릭시 현재 history 를 변경
@@ -17,7 +18,7 @@ const FolderCard = ({ info }) => {
     const toggle = useSelectedCardsStore((s) => s.toggle);
 
     // 옵션 버튼 클릭시 모달창 생성
-    const [isOpen, setIsOpen] = useState(false);
+    const [isFolderModalOpen, setIsFolderModalOpen] = useState(false);
 
     // Ctrl 사용 여부에 따른 클릭 처리를 다르게 설정
     const handleClick = (e) => {
@@ -47,7 +48,7 @@ const FolderCard = ({ info }) => {
                         type="button"
                         onClick={(e) => {
                             e.stopPropagation();
-                            setIsOpen(true);
+                            setIsFolderModalOpen(true);
                         }}
                         className="p-1 text-gray-400 hover:text-main-500"
                     >
@@ -55,16 +56,7 @@ const FolderCard = ({ info }) => {
                     </button>
                 </div>
             </div>
-            {isOpen && (
-                <EditModal
-                    mode="folder"
-                    info={info}
-                    onClose={() => setIsOpen(false)}
-                    onSave={(updated) => {
-                        console.log("폴더 업데이트:", updated);
-                    }}
-                />
-            )}
+            {isFolderModalOpen && <FolderEditModal info={info} onClose={() => setIsFolderModalOpen(false)} />}
         </>
     );
 };

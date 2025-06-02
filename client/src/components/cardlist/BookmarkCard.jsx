@@ -3,7 +3,8 @@ import useSelectedCardsStore from "../../functions/hooks/useSelectedCardsStore";
 
 import ToggleButton from "./ToggleButton";
 import { EditButton } from "../../assets/";
-import EditModal from "./EditModal";
+import BookmarkEditModal from "./BookmarkEditModal";
+import defaultImage from "../../assets/default/default-image.svg";
 
 const BookmarkCard = ({ info }) => {
     // 카드 선택 여부를 조작하기 위한 코드
@@ -13,7 +14,10 @@ const BookmarkCard = ({ info }) => {
     const toggle = useSelectedCardsStore((s) => s.toggle);
 
     // 옵션 버튼 클릭시 모달창 생성
-    const [isOpen, setIsOpen] = useState(false);
+    const [IsBookmarkModalOpen, setIsBookmarkModalOpen] = useState(false);
+
+    // 이미지 상태
+    const [imgSrc, setImgSrc] = useState(info.image !== "" ? info.image : defaultImage);
 
     // Ctrl 사용 여부에 따른 클릭 처리를 다르게 설정
     const handleClick = (e) => {
@@ -32,11 +36,11 @@ const BookmarkCard = ({ info }) => {
                 className={`relative aspect-[360/240] w-full rounded-[30px] border bg-white shadow-card sm:max-w-[280px] md:max-w-[320px] lg:max-w-[360px] ${isSelected ? "border-main-500" : "border-gray-300"} group flex flex-col justify-end transition-colors duration-200 hover:bg-gradient-to-b hover:from-gray-200 hover:to-white`}
             >
                 <img
-                    src={info.image}
-                    alt={info.title}
+                    src={imgSrc}
                     className="absolute inset-0 z-0 h-full w-full rounded-[30px] object-cover"
                     loading="lazy"
-                    style={{}}
+                    alt={info.title || "북마크 이미지"}
+                    onError={() => setImgSrc(defaultImage)}
                 />
                 <div className="pointer-events-none absolute inset-0 z-10 rounded-[30px] bg-bookmark-overlay" />
                 <div
@@ -57,7 +61,7 @@ const BookmarkCard = ({ info }) => {
                     <button
                         onClick={(e) => {
                             e.stopPropagation();
-                            setIsOpen(true);
+                            setIsBookmarkModalOpen(true);
                         }}
                         className="p-1 text-gray-400 hover:text-main-500"
                     >
@@ -65,16 +69,7 @@ const BookmarkCard = ({ info }) => {
                     </button>
                 </div>
             </div>
-            {isOpen && (
-                <EditModal
-                    mode="bookmark"
-                    info={info}
-                    onClose={() => setIsOpen(false)}
-                    onSave={(updated) => {
-                        console.log("북마크 업데이트:", updated);
-                    }}
-                />
-            )}
+            {IsBookmarkModalOpen && <BookmarkEditModal info={info} onClose={() => setIsBookmarkModalOpen(false)} />}
         </>
     );
 };

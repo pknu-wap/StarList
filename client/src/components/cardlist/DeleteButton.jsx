@@ -1,45 +1,39 @@
-import useSelectedCardsStore from "../../functions/hooks/useSelectedCardsStore";
+import React, { useCallback } from "react";
 import useFolderHistoryStore from "../../functions/hooks/useFolderHistoryStore";
 import useNodeActions from "../../functions/hooks/useNodeActions";
+import splitByType from "../../functions/utils/splitByType";
+import { DeleteIcon } from "../../assets";
 
-function DeleteButton() {
-    const selectedCards = useSelectedCardsStore((s) => s.selectedCards);
-    const reset = useSelectedCardsStore((s) => s.reset);
-
+function DeleteButton({ targets = [], onClose, buttonText = "", className = "" }) {
     const history = useFolderHistoryStore((s) => s.history);
     const currentPosition = history[history.length - 1].id;
 
-    const { deleteBookmarks, deleteFolders } = useNodeActions();
-
-    // 선택된 카드 리스트에서 북마크, 폴더 리스트로 분류
-    const splitByType = (cards) => {
-        const folders = [];
-        const bookmarks = [];
-        cards.forEach((card) => {
-            if (card.type === "folder") folders.push(card.id);
-            else if (card.type === "bookmark") bookmarks.push(card.id);
-        });
-
-        return { folders, bookmarks };
-    };
+    const { deleteBookmarksMutation, deleteFoldersMutaion } = useNodeActions();
 
     // 삭제를 처리하는 콜백 함수
-    const handleDelete = async () => {
-        const { folders, bookmarks } = splitByType(selectedCards);
+    const handleDelete = useCallback(async () => {
+        const { folders, bookmarks } = splitByType(targets);
+
+        // 디버깅용
+        console.log(folders);
+        console.log(bookmarks);
 
         // 두 작업은 비동기적으로 처리해도 무방
         const tasks = [];
-
-        if (folders.length) tasks.push(deleteFolders.mutateAsync({ folders }));
-        if (bookmarks.length) tasks.push(deleteBookmarks.mutateAsync({ bookmarks, currentPosition }));
+        if (folders.length) tasks.push(deleteFoldersMutaion.mutateAsync({ folders }));
+        if (bookmarks.length) tasks.push(deleteBookmarksMutation.mutateAsync({ bookmarks, currentPosition }));
         await Promise.all(tasks);
-        
-        reset();
-    };
+
+        if (onClose) onClose();
+    }, [targets, onClose, currentPosition, deleteFoldersMutaion, deleteBookmarksMutation]);
 
     return (
-        <button onClick={handleDelete} className="btn btn-danger">
-            삭제
+        <button
+            onClick={handleDelete}
+            className={`border-point-red hover:bg-point-red/20 flex items-center justify-center gap-x-2 rounded-lg border bg-white px-2 py-2 ${className}`}
+        >
+            <DeleteIcon className="h-4.5 w-4.5" />
+            {buttonText}
         </button>
     );
 }
