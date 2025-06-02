@@ -39,7 +39,7 @@ const MarqueeRow = ({ bookmarks, offset = 0 }) => (
                         alt={item.title}
                         className="absolute inset-0 w-full h-full object-cover z-0 select-none"
                     />
-                    <Link className="absolute w-8 h-8 top-3 right-3 z-20" />
+                    <Link className="absolute w-10 h-10 top-3 right-3 z-20" />
                     <span className="absolute left-4 bottom-4 font-bold text-white text-lg drop-shadow z-10 select-none">
                         {item.title}
                     </span>
