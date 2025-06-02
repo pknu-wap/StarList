@@ -7,5 +7,5 @@ public class FolderCreateRequest {
 
     private String title;
 
-    private Long userId;
+    private Long folderId;
 }

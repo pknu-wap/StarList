@@ -25,9 +25,9 @@ public class FolderService {
     private final FolderRepository folderRepository;
     private final RootRepository rootRepository;
 
-    public Folder createFolder(String title, Long userId) {
+    public Folder createFolder(String memberProviderId, String title, Long folderId) {
         // 필수값 검증(title, userId 존재 여부 확인)
-        if (userId == null) {
+        if (!StringUtils.hasText(memberProviderId)) {
             throw new IllegalArgumentException("[ERROR] 유저 정보가 존재하지 않습니다.");
         } else if (!StringUtils.hasText(title)) {
             throw new IllegalArgumentException("[ERROR] 폴더명이 존재하지 않습니다.");

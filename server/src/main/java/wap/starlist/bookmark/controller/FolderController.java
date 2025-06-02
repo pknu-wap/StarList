@@ -25,12 +25,12 @@ public class FolderController {
     private final FolderService folderService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody FolderCreateRequest request) {
+    public ResponseEntity<?> create(@AuthenticationPrincipal String loginUser, @RequestBody FolderCreateRequest request) {
         String title = request.getTitle();
-        Long userId = request.getUserId();
+        Long folderId = request.getFolderId();
 
         // 폴더 생성
-        Folder createdFolder = folderService.createFolder(title, userId);
+        Folder createdFolder = folderService.createFolder(loginUser, title, folderId);
 
         // 생성된 폴더 위치 URI
         URI location = URI.create("/folders/" + createdFolder.getId());
