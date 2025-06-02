@@ -28,7 +28,7 @@ public class BookmarkTreeNode {
     private String title;
     private Long dateAdded;
     private Long dateGroupModified;
-    private Long dataLastUsed;
+    private Long dateLastUsed;
     private Integer index;
     private Integer parentId;
     private String url;
@@ -115,7 +115,7 @@ public class BookmarkTreeNode {
                 .url(url)
                 .image(imgUrl)
                 .syncing(syncing)
-                .dateLastUsed(dataLastUsed)
+                .dateLastUsed(dateLastUsed)
                 .dateAdded(dateAdded)
                 .dateGroupModified(dateGroupModified)
                 .parentId(parentId)
@@ -125,14 +125,14 @@ public class BookmarkTreeNode {
 
     public Bookmark toBookmark(String imgUrl, Folder folder) {
         System.out.println("[INFO] to BOOKMARK");
-        log.info("[TreeNode -> BOOKMARK] title={}, imgUrl={}", title, imgUrl);
+        log.info("[TreeNode -> BOOKMARK] title={}, imgUrl={}, dateLastused={}", title, imgUrl, dateLastUsed);
         return Bookmark.builder()
                 .googleId(Long.parseLong(id))
                 .title(title)
                 .url(url)
                 .image(imgUrl)
                 .syncing(syncing)
-                .dateLastUsed(dataLastUsed)
+                .dateLastUsed(dateLastUsed)
                 .dateAdded(dateAdded)
                 .dateGroupModified(dateGroupModified)
                 .parentId(parentId)

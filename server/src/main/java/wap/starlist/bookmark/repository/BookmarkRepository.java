@@ -23,9 +23,8 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
                     FROM Bookmark b
                     WHERE b.dateLastUsed <= :threeMonthsAgo
                     AND b.remindDisabled = false
-                    AND (b.lastRemindTime IS NULL OR b.lastRemindTime < :threeMonthsAgo)
             """)
-    List<Bookmark> findReminderTargets(@Param("threeMonthsAgo") Long threeMonthsAgo, Pageable pageable);
+    List<Bookmark> findRemindBookmarks(@Param("threeMonthsAgo") Long threeMonthsAgo, Pageable pageable);
 
     @Modifying
     @Transactional

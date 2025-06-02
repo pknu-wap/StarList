@@ -2,10 +2,11 @@ package wap.starlist.bookmark.service;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.ZonedDateTime;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import java.util.Queue;
@@ -159,11 +160,18 @@ public class BookmarkService {
     // 3개월 전 북마크 중 최대 15개 조회
     @Transactional(readOnly = true)
     public List<Bookmark> getReminderBookmarks() {
-        long threeMonthsAgo = Instant.now()
-                .minus(3, ChronoUnit.MONTHS)
+        long threeMonthsAgo = ZonedDateTime.now()
+                .minusMonths(3)
+                .toInstant()
                 .toEpochMilli();
 
-        return bookmarkRepository.findReminderTargets(threeMonthsAgo, PageRequest.of(0, 15));
+        // 100개 중에서 무작위로 15개 추출
+        List<Bookmark> remindCandidates = bookmarkRepository.findRemindBookmarks(threeMonthsAgo,
+                PageRequest.of(0, 100));
+        Collections.shuffle(remindCandidates);
+
+        return remindCandidates.stream()
+                .limit(15).toList();
     }
 
     // 리마인드 후 lastRemindTime 갱신
@@ -186,7 +194,6 @@ public class BookmarkService {
     public void edit(Long id, BookmarkEditRequest request) {
         Bookmark bookmark = bookmarkRepository.findById(id)
                 .orElseThrow(BookmarkNotFoundException::new);
-
 
         log.info("[북마크 수정] 제목: {}", request.getTitle());
         bookmark.update(request.getTitle(), request.getUrl());
@@ -254,7 +261,7 @@ public class BookmarkService {
             imgUrl = ImageScraper.getImageFromOgOrImgTag(url)
                     .orElseThrow(() -> new IllegalArgumentException("[ERROR] 이미지 스크랩 실패"));
             log.info("스크랩 이미지 url: {}", imgUrl);
-        } catch (IllegalArgumentException | IOException e){
+        } catch (IllegalArgumentException | IOException e) {
             log.warn("해당 URL을 파싱할 수 없음: {}", url, e);
         }
 
