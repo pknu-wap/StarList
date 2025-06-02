@@ -134,11 +134,11 @@ public class BookmarkController {
 
     // 리마인드 대상 북마크 조회
     @GetMapping("/reminders")
-    public ResponseEntity<?> getReminders() {
+    public ResponseEntity<?> getReminders(@AuthenticationPrincipal String loginUser) {
         try {
+            log.info("[reminder] 리마인더 조회: {}", loginUser);
             // 3개월 전 사용된 리마인드 대상 북마크 조회
             List<Bookmark> targets = bookmarkService.getReminderBookmarks();
-            bookmarkService.markReminded(targets);
 
             // DTO 변환
             List<ReminderBookmarkInfo> result = targets.stream()
