@@ -11,8 +11,8 @@ const bookmarksBottom = [
     { title: "100원으로 진수성찬 만들기", img: "/picture/100.webp" },
     { title: "자취요리 1대장 식재료", img: "/picture/jachi.webp" },
     { title: "미친 볶음밥", img: "/picture/crazy.webp" },
-    { title: "자취생 혼자 해먹는 저녁밥", img: "/picture/dinner.webp" },
     { title: "식재료 보관법", img: "/picture/bogwan.webp" },
+    { title: "자취생 혼자 해먹는 저녁밥", img: "/picture/dinner.webp" },
 ];
 
 const CARD_WIDTH = 382;
