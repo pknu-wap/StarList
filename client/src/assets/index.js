@@ -22,7 +22,7 @@ export { default as Link } from './icons/link.svg?react';
 export { default as Logo } from './logo/logo.svg?react';
 
 // 카드
-export { default as FolderCardSvg } from './cards/folder normal.svg?react';
+export { default as FolderCardSvg } from './cards/folder-normal.svg?react';
 export { default as MockUpCard } from './cards/mockup-card.svg?react';
 
 // 이펙트
