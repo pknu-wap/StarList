@@ -32,17 +32,10 @@ const FolderEditModal = ({ info, onClose }) => {
                                 placeholder={info.title}
                                 onChange={(e) => setTitle(e.target.value)}
                             />
+                            <DeleteButton targets={targetFolder} onClose={onClose} />
                         </div>
                         {/* 버튼 영역 */}
-                        <div className="flex gap-x-4">
-                            <DeleteButton
-                                buttonText="삭제"
-                                targets={targetFolder}
-                                onClose={onClose}
-                                className="flex-1"
-                            />
-                            <MoveButton targets={targetFolder} onClose={onClose} buttonText="이동" />
-                        </div>
+                        <MoveButton targets={targetFolder} onClose={onClose} buttonText="이동" />
                         <SaveButton
                             newContent={newContent}
                             targets={targetFolder}
