@@ -1,5 +1,5 @@
 // 시작 페이지의 목업 컴포넌트
-import Slider from "./Slider";
+import Slider from "./slider";
 
 const MockUp = () => {
     const ColorBall = ({ color }) => {
@@ -116,6 +116,25 @@ const MockUp = () => {
         );
     }
 
+    const Clip = (props) => {
+        return (
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 96 96"
+                fill="none"
+                {...props}
+            >
+                <path
+                    stroke="#1E1E1E"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="11"
+                    d="M39.5004 52.2499a21.2503 21.2503 0 0 0 32.045 2.295l12.75-12.75a21.2503 21.2503 0 0 0-.2589-29.7887 21.25 21.25 0 0 0-29.7886-.2588l-7.31 7.2675m9.5625 24.735a21.2494 21.2494 0 0 0-32.045-2.295l-12.75 12.75a21.2498 21.2498 0 0 0 15.1002 36.0118 21.2503 21.2503 0 0 0 14.9473-5.9643l7.2675-7.2675"
+                />
+            </svg>
+        );
+    };
+
     const Rotate = () => {
         return (
             <svg
@@ -183,7 +202,7 @@ const MockUp = () => {
             <div className="
                         justify-center relative
                         w-full h-[793px]
-                    bg-gradient-to-r from-[#fffafe] to-[#eee8fe]
+                        bg-gradient-to-r from-[#fffafe] to-[#eee8fe]
                     rounded-bl-[20px] rounded-br-[20px]
                     "
             >
@@ -195,15 +214,16 @@ const MockUp = () => {
                 <div className="w-44 h-44 left-[182px] top-[106px] absolute bg-gradient-to-r from-purple-50 to-purple-100 rounded-full" />
 
 
-                <div className="w-full h-full flex flex-col items-center">
-                    {/* 글자들 */}
-                    <p className="text-black text-5xl font-extrabold font-sans leading-[72px] mt-[96px] select-none">Save Links into Folders</p>
-                    <p className="text-center text-black text-base font-medium font-sans leading-normal mt-[-10px] select-none">폴더에 당신의 사이트들을 저장하면 우리는 그것을 리마인드 해 줍니다!! 정말 대단하죠?</p>
-                    {/* 회전초밥 */}
+                <div className="w-full h-full flex flex-col items-center relative">
+                    <Clip className="w-24 h-24 my-6 z-10 mt-[92px]" />
+                    <p className="text-black text-6xl font-extrabold font-sans leading-[96px] select-none">
+                        Save Links into Folders
+                    </p>
+                    <p className="text-center text-black text-xl font-medium font-sans leading-normal select-none">
+                        폴더에 당신의 사이트들을 저장하면 우리는 그것을 리마인드 해 준다. 저장하라!
+                    </p>
                     <Slider />
                 </div>
-
-
             </div>
         </div>
 
