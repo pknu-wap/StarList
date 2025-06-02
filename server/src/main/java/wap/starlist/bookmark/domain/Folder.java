@@ -61,14 +61,19 @@ public class Folder {
 
     public void addChildFolder(Folder child) {
         this.folders.add(child);
+        child.setParent(this);
     }
 
     public void addChildBookmark(Bookmark child) {
         this.bookmarks.add(child);
+        child.setFolder(this);
     }
 
     public void updateChildBookmarks(List<Bookmark> bookmarks) {
         this.bookmarks = bookmarks;
+        for (Bookmark bookmark : bookmarks) {
+            bookmark.setFolder(this);
+        }
     }
 
     public void mapToRoot(Root root) {
