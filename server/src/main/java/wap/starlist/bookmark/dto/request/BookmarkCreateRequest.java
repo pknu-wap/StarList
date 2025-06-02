@@ -6,6 +6,6 @@ import lombok.Getter;
 public class BookmarkCreateRequest {
 
     private String title;
-
     private String url;
+    private Long folderId;
 }

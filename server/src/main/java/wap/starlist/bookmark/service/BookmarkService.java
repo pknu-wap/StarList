@@ -19,10 +19,15 @@ import org.springframework.util.StopWatch;
 import wap.starlist.bookmark.domain.Bookmark;
 import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.domain.Root;
+import wap.starlist.bookmark.dto.request.BookmarkCreateRequest;
+import wap.starlist.bookmark.dto.request.BookmarkEditRequest;
+import wap.starlist.bookmark.dto.request.BookmarkMoveRequest;
 import wap.starlist.bookmark.dto.request.BookmarkTreeNode;
 import wap.starlist.bookmark.repository.BookmarkRepository;
 import wap.starlist.bookmark.repository.FolderRepository;
 import wap.starlist.bookmark.repository.RootRepository;
+import wap.starlist.error.exception.BookmarkNotFoundException;
+import wap.starlist.error.exception.FolderNotFoundException;
 import wap.starlist.util.ImageScraper;
 
 @Slf4j
@@ -30,14 +35,16 @@ import wap.starlist.util.ImageScraper;
 @RequiredArgsConstructor
 public class BookmarkService {
 
-    private static final long MILLIS_PER_SECOND = 1000L;
-
     private final BookmarkRepository bookmarkRepository;
     private final FolderRepository folderRepository;
     private final RootRepository rootRepository;
 
     @Transactional // 트랜잭션을 보장하기 위해
-    public Bookmark createBookmark(String memberProviderId, String title, String url) {
+    public Bookmark createBookmark(String memberProviderId, BookmarkCreateRequest request) {
+        String title = request.getTitle();
+        String url = request.getUrl();
+        Long folderId = request.getFolderId();
+
         // 중복 확인
         List<Bookmark> found = bookmarkRepository.findByUrl(url);
 
@@ -51,13 +58,21 @@ public class BookmarkService {
         // 웹 페이지의 이미지 파싱
         String imgUrl = scrapImageOrEmpty(url);
 
+        // 폴더 확인
+        Folder folder = folderRepository.findById(folderId)
+                .orElseThrow(FolderNotFoundException::new);
+
         // 전달받은 값으로 임시 북마크 생성
         Bookmark bookmark = Bookmark.builder()
                 .title(title)
                 .url(url)
                 .image(imgUrl)
-                .dateAdded(currentTime())
+                .dateAdded(System.currentTimeMillis())
+                .folder(folder) // 북마크 -> 폴더 연관관계 설정
                 .build();
+
+        // 폴더 -> 북마크 연관관계 설정, folder는 영속 상태이기 때문에 save하지 않아도 됨
+        folder.addChildBookmark(bookmark);
 
         // 북마크 저장
         return bookmarkRepository.save(bookmark);
@@ -79,15 +94,8 @@ public class BookmarkService {
         if (CollectionUtils.isEmpty(ids)) {
             throw new IllegalArgumentException("[ERROR] 삭제할 북마크를 하나 이상 선택해 주세요.");
         }
-
-        List<Bookmark> toDelete = bookmarkRepository.findAllById(ids);
-        if (toDelete.isEmpty()) {
-            return 0; // 존재하는 북마크만 삭제
-        }
-
-        bookmarkRepository.deleteAll(toDelete); // 북마크 일괄 삭제
-
-        return toDelete.size(); // 삭제된 북마크 개수 반환
+        bookmarkRepository.deleteAllByIds(ids);
+        return ids.size();
     }
 
     @Transactional
@@ -174,6 +182,22 @@ public class BookmarkService {
         bookmarkRepository.save(bookmark);
     }
 
+    @Transactional
+    public void edit(Long id, BookmarkEditRequest request) {
+        Bookmark bookmark = bookmarkRepository.findById(id)
+                .orElseThrow(BookmarkNotFoundException::new);
+
+
+        log.info("[북마크 수정] 제목: {}", request.getTitle());
+        bookmark.update(request.getTitle(), request.getUrl());
+    }
+
+    @Transactional
+    public void move(BookmarkMoveRequest request) {
+        bookmarkRepository.moveToFolder(request.getMoveTo(), request.getBookmarks());
+        folderRepository.moveToFolder(request.getMoveTo(), request.getFolders());
+    }
+
     private Folder saveTreeByBfs(BookmarkTreeNode topFolder, Root root) {
         Folder top = null;
         Queue<BookmarkTreeNode> folderQueue = new ArrayDeque<>();
@@ -222,17 +246,12 @@ public class BookmarkService {
         return node.getChildren() == null;
     }
 
-    // 현재 시간을 millis를 제외한 long으로 반환
-    private long currentTime() {
-        return System.currentTimeMillis() / MILLIS_PER_SECOND;
-    }
-
     private String scrapImageOrEmpty(String url) {
         String imgUrl = "";
         try {
             //TODO: orElse로 기본 이미지 가져오기
             log.info("이미지 가져오기 - {}", url);
-            imgUrl = ImageScraper.getImageUrl(url)
+            imgUrl = ImageScraper.getImageFromOgOrImgTag(url)
                     .orElseThrow(() -> new IllegalArgumentException("[ERROR] 이미지 스크랩 실패"));
             log.info("스크랩 이미지 url: {}", imgUrl);
         } catch (IllegalArgumentException | IOException e){

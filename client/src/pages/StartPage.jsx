@@ -3,7 +3,10 @@ import LogoIcon from "../components/header/LogoIcon";
 import GoogleLoginButton from "../components/startPageComponents/GoogleLoginButton";
 import MoveExtensionStore from "../components/startPageComponents/MoveExtensionStore";
 import FadeInSection from "../components/startPageComponents/FadeInSection";
-import { MockUp } from "../assets";
+import PersonalGithub from "../components/startPageComponents/PersonalGithub";
+import MockUp from "../components/startPageComponents/MockUp";
+import { StartBlur } from "../assets";
+
 
 let StartPage;
 
@@ -17,17 +20,14 @@ StartPage = () => {
     };
 
     return (
-        <div
-            className="relative w-screen min-h-screen"
-            style={{
-                backgroundImage: `
-                                radial-gradient(circle 850px at 95% 42%, #87EDFF 0%, transparent 150%),
-                                radial-gradient(circle 870px at 85% 42%, #7349D6 0%, transparent 170%),
-                                radial-gradient(circle 870px at 94% 42%, #C8B8FF 0%, transparent 200%)
-                            `
-            }}
-        >
-            <div className="flex flex-col items-center justify-center">
+        <div className="relative w-screen min-h-screen overflow-hidden">
+            {/* 배경이 되는 컴포넌트 */}
+            <StartBlur className="
+                absolute top-[-1100px] left-[-700px]
+                w-[4000px] h-[3500px] z-0 pointer-events-none
+            " />
+
+            <div className="flex flex-col items-center justify-center relative z-10">
                 {/* 로고, 로그인 버튼 */}
                 <div className="flex justify-between  w-full px-8 pt-4  ">
                     <LogoIcon />
@@ -40,10 +40,10 @@ StartPage = () => {
                         <p className="
                             mb-6 sm:mb-[25px] mt-20 sm:mt-[150px]
                             text-center select-none
-                            text-black font-black leading-[1.1]
+                            text-black font-black leading-[1.1] font-sans tracking-[-0.03em]
                             text-3xl sm:text-6xl lg:text-8xl
                             w-full max-w-[70vw] sm:max-w-[750px] lg:max-w-[1092px]
-                            font-sans
+                            [text-shadow:_4px_4px_15px_rgba(255,255,255,0.7)]
                         "
                         >
                             Where scattered links find their place.
@@ -53,8 +53,9 @@ StartPage = () => {
                         <div className="
                             mb-8 sm:mb-[36px] select-none
                             text-center text-gray-600 font-bold leading-10
-                            text-base sm:text-xl lg:text-3xl
+                            text-base sm:text-xl lg:text-3xl 
                             w-full max-w-[90vw] sm:max-w-[650px] lg:max-w-[953px]
+                            tracking-[-0.03em] font-sans
                         "
                         >
                             잊고 싶지 않은 모든 웹을, 하나로 모아보세요
@@ -63,32 +64,31 @@ StartPage = () => {
                         {/* 익스텐션 스토어 페이지 */}
                         <MoveExtensionStore />
 
-                        {/* 임시 목업 이미지 */}
-                        <div className="w-full flex justify-center">
-                            <MockUp
-                                className="
-                                    w-full max-w-[95vw] sm:max-w-[800px] lg:max-w-[1400px]
-                                    h-auto mb-40 sm:mb-[700px]
-                                "
-                            />
-                        </div>
+                        {/* 목업 컴포넌트*/}
+                        <MockUp />
                     </div>
                 </FadeInSection>
 
                 <div className="
-                            w-full px-4 sm:px-[50px] lg:px-[120px] pb-8 sm:pb-[100px]
+                            w-full px-4 sm:px-[50px] lg:px-[120px] pb-8 sm:pb-[80px]
                             flex flex-col lg:flex-row justify-between items-center
-                            gap-10 lg:gap-0 max-w-7xl mx-auto
+                            mt-[700px]
                         "
                 >
-                    <div className="flex flex-col sm:flex-row">
+                    <div className="flex flex-col sm:flex-row select-none">
                         <div className="flex flex-col sm:mr-12 lg:mr-20 mb-6 sm:mb-0">
                             <p className="mb-2 sm:mb-4 text-black text-xl sm:text-2xl lg:text-4xl font-semibold leading-7 sm:leading-10">Starlist</p>
                             <p className="text-sm sm:text-base">잊고 싶지 않은 모든 웹을, 하나로 모아보세요</p>
                         </div>
                         <div className="flex flex-col">
-                            <p className="mb-2 sm:mb-4 text-black text-xl sm:text-2xl lg:text-4xl font-semibold">Contributors</p>
-                            <p className="tracking-wide text-xs sm:text-base">김균호 김남언 김민성 이승훈 조수민</p>
+                            <p className="mb-2 sm:mb-4 text-black text-xl sm:text-2xl lg:text-4xl font-semibold">Contact us</p>
+                            <div className="flex items-end">
+                                <PersonalGithub name="김균호" link="https://github.com/g0rnn" />
+                                <PersonalGithub name="김남언" link="https://github.com/skadjs" />
+                                <PersonalGithub name="김민성" link="https://github.com/MNSK-00" />
+                                <PersonalGithub name="이승훈" link="https://github.com/SH-MooDy" />
+                                <PersonalGithub name="조수민" link="https://github.com/oohdhead" />
+                            </div>
                         </div>
                     </div>
 

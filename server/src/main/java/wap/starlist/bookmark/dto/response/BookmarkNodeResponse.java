@@ -15,6 +15,7 @@ public class BookmarkNodeResponse {
     private String title;
     private Long dateAdded;
     private Long dateGroupModified;
+    private Long dateLastUsed;
     private Integer index;
     private Integer parentId;
     private String url;
@@ -43,6 +44,7 @@ public class BookmarkNodeResponse {
                 .index(bookmark.getPosition())
                 .url(bookmark.getUrl())
                 .image(bookmark.getImage())
+                .dateLastUsed(bookmark.getDateLastUsed())
                 .build();
 
     }

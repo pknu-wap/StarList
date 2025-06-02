@@ -27,6 +27,7 @@ export default {
                 point: {
                     red: "#DC2626",
                 },
+                sub: "87EDFF",
             },
             backgroundImage: {
                 "bookmark-overlay":

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import org.springframework.util.StringUtils;
 
 @Entity
 @Getter
@@ -23,6 +24,7 @@ public class Bookmark {
     @Column(length = 2048)
     private String image;
 
+    // TODO: 삭제 예정
     private String recommended;
 
     @Column(length = 2048)
@@ -65,8 +67,17 @@ public class Bookmark {
     public void mapToFolder(Folder parentFolder) {
         this.folder = parentFolder;
     }
-  
+
     public void updateDateAdded() {
         this.dateAdded = new Date().getTime();
+    }
+
+    public void update(String title, String url) {
+        if (StringUtils.hasText(title)) {
+            this.title = title;
+        }
+        if (StringUtils.hasText(url)) {
+            this.url = url;
+        }
     }
 }
