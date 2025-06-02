@@ -45,13 +45,10 @@ public class BookmarkController {
     public ResponseEntity<?> create(@AuthenticationPrincipal String loginUser, @RequestBody BookmarkCreateRequest request) {
 
         // 북마크 저장
-        Bookmark createdBookmark = bookmarkService.createBookmark(loginUser, request);
+        BookmarkResponse response = bookmarkService.createBookmark(loginUser, request);
 
         // 저장된 북마크 위치 URI
-        URI location = URI.create("/bookmarks/" + createdBookmark.getId());
-
-        // 응답 객체 생성
-        BookmarkResponse response = BookmarkResponse.from(createdBookmark);
+        URI location = URI.create("/bookmarks/" + response.getId());
 
         return ResponseEntity.created(location).body(response);
     }
