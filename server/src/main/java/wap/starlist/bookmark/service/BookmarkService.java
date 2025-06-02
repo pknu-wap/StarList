@@ -21,6 +21,7 @@ import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.domain.Root;
 import wap.starlist.bookmark.dto.request.BookmarkCreateRequest;
 import wap.starlist.bookmark.dto.request.BookmarkEditRequest;
+import wap.starlist.bookmark.dto.request.BookmarkMoveRequest;
 import wap.starlist.bookmark.dto.request.BookmarkTreeNode;
 import wap.starlist.bookmark.repository.BookmarkRepository;
 import wap.starlist.bookmark.repository.FolderRepository;
@@ -186,14 +187,15 @@ public class BookmarkService {
         Bookmark bookmark = bookmarkRepository.findById(id)
                 .orElseThrow(BookmarkNotFoundException::new);
 
-        Folder folder = null;
-        if (request.getFolderId() != null) {
-            folder = folderRepository.findById(request.getFolderId())
-                    .orElseThrow(FolderNotFoundException::new);
-        }
 
         log.info("[북마크 수정] 제목: {}", request.getTitle());
-        bookmark.update(request.getTitle(), request.getUrl(), folder, request.getPosition());
+        bookmark.update(request.getTitle(), request.getUrl());
+    }
+
+    @Transactional
+    public void move(BookmarkMoveRequest request) {
+        bookmarkRepository.moveToFolder(request.getMoveTo(), request.getBookmarks());
+        folderRepository.moveToFolder(request.getMoveTo(), request.getFolders());
     }
 
     private Folder saveTreeByBfs(BookmarkTreeNode topFolder, Root root) {

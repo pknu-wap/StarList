@@ -11,6 +11,4 @@ public class BookmarkEditRequest {
 
     private String title;
     private String url;
-    private Long folderId;
-    private Integer position;
 }

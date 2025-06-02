@@ -67,23 +67,17 @@ public class Bookmark {
     public void mapToFolder(Folder parentFolder) {
         this.folder = parentFolder;
     }
-  
+
     public void updateDateAdded() {
         this.dateAdded = new Date().getTime();
     }
 
-    public void update(String title, String url, Folder folder, Integer position) {
+    public void update(String title, String url) {
         if (StringUtils.hasText(title)) {
             this.title = title;
         }
         if (StringUtils.hasText(url)) {
             this.url = url;
-        }
-        if (folder != null) {
-            this.folder = folder;
-        }
-        if (position != null) {
-            this.position = position;
         }
     }
 }
