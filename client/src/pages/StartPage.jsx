@@ -68,7 +68,6 @@ StartPage = () => {
                         <MockUp />
                     </div>
                 </FadeInSection>
-
                 <div className="
                             w-full px-4 sm:px-[50px] lg:px-[120px] pb-8 sm:pb-[80px]
                             flex flex-col lg:flex-row justify-between items-center

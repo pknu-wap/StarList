@@ -1,5 +1,5 @@
 // 시작 페이지의 목업 컴포넌트
-import Slider from "./slider";
+import Slider from "./Slider";
 
 const MockUp = () => {
     const ColorBall = ({ color }) => {
