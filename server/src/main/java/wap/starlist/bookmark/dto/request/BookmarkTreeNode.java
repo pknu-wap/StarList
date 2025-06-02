@@ -117,7 +117,6 @@ public class BookmarkTreeNode {
                 .syncing(syncing)
                 .dateLastUsed(dateLastUsed)
                 .dateAdded(dateAdded)
-                .dateGroupModified(dateGroupModified)
                 .parentId(parentId)
                 .position(index)
                 .build();
@@ -134,7 +133,6 @@ public class BookmarkTreeNode {
                 .syncing(syncing)
                 .dateLastUsed(dateLastUsed)
                 .dateAdded(dateAdded)
-                .dateGroupModified(dateGroupModified)
                 .parentId(parentId)
                 .position(index)
                 .folder(folder)
