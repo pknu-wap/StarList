@@ -28,6 +28,8 @@ public class BookmarkResponse {
 
     private Integer position;
 
+    private Long folderId;
+
     // Bookmark을 전달받아 Response 객체를 생성하는 정적 팩토리 메서드
     public static BookmarkResponse from(Bookmark bookmark) {
         return BookmarkResponse.builder()
@@ -41,6 +43,7 @@ public class BookmarkResponse {
                 .dateAdded(bookmark.getDateAdded())
                 .dateLastUsed(bookmark.getDateLastUsed())
                 .position(bookmark.getPosition())
+                .folderId(bookmark.getFolder().getId())
                 .build();
     }
 }

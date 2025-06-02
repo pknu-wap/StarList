@@ -42,7 +42,7 @@ public class BookmarkService {
     private final RootRepository rootRepository;
 
     @Transactional // 트랜잭션을 보장하기 위해
-    public BookmarkResponse createBookmark(String memberProviderId, BookmarkCreateRequest request) {
+    public BookmarkResponse createBookmark(BookmarkCreateRequest request) {
         String title = request.getTitle();
         String url = request.getUrl();
         Long folderId = request.getFolderId();
@@ -163,7 +163,7 @@ public class BookmarkService {
 
     // 3개월 전 북마크 중 최대 15개 조회
     @Transactional(readOnly = true)
-    public List<Bookmark> getReminderBookmarks() {
+    public List<BookmarkResponse> getReminderBookmarks() {
         long threeMonthsAgo = ZonedDateTime.now()
                 .minusMonths(3)
                 .toInstant()
@@ -174,8 +174,11 @@ public class BookmarkService {
                 PageRequest.of(0, 100));
         Collections.shuffle(remindCandidates);
 
-        return remindCandidates.stream()
+        // 추출한 15개의 북마크
+        List<Bookmark> reminders = remindCandidates.stream()
                 .limit(15).toList();
+
+        return reminders.stream().map(BookmarkResponse::from).toList();
     }
 
     // 리마인드 후 lastRemindTime 갱신
