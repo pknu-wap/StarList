@@ -14,6 +14,7 @@ import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.domain.Root;
 import wap.starlist.bookmark.dto.request.BookmarkCreateRequest;
 import wap.starlist.bookmark.dto.request.BookmarkEditRequest;
+import wap.starlist.bookmark.dto.request.BookmarkMoveRequest;
 import wap.starlist.bookmark.dto.request.BookmarkTreeNode;
 import wap.starlist.bookmark.dto.request.BookmarksDeleteRequest;
 import wap.starlist.bookmark.dto.request.ReminderBookmarkRequest;
@@ -199,5 +200,11 @@ public class BookmarkController {
     public ResponseEntity<?> edit(@PathVariable("id") Long id, BookmarkEditRequest request) {
         bookmarkService.edit(id, request); // 내부에서 커스텀 예외로 처리하고 있기에 try-catch 필요없음
         return ResponseEntity.ok("수정되었습니다.");
+    }
+
+    @PatchMapping("/move")
+    public ResponseEntity<?> move(BookmarkMoveRequest request) {
+        bookmarkService.move(request);
+        return ResponseEntity.ok("이동되었습니다.");
     }
 }
