@@ -23,7 +23,6 @@ import wap.starlist.bookmark.dto.response.BookmarkNodeResponse;
 import wap.starlist.bookmark.dto.response.BookmarkResponse;
 import wap.starlist.bookmark.dto.response.BookmarksDeleteResponse;
 import wap.starlist.bookmark.dto.response.ReminderBookmarkErrorResponse;
-import wap.starlist.bookmark.dto.response.ReminderBookmarksResponse.ReminderBookmarkInfo;
 import wap.starlist.bookmark.service.BookmarkService;
 import wap.starlist.bookmark.service.FolderService;
 import wap.starlist.bookmark.service.RootService;
@@ -43,15 +42,13 @@ public class BookmarkController {
     // TODO: dateLastUsed는 어떻게?
     @PostMapping
     public ResponseEntity<?> create(@AuthenticationPrincipal String loginUser, @RequestBody BookmarkCreateRequest request) {
+        log.info("[bookmark-create] request user: {}", loginUser);
 
         // 북마크 저장
-        Bookmark createdBookmark = bookmarkService.createBookmark(loginUser, request);
+        BookmarkResponse response = bookmarkService.createBookmark(request);
 
         // 저장된 북마크 위치 URI
-        URI location = URI.create("/bookmarks/" + createdBookmark.getId());
-
-        // 응답 객체 생성
-        BookmarkResponse response = BookmarkResponse.from(createdBookmark);
+        URI location = URI.create("/bookmarks/" + response.getId());
 
         return ResponseEntity.created(location).body(response);
     }
@@ -138,24 +135,10 @@ public class BookmarkController {
         try {
             log.info("[reminder] 리마인더 조회: {}", loginUser);
             // 3개월 전 사용된 리마인드 대상 북마크 조회
-            List<Bookmark> targets = bookmarkService.getReminderBookmarks();
-
-            // DTO 변환
-            List<ReminderBookmarkInfo> result = targets.stream()
-                    .map(b -> ReminderBookmarkInfo.builder()
-                            .id(b.getId())
-                            .googleId(b.getGoogleId() != null ? b.getGoogleId().toString() : null)
-                            .syncing(b.getSyncing())
-                            .title(b.getTitle())
-                            .dateAdded(b.getDateAdded())
-                            .index(b.getPosition())
-                            .parentId(b.getParentId())
-                            .url(b.getUrl())
-                            .build())
-                    .toList();
+            List<BookmarkResponse> reminderBookmarks = bookmarkService.getReminderBookmarks();
 
             // 배열 반환
-            return ResponseEntity.ok(result);
+            return ResponseEntity.ok(reminderBookmarks);
 
         } catch (DataAccessException ex) {
             // DB 오류

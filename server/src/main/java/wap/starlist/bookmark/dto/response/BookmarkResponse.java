@@ -8,8 +8,9 @@ import wap.starlist.bookmark.domain.Bookmark;
 @Builder
 public class BookmarkResponse {
 
-    // TODO: NotBlank로 검사하기
-    private Long bookmarkId;
+    private Long id;
+
+    private Long googleId;
 
     private String title;
 
@@ -23,22 +24,26 @@ public class BookmarkResponse {
 
     private Long dateAdded;
 
-    private Long dateGroupModified;
-
     private Long dateLastUsed;
+
+    private Integer position;
+
+    private Long folderId;
 
     // Bookmark을 전달받아 Response 객체를 생성하는 정적 팩토리 메서드
     public static BookmarkResponse from(Bookmark bookmark) {
         return BookmarkResponse.builder()
-                .bookmarkId(bookmark.getId())
+                .id(bookmark.getId())
+                .googleId(bookmark.getGoogleId())
                 .title(bookmark.getTitle())
                 .summary(bookmark.getSummary())
                 .image(bookmark.getImage())
                 .recommended(bookmark.getRecommended())
                 .url(bookmark.getUrl())
                 .dateAdded(bookmark.getDateAdded())
-                .dateGroupModified(bookmark.getDateGroupModified())
                 .dateLastUsed(bookmark.getDateLastUsed())
+                .position(bookmark.getPosition())
+                .folderId(bookmark.getFolder().getId())
                 .build();
     }
 }

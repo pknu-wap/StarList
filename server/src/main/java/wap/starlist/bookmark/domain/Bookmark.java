@@ -32,8 +32,6 @@ public class Bookmark {
 
     private Long dateAdded;
 
-    private Long dateGroupModified;
-
     private Long dateLastUsed;
 
     @Column(name = "parent_id")

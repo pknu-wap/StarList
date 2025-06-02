@@ -24,6 +24,7 @@ import wap.starlist.bookmark.dto.request.BookmarkCreateRequest;
 import wap.starlist.bookmark.dto.request.BookmarkEditRequest;
 import wap.starlist.bookmark.dto.request.BookmarkMoveRequest;
 import wap.starlist.bookmark.dto.request.BookmarkTreeNode;
+import wap.starlist.bookmark.dto.response.BookmarkResponse;
 import wap.starlist.bookmark.repository.BookmarkRepository;
 import wap.starlist.bookmark.repository.FolderRepository;
 import wap.starlist.bookmark.repository.RootRepository;
@@ -41,7 +42,7 @@ public class BookmarkService {
     private final RootRepository rootRepository;
 
     @Transactional // 트랜잭션을 보장하기 위해
-    public Bookmark createBookmark(String memberProviderId, BookmarkCreateRequest request) {
+    public BookmarkResponse createBookmark(BookmarkCreateRequest request) {
         String title = request.getTitle();
         String url = request.getUrl();
         Long folderId = request.getFolderId();
@@ -53,7 +54,8 @@ public class BookmarkService {
             // 이미 있다면 추가된 날짜 수정
             Bookmark bookmark = found.get(0);
             bookmark.updateDateAdded();
-            return bookmarkRepository.save(bookmark);
+            Bookmark saved = bookmarkRepository.save(bookmark);
+            return BookmarkResponse.from(saved);
         }
 
         // 웹 페이지의 이미지 파싱
@@ -76,7 +78,9 @@ public class BookmarkService {
         folder.addChildBookmark(bookmark);
 
         // 북마크 저장
-        return bookmarkRepository.save(bookmark);
+        Bookmark createdBookmark = bookmarkRepository.save(bookmark);
+
+        return BookmarkResponse.from(createdBookmark);
     }
 
     @Transactional(readOnly = true)
@@ -159,7 +163,7 @@ public class BookmarkService {
 
     // 3개월 전 북마크 중 최대 15개 조회
     @Transactional(readOnly = true)
-    public List<Bookmark> getReminderBookmarks() {
+    public List<BookmarkResponse> getReminderBookmarks() {
         long threeMonthsAgo = ZonedDateTime.now()
                 .minusMonths(3)
                 .toInstant()
@@ -170,8 +174,11 @@ public class BookmarkService {
                 PageRequest.of(0, 100));
         Collections.shuffle(remindCandidates);
 
-        return remindCandidates.stream()
+        // 추출한 15개의 북마크
+        List<Bookmark> reminders = remindCandidates.stream()
                 .limit(15).toList();
+
+        return reminders.stream().map(BookmarkResponse::from).toList();
     }
 
     // 리마인드 후 lastRemindTime 갱신
