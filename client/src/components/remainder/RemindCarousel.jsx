@@ -58,6 +58,9 @@ const RemindCarousel = () => {
     const [centerIdx, setCenterIdx] = useState(0);
     const breakpoint = useBreakpoint();
 
+    // 비활성화된 북마크 필터링
+    const visibleBookmarks = bookmarks.filter((bookmark) => !bookmark.remindDisabled);
+
     // 화면 크기에 따라 보여줄 카드 수 결정
     const visibleCardCount = breakpoint === "sm" ? 1 : breakpoint === "md" ? 3 : 5;
     const CARD_SIZES = CARD_SIZES_LIST[visibleCardCount];
@@ -66,14 +69,13 @@ const RemindCarousel = () => {
 
     // 보여줄 카드 인덱스 계산
     const getDisplayIndexes = () => {
-        const len = bookmarks.length;
+        const len = visibleBookmarks.length;
         if (len === 0) return []; // 북마크가 없으면 빈 배열 반환
 
         const half = Math.floor(visibleCardCount / 2);
         let indexes = [];
 
         for (let i = -half; i <= half; i++) {
-            // 북마크 개수가 visibleCardCount보다 적을 경우 반복해서 보여줌
             indexes.push((centerIdx + i + len) % len);
         }
 
@@ -83,15 +85,15 @@ const RemindCarousel = () => {
     const displayIndexes = getDisplayIndexes();
 
     const handlePrev = () => {
-        setCenterIdx((prev) => (prev - 1 + bookmarks.length) % bookmarks.length);
+        setCenterIdx((prev) => (prev - 1 + visibleBookmarks.length) % visibleBookmarks.length);
     };
 
     const handleNext = () => {
-        setCenterIdx((prev) => (prev + 1) % bookmarks.length);
+        setCenterIdx((prev) => (prev + 1) % visibleBookmarks.length);
     };
 
     if (isLoading) return null;
-    if (error || bookmarks.length === 0)
+    if (error || visibleBookmarks.length === 0)
         return (
             <div className="flex items-center justify-center w-full h-[140px] md:h-[200px] lg:h-[240px]">
                 <span className="text-lg md:text-2xl text-gray-300">오래된 북마크가 없네요!</span>
@@ -138,7 +140,7 @@ const RemindCarousel = () => {
                 {/* 카드들 */}
                 <div className="flex items-center justify-center w-full">
                     {displayIndexes.map((realIdx, pos) => {
-                        if (!bookmarks[realIdx]) return null;
+                        if (!visibleBookmarks[realIdx]) return null;
                         return (
                             <div
                                 key={realIdx}
@@ -160,7 +162,7 @@ const RemindCarousel = () => {
                                 className="relative"
                             >
                                 <RemindCard
-                                    {...bookmarks[realIdx]}
+                                    {...visibleBookmarks[realIdx]}
                                     refetch={refetch}
                                     overlayAlpha={OVERLAY_ALPHA[pos]}
                                 />
