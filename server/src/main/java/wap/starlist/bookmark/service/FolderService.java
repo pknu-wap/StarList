@@ -7,14 +7,17 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import wap.starlist.bookmark.domain.Bookmark;
 import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.domain.Root;
+import wap.starlist.bookmark.dto.request.FolderEditRequest;
 import wap.starlist.bookmark.dto.response.BookmarkNodeResponse;
 import wap.starlist.bookmark.dto.response.FolderTreeNode;
 import wap.starlist.bookmark.repository.FolderRepository;
 import wap.starlist.bookmark.repository.RootRepository;
+import wap.starlist.error.exception.FolderNotFoundException;
 import wap.starlist.error.exception.TopFoldersNotFoundException;
 
 @Slf4j
@@ -25,6 +28,7 @@ public class FolderService {
     private final FolderRepository folderRepository;
     private final RootRepository rootRepository;
 
+    @Transactional
     public Folder createFolder(String title, Long userId) {
         // 필수값 검증(title, userId 존재 여부 확인)
         if (userId == null) {
@@ -42,6 +46,7 @@ public class FolderService {
         return folderRepository.save(folder);
     }
 
+    @Transactional(readOnly = true)
     public Folder getFolder(long id) {
         // id로 폴더 조회
         return folderRepository.findById(id)
@@ -49,6 +54,7 @@ public class FolderService {
     }
 
     //폴더 삭제 메서드
+    @Transactional
     public void deleteFolder(Long id) {
         Folder folder = getFolder(id);
         folderRepository.delete(folder);
@@ -58,6 +64,7 @@ public class FolderService {
      * @param id: jpa에서 자동으로 생성되는 id값을 의미한다. 이를 통해 member에 해당하는 폴더를 찾기 위해 불필요한 쿼리를 작성하지 않아도 된다.
      * @return
      */
+    @Transactional(readOnly = true)
     public List<BookmarkNodeResponse> getChildrenOfFolder(Long id) {
         Optional<Folder> found = folderRepository.findById(id);
 
@@ -80,6 +87,7 @@ public class FolderService {
         return Collections.emptyList();
     }
 
+    @Transactional(readOnly = true)
     public List<BookmarkNodeResponse> getChildrenOfRoot(String memberProviderId) {
         Root found = rootRepository.findByMemberProviderId(memberProviderId)
                 .orElseThrow(TopFoldersNotFoundException::new);
@@ -88,6 +96,7 @@ public class FolderService {
                 .map(BookmarkNodeResponse::fromFolder).toList();
     }
 
+    @Transactional(readOnly = true)
     public FolderTreeNode getTreeOf(String memberProviderId) {
         Root found = rootRepository.findByMemberProviderId(memberProviderId)
                 .orElseThrow(TopFoldersNotFoundException::new);
@@ -103,6 +112,7 @@ public class FolderService {
         return root;
     }
 
+    @Transactional(readOnly = true)
     public List<Folder> search(String memberProviderId, String query) {
         log.info("[Folder search]: query={}", query);
         // N번
@@ -122,6 +132,12 @@ public class FolderService {
                     }
                     return root.getMember().getProviderId().equals(memberProviderId);
                 }).toList();
+    }
+
+    @Transactional
+    public void edit(FolderEditRequest request) {
+        Folder folder = folderRepository.findById(request.getId()).orElseThrow(FolderNotFoundException::new);
+        folder.update(request.getTitle());
     }
 
     private FolderTreeNode collectFolder(Folder folder) {
