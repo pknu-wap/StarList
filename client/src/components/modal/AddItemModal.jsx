@@ -93,7 +93,7 @@ const AddItemModal = ({
                         "
                 >
                     {Icon && <Icon className="w-8 h-8 text-main-500" />}
-                    <span className="ml-[32px] sm:ml-[64px] text-[20px] sm:text-[27px] font-semibold text-black">
+                    <span className="ml-[32px] sm:ml-[64px] text-[20px] sm:text-[27px] font-sans font-semibold text-black">
                         {title}
                     </span>
                     <button
@@ -119,7 +119,7 @@ const AddItemModal = ({
                             key={name}
                             className="flex flex-row items-center mb-6"
                         >
-                            <label className="text-[18px] sm:text-2xl font-medium text-black pr-[21px]">
+                            <label className="text-[18px] sm:text-2xl font-sans font-medium text-black pr-[21px]">
                                 {label}
                             </label>
                             <input
@@ -145,7 +145,7 @@ const AddItemModal = ({
                     {/* 폴더 선택 드롭다운 */}
 
                     <div className="flex items-center">
-                        <label className="text-[18px] sm:text-2xl font-medium text-black pr-[21px] whitespace-nowrap">
+                        <label className="text-[18px] sm:text-2xl font-medium font-sans text-black pr-[21px] whitespace-nowrap">
                             위치
                         </label>
                         <div className="flex-1">
@@ -171,7 +171,7 @@ const AddItemModal = ({
                             rounded-[12px] sm:rounded-[18px]
                             bg-gradient-to-r from-main-500 to-main-black
                             text-[18px] sm:text-[23px]
-                            font-bold text-white
+                            font-sans font-bold text-white
                             shadow-[0px_2px_14px_0px_rgba(0,0,0,0.25)]
                             mt-3
                             hover:scale-105 active:scale-95 transition-transform duration-150 cursor-pointer

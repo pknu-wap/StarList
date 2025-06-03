@@ -33,7 +33,7 @@ const RemindCarousel = () => {
     if (error || bookmarks.length === 0)
         return (
             <div className="flex items-center justify-center w-full h-[240px]">
-                <span className="text-2xl text-gray-300">아무것도 없네요</span>
+                <span className="text-2xl text-gray-300">오래된 북마크가 없네요!</span>
             </div>
         );
 
