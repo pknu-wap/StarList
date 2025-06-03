@@ -3,7 +3,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const patchRemindDisable = async (bookmarkId, remindDisabled) => {
     const { accessToken } = useAuthStore.getState();
-    const res = await fetch(`${API_BASE_URL}/api/bookmark/${bookmarkId}/remind-disable`, {
+    const res = await fetch(`${API_BASE_URL}/bookmarks/${bookmarkId}/remind-disable`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
