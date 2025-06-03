@@ -14,7 +14,7 @@ StartPage = () => {
     const navigate = useNavigate();
 
 
-    // 정책 페이지 이동 핸들러(임시)
+    // 정책 페이지 이동 핸들러
     const policyClick = () => {
         navigate('/policy');
     };

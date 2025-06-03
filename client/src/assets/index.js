@@ -7,6 +7,7 @@ export { default as PlusFolder } from "./icons/add-folder.svg?react";
 export { default as Search } from "./buttons/search.svg?react";
 export { default as DeleteIcon } from "./icons/delete-icon.svg?react";
 export { default as MoveIcon } from "./icons/open-folder-icon.svg?react";
+export { default as Logout } from "./icons/logout.svg?react";
 
 // 아이콘 버튼
 export { default as CheckBoxEmpty } from './buttons/check-box-empty.svg?react';
