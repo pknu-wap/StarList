@@ -64,17 +64,8 @@ public class Bookmark {
     @Setter
     private Long lastRemindTime;
 
-
-    public void setFolder(Folder folder) {
-        this.folder = folder;
-
-        if (folder != null && !folder.getBookmarks().contains(this)) {
-            folder.getBookmarks().add(this);
-        }
-    }
-
     public void mapToFolder(Folder parentFolder) {
-        setFolder(parentFolder);
+        this.folder = parentFolder;
     }
 
     public void updateDateAdded() {
