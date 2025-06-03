@@ -12,18 +12,15 @@ const Header = () => {
     };
 
     const handleProfileClick = () => {
-        setShowLogout(prev => !prev);
+        setShowLogout((prev) => !prev);
     };
 
     return (
-        <header className="border-gray-300-[2px] border-b h-[128px] relative">
-            <div className="mb-9 mt-2 mx-4 flex items-center justify-between">
+        <header className="border-gray-300-[2px] relative border-b">
+            <div className="mx-4 mb-16 mt-2 flex items-center justify-between">
                 <LogoIcon onClick={logoClick} />
                 <div className="flex gap-x-4">
-                    <ProfileIcon
-                        onClick={handleProfileClick}
-                        className="h-[30px] w-[30px] cursor-pointer"
-                    />
+                    <ProfileIcon onClick={handleProfileClick} className="h-[30px] w-[30px] cursor-pointer" />
                     <Link to="/setting">
                         <SettingIcon className="h-[30px] w-[30px]" />
                     </Link>

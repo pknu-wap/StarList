@@ -14,7 +14,7 @@ async function editFolder(folderId, payload) {
         body: JSON.stringify(payload),
     };
 
-    const response = await fetch(`${API_BASE_URL}/${folderId}/edit`, options);
+    const response = await fetch(`${API_BASE_URL}/folders/${folderId}/edit`, options);
 
     // 200 OK 가 아닐 경우
     if (!response.ok) {
