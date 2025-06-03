@@ -6,7 +6,7 @@ const useSearchStore = create((set) => ({
     keyword: "",
     isSearching: false,
     setKeyword: (newKeyword) => set({ keyword: newKeyword, isSearching: true }),
-    clear: () => set({ keyword: "", isSearching: false }),
+    finishSearch: () => set({ keyword: "", isSearching: false }),
 }));
 
 export default useSearchStore;

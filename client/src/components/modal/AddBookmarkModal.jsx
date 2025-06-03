@@ -6,7 +6,7 @@ import { PlusBookmark } from "../../assets";
 // AddBookmarkModal 컴포넌트: 새 북마크 추가용 모달창
 const AddBookmarkModal = ({ onClose }) => {
     // 폴더 트리 데이터와 로딩 상태 조회
-    const { data: tree = [], isLoading } = useFolderTree();
+    const { data: folderTree = {}, isLoading } = useFolderTree();
     // 북마크 추가 뮤테이션 함수
     const { addBookmarkMutation } = useNodeActions();
 
@@ -31,7 +31,7 @@ const AddBookmarkModal = ({ onClose }) => {
                 { name: "title", label: "이름", placeholder: "북마크 이름" },
                 { name: "url", label: "URL", placeholder: "https://..." },
             ]}
-            tree={tree} // 폴더 트리 옵션
+            tree={folderTree.children} // 폴더 트리 옵션
             isLoading={isLoading} // 로딩 상태
             buttonText="추가하기" // 버튼 텍스트
             onSubmit={handleBookmarkSubmit} // 제출 콜백

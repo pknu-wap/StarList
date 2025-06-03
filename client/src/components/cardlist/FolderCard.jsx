@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useFolderHistoryStore from "../../functions/hooks/useFolderHistoryStore";
+import useMoveToFolder from "../../functions/hooks/useMoveToFolder";
 import useSelectedCardsStore from "../../functions/hooks/useSelectedCardsStore";
 
 import { FolderCardSvg } from "../../assets/";
@@ -7,8 +7,8 @@ import { EditButton } from "../../assets/";
 import FolderEditModal from "./FolderEditModal";
 
 const FolderCard = ({ info }) => {
-    // 폴더 카드 클릭시 현재 history 를 변경
-    const push = useFolderHistoryStore((s) => s.push);
+    // 폴더 카드 클릭시 history 변경
+    const moveToFolder = useMoveToFolder();
 
     // Ctrl + 좌클릭을 이용하여 해당 카드를 선택 가능
     const isSelected = useSelectedCardsStore((s) =>
@@ -25,7 +25,7 @@ const FolderCard = ({ info }) => {
             e.preventDefault();
             toggle(info.id, "folder");
         } else {
-            push({ id: info.id, title: info.title });
+            moveToFolder(info.id, info.title);
         }
     };
 
