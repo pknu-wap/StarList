@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.dto.request.FolderCreateRequest;
+import wap.starlist.bookmark.dto.request.FolderEditRequest;
 import wap.starlist.bookmark.dto.response.BookmarkNodeResponse;
 import wap.starlist.bookmark.dto.response.FolderErrorResponse;
 import wap.starlist.bookmark.dto.response.FolderResponse;
@@ -96,5 +98,15 @@ public class FolderController {
         log.info("폴더 구조 가져오기 [user]: {}", loginUser);
         FolderTreeNode root = folderService.getTreeOf(loginUser);
         return ResponseEntity.ok(root);
+    }
+
+    @PatchMapping("/{id}/edit")
+    public ResponseEntity<?> edit(@PathVariable("id") Long id, FolderEditRequest request) {
+        log.info("[folder-edit] 폴더 이름 변경 -> {}", request.getTitle());
+
+        if (StringUtils.hasText(request.getTitle())) {
+            folderService.edit(id, request);
+        }
+        return ResponseEntity.ok("수정되었습니다.");
     }
 }

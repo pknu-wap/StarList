@@ -75,6 +75,10 @@ public class Folder {
         this.root = root;
     }
 
+    public void update(String title) {
+        this.title = title;
+    }
+
     private void setParent(Folder parent) {
         this.parent = parent;
     }
