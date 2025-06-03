@@ -32,7 +32,7 @@ const CardsContainer = () => {
         useGetNodes(currentPosition, { enabled: !isSearching }),
         useSearchNodes(keyword, { enabled: isSearching }),
     ];
-    const { data: nodes = [], status, error } = isSearching ? searchNodesResult : getNodesResult;
+    const { data: nodes = [], status, error, refetch } = isSearching ? searchNodesResult : getNodesResult;
 
     console.log(nodes); // 디버깅용
     console.log(error); // 디버깅용
@@ -57,6 +57,17 @@ const CardsContainer = () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [handleClickOutside]);
+
+    // SYNC_SUCCESS 메시지 감지 → refetch
+    useEffect(() => {
+        function handleSyncSuccess(event) {
+            if (event.source !== window) return;
+            if (event.data.type !== "SYNC_SUCCESS") return;
+            refetch();
+        }
+        window.addEventListener("message", handleSyncSuccess);
+        return () => window.removeEventListener("message", handleSyncSuccess);
+    }, [refetch]);
 
     // 로딩중
     if (status === "loading") {
