@@ -2,7 +2,6 @@ import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import useAuthStore from "../hooks/useAuthStore";
 import ApiError from "../utils/ApiError";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const FOLDER_URL = import.meta.env.VITE_FOLDER_URL;
 
 async function fetchFolderTree() {
     const { accessToken } = useAuthStore.getState();
@@ -14,7 +13,7 @@ async function fetchFolderTree() {
         },
     };
 
-    const response = await fetch(`${FOLDER_URL}`, options);
+    const response = await fetch(`${API_BASE_URL}/folders/tree`, options);
     // 200 OK 가 아닐 경우
     if (!response.ok) {
         const errorBody = await response.json();

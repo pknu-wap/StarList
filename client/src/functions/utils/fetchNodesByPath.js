@@ -2,13 +2,12 @@ import useAuthStore from "../hooks/useAuthStore";
 import ApiError from "./ApiError";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const MOCKY_URL = import.meta.env.VITE_MOCKY_URL;
 
 // path 에 따른 노드 리스트를 백엔드 API 를 통해 가져오는 함수
 async function fetchNodesByPath(path) {
     const { accessToken } = useAuthStore.getState();
 
-    const response = await fetch(`${MOCKY_URL}${path}`, {
+    const response = await fetch(`${API_BASE_URL}${path}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
