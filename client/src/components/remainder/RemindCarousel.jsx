@@ -57,7 +57,7 @@ const RemindCarousel = () => {
 
     return (
 
-        <div className="w-full px-10 flex flex-col items-center overflow-hidden">
+        <div className="w-full flex flex-col items-center gap-y-4 p-10">
             {/* 제목 */}
             <div className="flex w-full items-baseline space-x-2 mb-2">
                 <p className="text-3xl font-bold text-black">리마인드</p>
@@ -68,7 +68,7 @@ const RemindCarousel = () => {
 
             {/* 캐러셀 카드라인 */}
             <div
-                className="relative flex items-center mx-10 pt-[75px]"
+                className="relative flex items-center"
                 style={{
                     // 중앙정렬, maxWidth만 제한, height 고정
                     maxWidth: `${CAROUSEL_ROW_WIDTH}px`,
