@@ -6,7 +6,7 @@ import ScrollToTopButton from "../components/cardlist/ScrollToTopButton";
 
 const MainPage = () => {
     return (
-        <div className="grid gap-y-6 px-4 py-2">
+        <div className="grid gap-y-6 px-4 py-2 mx-auto">
             <Header />
             <RemindCarousel />
             <CardList />

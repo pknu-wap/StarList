@@ -3,7 +3,7 @@ import patchRemindDisable from "../../functions/utils/patchRemindDisable";
 import { useMutation } from "@tanstack/react-query";
 import { EditButton } from "../../assets";
 
-const RemindCard = ({ id, title, url, image, refetch }) => {
+const RemindCard = ({ id, title, url, image, refetch, overlayAlpha }) => {
     const [showPopup, setShowPopup] = useState(false);
     const popupRef = useRef(null);
 
@@ -17,7 +17,6 @@ const RemindCard = ({ id, title, url, image, refetch }) => {
             alert("잠시 후 다시 시도해주세요.");
         },
     });
-
 
     // 팝업 외부 클릭 시 닫기
     useEffect(() => {
@@ -52,12 +51,20 @@ const RemindCard = ({ id, title, url, image, refetch }) => {
                 </div>
             )}
 
-            {/* 오버레이 */}
+            {/* 1. 기존 오버레이 */}
             <div className="absolute inset-0 rounded-[39px] bg-bookmark-overlay z-10 pointer-events-none" />
+
+            {/* 2. position별 추가 오버레이 (가장자리 어둡게) */}
+            {overlayAlpha > 0 && (
+                <div
+                    className="absolute inset-0 rounded-[39px] z-20 pointer-events-none"
+                    style={{ background: `rgba(0,0,0,${overlayAlpha})` }}
+                />
+            )}
 
             {/* Edit 버튼 */}
             <button
-                className="absolute top-4 right-4 z-20 p-1"
+                className="absolute top-4 right-4 z-30 p-1"
                 onClick={e => {
                     e.stopPropagation();
                     setShowPopup(true);
@@ -70,7 +77,7 @@ const RemindCard = ({ id, title, url, image, refetch }) => {
             {showPopup && (
                 <div
                     ref={popupRef}
-                    className="absolute inset-0 z-30 flex items-center justify-center"
+                    className="absolute inset-0 z-40 flex items-center justify-center"
                     style={{ background: "rgba(0,0,0,0.10)" }}
                 >
                     <div
@@ -101,7 +108,7 @@ const RemindCard = ({ id, title, url, image, refetch }) => {
             )}
 
             {/* 텍스트 */}
-            <div className="relative z-20">
+            <div className="relative z-30">
                 <p className="w-full text-lg font-bold text-left select-none text-white truncate">
                     {title}
                 </p>
