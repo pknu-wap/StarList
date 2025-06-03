@@ -135,7 +135,7 @@ public class BookmarkController {
         try {
             log.info("[reminder] 리마인더 조회: {}", loginUser);
             // 3개월 전 사용된 리마인드 대상 북마크 조회
-            List<BookmarkResponse> reminderBookmarks = bookmarkService.getReminderBookmarks();
+            List<BookmarkResponse> reminderBookmarks = bookmarkService.getReminderBookmarks(loginUser);
 
             // 배열 반환
             return ResponseEntity.ok(reminderBookmarks);
