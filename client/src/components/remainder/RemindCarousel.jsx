@@ -67,7 +67,7 @@ const RemindCarousel = () => {
     // 보여줄 카드 인덱스 계산
     const getDisplayIndexes = () => {
         const len = bookmarks.length;
-        if (len === 0) return [];
+        if (len === 0) return []; // 북마크가 없으면 빈 배열 반환
 
         const half = Math.floor(visibleCardCount / 2);
         let indexes = [];
@@ -77,7 +77,7 @@ const RemindCarousel = () => {
             indexes.push((centerIdx + i + len) % len);
         }
 
-        return indexes.slice(0, visibleCardCount);
+        return indexes;
     };
 
     const displayIndexes = getDisplayIndexes();
