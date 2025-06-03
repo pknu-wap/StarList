@@ -87,7 +87,7 @@ const CardsContainer = () => {
 
     // 데이터 있을때
     return (
-        <div ref={containerRef} className="mt-[83px] min-h-[calc(100vh-83px)] grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div ref={containerRef} className="mt-[83px] min-h-[calc(100vh-83px)] grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {nodes.map((node) =>
                 node.url === null ? (
                     <FolderCard key={node.index} info={node} />

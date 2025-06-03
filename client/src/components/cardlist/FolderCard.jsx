@@ -33,7 +33,7 @@ const FolderCard = ({ info }) => {
     return (
         <>
             <div
-                className="relative aspect-[390/270] w-full cursor-pointer transition-colors duration-200 sm:max-w-[310px] md:max-w-[350px] lg:max-w-[390px]"
+                className="relative aspect-[360/240] w-full cursor-pointer transition-colors duration-200 sm:max-w-[280px] md:max-w-[320px] lg:max-w-[360px] drop-shadow-lg"
                 onClick={handleClick}
             >
                 <FolderCardSvg

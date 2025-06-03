@@ -4,7 +4,7 @@ const RemindCard = ({ title, url, image }) => (
         className={`
       relative w-full h-full rounded-[39px] overflow-hidden 
       flex flex-col justify-end p-4 border border-gray-300
-      cursor-pointer
+      cursor-pointer shadow-lg
     `}
 
     >
