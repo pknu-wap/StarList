@@ -1,8 +1,10 @@
 const RemindCard = ({ title, url, image }) => (
     <div
+        onClick={() => window.location.href = url}
         className={`
       relative w-full h-full rounded-[39px] overflow-hidden 
       flex flex-col justify-end p-4 border border-gray-300
+      cursor-pointer
     `}
 
     >
@@ -14,6 +16,7 @@ const RemindCard = ({ title, url, image }) => (
                     alt={title}
                     className="w-full h-full object-cover rounded-[39px]"
                 />
+
             </div>
         )}
 
@@ -24,14 +27,11 @@ const RemindCard = ({ title, url, image }) => (
 
         {/* 텍스트 */}
         <div className="relative z-20">
-            <a
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full text-lg font-bold text-left text-white truncate"
+            <p
+                className="w-full text-lg font-bold text-left select-none text-white truncate"
             >
                 {title}
-            </a>
+            </p>
         </div>
     </div>
 );

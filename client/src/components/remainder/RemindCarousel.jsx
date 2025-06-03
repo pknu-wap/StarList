@@ -11,11 +11,11 @@ const CARD_SIZES = [
     { width: 192, height: 127 },   // 가장 오른쪽
 ];
 const OVERLAYS = [
-    "opacity-60",
     "opacity-40",
+    "opacity-20",
     "opacity-0",
+    "opacity-20",
     "opacity-40",
-    "opacity-60",
 ];
 const CARD_MARGIN = 40;
 const BUTTON_SIZE = 44;
