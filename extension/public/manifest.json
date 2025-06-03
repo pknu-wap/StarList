@@ -1,35 +1,35 @@
 {
-  "manifest_version": 3,
-  "name": "Starlist BETA",
-  "version": "0.0.3",
-  "version_name": "0.0.3 BETA",
-  "description": "THIS EXTENSION IS FOR BETA TESTING",
-  "icons": {
-    "16":  "logo/logo16.png",
-    "32":  "logo/logo32.png",
-    "48":  "logo/logo48.png",
-    "128": "logo/logo128.png"
-  },
-  "action": {
-    "default_icon": {
-      "16":  "logo/logo16.png",
-      "32":  "logo/logo32.png",
-      "48":  "logo/logo48.png"
+    "manifest_version": 3,
+    "name": "Starlist BETA",
+    "version": "0.0.4",
+    "version_name": "0.0.4 BETA",
+    "description": "THIS EXTENSION IS FOR BETA TESTING",
+    "icons": {
+        "16": "logo/logo16.png",
+        "32": "logo/logo32.png",
+        "48": "logo/logo48.png",
+        "128": "logo/logo128.png"
     },
-    "default_popup": "./src/index.html"
-  },
-  "background": {
-    "service_worker": "./assets/js/service_worker.js"
-  },
-  "host_permissions": [
-    "https://starlist.store/*"
-  ],
-  "externally_connectable": {
-    "matches": ["https://sstarlist.netlify.app/*"]
-  },
-  "permissions": [
-    "storage",
-    "bookmarks"
-  ],
-  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwhHFTT/Iim2aeoyt4dhbzv1C+AGXmVKVN5NkICXpn+iI6qy/ySPntVyZ0vi1rKjwG93XFY5dsFIP7MxC+zNlK45dhQWCfAiSj0M/WZUzcGKXfmpyAmqqSnjAL+93ORwbHCk1NJJ9JCCJMTkyCxiF5QE+7XCZrLW4aj6WU2ID+jgztEmkE4QHLkAQqHcpzb+5wZp7txPg7VUBoZ4EhrG+XU0iyhGIILkOvAZZli9qSD4UkLX76fHVfQZaCP3KOTI0azeuebH79iWOd5vbmlhcF35L7yEuRs9759MmzU4g4Fi9b05XD7klK/F6ad/acDUFU5BuDvLnmaxPfnhtNyXayQIDAQAB"
+    "action": {
+        "default_icon": {
+            "16": "logo/logo16.png",
+            "32": "logo/logo32.png",
+            "48": "logo/logo48.png"
+        }
+    },
+    "background": {
+        "service_worker": "./assets/js/service_worker.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://sstarlist.netlify.app/*"],
+        "js": ["./assets/js/content_script.js"]
+      }
+    ],
+    "host_permissions": ["https://starlist.store/*"],
+    "externally_connectable": {
+        "matches": ["https://sstarlist.netlify.app/*"]
+    },
+    "permissions": ["storage", "bookmarks"],
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwhHFTT/Iim2aeoyt4dhbzv1C+AGXmVKVN5NkICXpn+iI6qy/ySPntVyZ0vi1rKjwG93XFY5dsFIP7MxC+zNlK45dhQWCfAiSj0M/WZUzcGKXfmpyAmqqSnjAL+93ORwbHCk1NJJ9JCCJMTkyCxiF5QE+7XCZrLW4aj6WU2ID+jgztEmkE4QHLkAQqHcpzb+5wZp7txPg7VUBoZ4EhrG+XU0iyhGIILkOvAZZli9qSD4UkLX76fHVfQZaCP3KOTI0azeuebH79iWOd5vbmlhcF35L7yEuRs9759MmzU4g4Fi9b05XD7klK/F6ad/acDUFU5BuDvLnmaxPfnhtNyXayQIDAQAB"
 }
