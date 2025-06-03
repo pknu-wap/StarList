@@ -29,6 +29,8 @@ const RemindCarousel = () => {
     const { data: bookmarks = [], isLoading, error, refetch } = useRemindBookmarks();
     const [centerIdx, setCenterIdx] = useState(2);
 
+    // remindDisabled가 false인 북마크만 표시
+    const visibleBookmarks = bookmarks.filter(b => !b.remindDisabled);
     // SYNC_SUCCESS 메시지 감지 → refetch
     useEffect(() => {
         function handleSyncSuccess(event) {
@@ -41,7 +43,7 @@ const RemindCarousel = () => {
     }, [refetch]);
 
     if (isLoading) return null;
-    if (error || bookmarks.length === 0)
+    if (error || visibleBookmarks.length === 0)
         return (
             <div className="flex items-center justify-center w-full h-[240px]">
                 <span className="text-2xl text-gray-300">오래된 북마크가 없네요!</span>
@@ -49,8 +51,8 @@ const RemindCarousel = () => {
         );
 
     const getDisplayIndexes = () => {
-        const len = bookmarks.length;
-        // bookmarks가 없는 경우 빈 배열 반환 (이미 상단에서 처리한 경우일 수 있음)
+        const len = visibleBookmarks.length;
+        // visibleBookmarks가 없는 경우 빈 배열 반환 (이미 상단에서 처리한 경우일 수 있음)
         if (len === 0) return [];
         let arr = [];
         // -2부터 2까지의 범위를 사용하여 항상 5개의 인덱스 생성
@@ -61,8 +63,8 @@ const RemindCarousel = () => {
     };
 
     const handlePrev = () =>
-        setCenterIdx(idx => (idx - 1 + bookmarks.length) % bookmarks.length);
-    const handleNext = () => setCenterIdx(idx => (idx + 1) % bookmarks.length);
+        setCenterIdx(idx => (idx - 1 + visibleBookmarks.length) % visibleBookmarks.length);
+    const handleNext = () => setCenterIdx(idx => (idx + 1) % visibleBookmarks.length);
 
     const displayIndexes = getDisplayIndexes();
 
@@ -123,7 +125,7 @@ const RemindCarousel = () => {
                             }}
                             className="relative"
                         >
-                            <RemindCard {...bookmarks[realIdx]} />
+                            <RemindCard {...visibleBookmarks[realIdx]} refetch={refetch} />
                             <div
                                 className={`absolute inset-0 rounded-[39px] bg-black ${OVERLAYS[pos]} pointer-events-none transition-opacity duration-300`}
                                 style={{

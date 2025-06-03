@@ -1,7 +1,9 @@
 const SettingPage = () => {
     return (
         <div>
-            <h1>설정 페이지</h1>
+            <p className="text-3xl">
+                아직 구현중입니다...
+            </p>
         </div>
     );
 };
