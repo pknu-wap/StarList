@@ -1,7 +1,7 @@
 import useAuthStore from "../hooks/useAuthStore";
 import ApiError from "./ApiError";
 
-const API_BASE_URL = import.meta.env.API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // 이동할 노드 리스트를 path 에 따라서 전송하는 함수
 async function moveNodes(payload) {
