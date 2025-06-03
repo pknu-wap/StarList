@@ -34,8 +34,8 @@ export default {
                     "linear-gradient(180deg, " +
                     "rgba(26,26,26,0) 48.5577%, " +
                     "rgba(26,26,26,0.249203) 62.5%, " +
-                    "rgba(26,26,26,0.436105) 74.5192%, " +
-                    "#1A1A1A 100%)",
+                    "rgba(26,26,26,0.4) 74.5192%, " +
+                    "rgba(26,26,26,0.6) 100%",
             },
             fontFamily: {
                 sans: ["Pretendard", "sans-serif"], // 기본 폰트인 sans 계열을 Pretendard 로 오버라이드
