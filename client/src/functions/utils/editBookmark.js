@@ -13,7 +13,7 @@ async function editBookmark(bookmarkId, payload) {
         body: JSON.stringify(payload),
     };
 
-    const response = await fetch(`${API_BASE_URL}/${bookmarkId}/edit`, options);
+    const response = await fetch(`${API_BASE_URL}/bookmarks/${bookmarkId}/edit`, options);
 
     // 200 OK 가 아닐 경우
     if (!response.ok) {
