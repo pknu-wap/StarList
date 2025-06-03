@@ -39,7 +39,10 @@ const RemindCarousel = () => {
 
     const getDisplayIndexes = () => {
         const len = bookmarks.length;
+        // bookmarks가 없는 경우 빈 배열 반환 (이미 상단에서 처리한 경우일 수 있음)
+        if (len === 0) return [];
         let arr = [];
+        // -2부터 2까지의 범위를 사용하여 항상 5개의 인덱스 생성
         for (let i = -2; i <= 2; i++) {
             arr.push((centerIdx + i + len) % len);
         }
@@ -54,7 +57,7 @@ const RemindCarousel = () => {
 
     return (
 
-        <div className="w-full px-10 flex flex-col items-center">
+        <div className="w-full px-10 flex flex-col items-center overflow-hidden">
             {/* 제목 */}
             <div className="flex w-full items-baseline space-x-2 mb-2">
                 <p className="text-3xl font-bold text-black">리마인드</p>
@@ -93,7 +96,7 @@ const RemindCarousel = () => {
                 <div className="flex items-center">
                     {displayIndexes.map((realIdx, pos) => (
                         <div
-                            key={realIdx}
+                            key={`${pos}-${realIdx}`} // 고유 key 설정
                             style={{
                                 width: `${CARD_SIZES[pos].width}px`,
                                 height: `${CARD_SIZES[pos].height}px`,
