@@ -180,13 +180,13 @@ public class BookmarkController {
     }
 
     @PatchMapping("/{id}/edit")
-    public ResponseEntity<?> edit(@PathVariable("id") Long id, BookmarkEditRequest request) {
+    public ResponseEntity<?> edit(@PathVariable("id") Long id, @RequestBody BookmarkEditRequest request) {
         bookmarkService.edit(id, request); // 내부에서 커스텀 예외로 처리하고 있기에 try-catch 필요없음
         return ResponseEntity.ok("수정되었습니다.");
     }
 
     @PatchMapping("/move")
-    public ResponseEntity<?> move(BookmarkMoveRequest request) {
+    public ResponseEntity<?> move(@RequestBody BookmarkMoveRequest request) {
         log.info("[bookmark-move] {}", request.toString());
         bookmarkService.move(request);
         return ResponseEntity.ok("이동되었습니다.");
