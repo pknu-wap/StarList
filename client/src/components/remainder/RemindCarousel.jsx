@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import RemindCard from "./RemindCard";
 import useRemindBookmarks from "../../functions/hooks/useRemindBookmarks";
 import { ArrowLeft, ArrowRight } from "../../assets";
@@ -26,8 +26,19 @@ const CAROUSEL_ROW_WIDTH =
     40; // 버튼-카드 사이 여유
 
 const RemindCarousel = () => {
-    const { data: bookmarks = [], isLoading, error } = useRemindBookmarks();
+    const { data: bookmarks = [], isLoading, error, refetch } = useRemindBookmarks();
     const [centerIdx, setCenterIdx] = useState(2);
+
+    // SYNC_SUCCESS 메시지 감지 → refetch
+    useEffect(() => {
+        function handleSyncSuccess(event) {
+            if (event.source !== window) return;
+            if (event.data.type !== "SYNC_SUCCESS") return;
+            refetch();
+        }
+        window.addEventListener("message", handleSyncSuccess);
+        return () => window.removeEventListener("message", handleSyncSuccess);
+    }, [refetch]);
 
     if (isLoading) return null;
     if (error || bookmarks.length === 0)
