@@ -187,6 +187,7 @@ public class BookmarkController {
 
     @PatchMapping("/move")
     public ResponseEntity<?> move(BookmarkMoveRequest request) {
+        log.info("[bookmark-move] {}", request.toString());
         bookmarkService.move(request);
         return ResponseEntity.ok("이동되었습니다.");
     }
