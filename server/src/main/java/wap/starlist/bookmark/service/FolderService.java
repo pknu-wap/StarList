@@ -135,8 +135,8 @@ public class FolderService {
     }
 
     @Transactional
-    public void edit(FolderEditRequest request) {
-        Folder folder = folderRepository.findById(request.getId()).orElseThrow(FolderNotFoundException::new);
+    public void edit(Long folderId, FolderEditRequest request) {
+        Folder folder = folderRepository.findById(folderId).orElseThrow(FolderNotFoundException::new);
         folder.update(request.getTitle());
     }
 

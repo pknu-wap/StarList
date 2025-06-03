@@ -7,6 +7,5 @@ import lombok.Setter;
 @Setter
 public class FolderEditRequest {
 
-    private Long id;
     private String title;
 }

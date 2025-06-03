@@ -100,12 +100,12 @@ public class FolderController {
         return ResponseEntity.ok(root);
     }
 
-    @PatchMapping("/edit")
-    public ResponseEntity<?> edit(FolderEditRequest request) {
+    @PatchMapping("/{id}/edit")
+    public ResponseEntity<?> edit(@PathVariable("id") Long id, FolderEditRequest request) {
         log.info("[folder-edit] 폴더 이름 변경 -> {}", request.getTitle());
 
         if (StringUtils.hasText(request.getTitle())) {
-            folderService.edit(request);
+            folderService.edit(id, request);
         }
         return ResponseEntity.ok("수정되었습니다.");
     }
