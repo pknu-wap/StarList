@@ -37,6 +37,20 @@ body {
     animation: marquee 16s linear infinite;
 }
 
+.swiper-button-next,
+.swiper-button-prev {
+    color: #111 !important; /* 아이콘(화살표) 검은색 */
+    border-radius: 9999px; /* 완전 동그랗게 */
+    width: 44px;
+    height: 44px;
+    top: 50%; /* 세로 중앙 정렬 */
+    transform: translateY(-50%);
+}
+.swiper-button-next:after,
+.swiper-button-prev:after {
+    font-size: 24px; /* 아이콘 크기 조정 */
+}
+
 /* 4) Tailwind 기본 지시문 */
 @tailwind base;
 @tailwind components;

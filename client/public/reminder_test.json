@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "googleId": "g001",
+        "syncing": true,
+        "title": "React 공식 문서",
+        "dateAdded": 1685500800000,
+        "index": 0,
+        "parentId": null,
+        "url": "https://react.dev/"
+    },
+    {
+        "id": 2,
+        "googleId": "g002",
+        "syncing": false,
+        "title": "Apple",
+        "dateAdded": 1574570149516,
+        "index": 1,
+        "parentId": null,
+        "url": "https://www.apple.com/kr/"
+    },
+    {
+        "id": 3,
+        "googleId": "g003",
+        "syncing": true,
+        "title": "AI 논문 모음",
+        "dateAdded": 1687738800000,
+        "index": 2,
+        "parentId": null,
+        "url": "https://arxiv.org/list/cs.AI/recent"
+    },
+    {
+        "id": 4,
+        "googleId": "g004",
+        "syncing": null,
+        "title": "Vim 공식 홈페이지",
+        "dateAdded": 1678638000000,
+        "index": 3,
+        "parentId": null,
+        "url": "https://www.vim.org/"
+    },
+    {
+        "id": 5,
+        "googleId": "g005",
+        "syncing": false,
+        "title": "Node.js 베스트 프랙티스",
+        "dateAdded": 1689502800000,
+        "index": 4,
+        "parentId": null,
+        "url": "https://github.com/goldbergyoni/nodebestpractices"
+    },
+    {
+        "id": 6,
+        "googleId": "g006",
+        "syncing": true,
+        "title": "자바스크립트 위클리",
+        "dateAdded": 1682638800000,
+        "index": 5,
+        "parentId": null,
+        "url": "https://javascriptweekly.com/"
+    },
+    {
+        "id": 7,
+        "googleId": "g007",
+        "syncing": false,
+        "title": "CSS-Tricks",
+        "dateAdded": 1688300400000,
+        "index": 6,
+        "parentId": null,
+        "url": "https://css-tricks.com/"
+    }
+]

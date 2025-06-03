@@ -73,7 +73,7 @@ const Slider = () => {
             <MockUpCard className="w-full h-full z-10 drop-shadow-lg" />
             <div className="flex absolute top-[10px] right-[54px] ">
                 <FolderOpen className="w-[25px] h-[25px] z-20" />
-                <p className="text-base font-semibold text-left ml-2">주말 요리 모음!</p>
+                <p className="text-base font-semibold text-left ml-2 select-none">주말 요리 모음!</p>
             </div>
 
             {/* 2줄 롤링 */}
