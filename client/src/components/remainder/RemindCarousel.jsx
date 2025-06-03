@@ -68,15 +68,15 @@ const RemindCarousel = () => {
     const getDisplayIndexes = () => {
         const len = bookmarks.length;
         if (len === 0) return [];
+
         const half = Math.floor(visibleCardCount / 2);
         let indexes = [];
+
         for (let i = -half; i <= half; i++) {
-            if (visibleCardCount === 1) {
-                indexes.push(centerIdx);
-            } else {
-                indexes.push((centerIdx + i + len) % len);
-            }
+            // 북마크 개수가 visibleCardCount보다 적을 경우 반복해서 보여줌
+            indexes.push((centerIdx + i + len) % len);
         }
+
         return indexes.slice(0, visibleCardCount);
     };
 
