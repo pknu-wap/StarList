@@ -28,8 +28,10 @@ import wap.starlist.bookmark.dto.response.BookmarkResponse;
 import wap.starlist.bookmark.repository.BookmarkRepository;
 import wap.starlist.bookmark.repository.FolderRepository;
 import wap.starlist.bookmark.repository.RootRepository;
+import wap.starlist.error.ErrorCode;
 import wap.starlist.error.exception.BookmarkNotFoundException;
 import wap.starlist.error.exception.FolderNotFoundException;
+import wap.starlist.error.exception.NotFoundException;
 import wap.starlist.util.ImageScraper;
 
 @Slf4j
@@ -163,22 +165,53 @@ public class BookmarkService {
 
     // 3개월 전 북마크 중 최대 15개 조회
     @Transactional(readOnly = true)
-    public List<BookmarkResponse> getReminderBookmarks() {
+    public List<BookmarkResponse> getReminderBookmarks(String memberProviderId) {
         long threeMonthsAgo = ZonedDateTime.now()
                 .minusMonths(3)
                 .toInstant()
                 .toEpochMilli();
 
-        // 100개 중에서 무작위로 15개 추출
-        List<Bookmark> remindCandidates = bookmarkRepository.findRemindBookmarks(threeMonthsAgo,
-                PageRequest.of(0, 100));
-        Collections.shuffle(remindCandidates);
+        // 사용자의 북마크 트리를 가져옴
+        Root root = rootRepository.findByMemberProviderId(memberProviderId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.ROOT_NOT_FOUND));
 
-        // 추출한 15개의 북마크
-        List<Bookmark> reminders = remindCandidates.stream()
-                .limit(15).toList();
+        List<Bookmark> allBookmarks = new ArrayList<>();
 
-        return reminders.stream().map(BookmarkResponse::from).toList();
+        // TODO: 모든 북마크를 가져오면 너무 느리고 서버에 부담되지 않을까?
+        for (Folder topFolder : root.getFolders()) {
+            allBookmarks.addAll((getSubBookmarks(topFolder)));
+        }
+
+        // 순서를 무작위로 섞음
+        Collections.shuffle(allBookmarks);
+
+        // 마지막 사용일이 기록되지 않았으면 추가된 날짜를 기준으로 리마인드 반환
+        return allBookmarks.stream()
+                .filter(Bookmark::canRemind)
+                .filter(bookmark -> {
+                    if (bookmark.getDateLastUsed() == null) {
+                        return bookmark.getDateAdded() <= threeMonthsAgo;
+                    }
+                    return bookmark.getDateLastUsed() <= threeMonthsAgo;
+                })
+                .limit(15)
+                .map(BookmarkResponse::from)
+                .toList();
+    }
+
+    private List<Bookmark> getSubBookmarks(Folder topFolder) {
+        List<Bookmark> subBookmarks = new ArrayList<>();
+        Queue<Folder> folderQueue = new ArrayDeque<>();
+        folderQueue.add(topFolder);
+
+        while (!folderQueue.isEmpty()) {
+            Folder current = folderQueue.poll();
+
+            subBookmarks.addAll(current.getBookmarks());
+            folderQueue.addAll(current.getFolders());
+        }
+
+        return subBookmarks;
     }
 
     // 리마인드 후 lastRemindTime 갱신

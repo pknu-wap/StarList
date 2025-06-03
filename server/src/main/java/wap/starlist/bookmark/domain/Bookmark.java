@@ -78,4 +78,8 @@ public class Bookmark {
             this.url = url;
         }
     }
+
+    public boolean canRemind() {
+        return remindDisabled == false;
+    }
 }
