@@ -30,7 +30,7 @@ public class FolderController {
         Long folderId = request.getFolderId();
 
         // 폴더 생성
-        Folder createdFolder = folderService.createFolder(loginUser, title, folderId);
+        Folder createdFolder = folderService.createFolder(loginUser, request);
 
         // 생성된 폴더 위치 URI
         URI location = URI.create("/folders/" + createdFolder.getId());
