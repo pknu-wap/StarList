@@ -56,7 +56,7 @@ const RemindCard = ({ id, title, url, image, refetch }) => {
             {showPopup && (
                 <div className="absolute top-10 right-4 z-30 bg-white border rounded-lg shadow-lg p-4 flex flex-col items-center">
                     <button
-                        className="px-4 py-2 rounded bg-main-500 text-white mb-2"
+                        className="px-4 py-2 rounded bg-main-500 text-white mb-2 shadow-sm"
                         onClick={e => {
                             e.stopPropagation();
                             mutate(true); // 리마인드 끄기

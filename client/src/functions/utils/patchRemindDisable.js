@@ -12,6 +12,8 @@ const patchRemindDisable = async (bookmarkId, remindDisabled) => {
         body: JSON.stringify({ remindDisabled }),
     });
     if (!res.ok) throw new Error("리마인드 상태 변경 실패");
+    // 204 No Content 처리
+    if (res.status === 204) return;
     return res.json();
 };
 
