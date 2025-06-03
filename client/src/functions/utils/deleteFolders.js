@@ -4,7 +4,8 @@ import deleteNodes from "./deleteNodes";
 // 이 함수는 useQuery 의 queryFn 값으로 쓰임
 // queryFn 은 Promise 를 반환하는 비동기 함수이여야 하므로 async 키워드를 사용
 async function deleteFolders(folders) {
-    return await deleteNodes("/folders/delete", folders);
+    const payload = { folderIds: folders };
+    return await deleteNodes("/folders/delete", payload);
 }
 
 export default deleteFolders;
