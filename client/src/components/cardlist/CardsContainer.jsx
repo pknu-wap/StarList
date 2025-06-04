@@ -71,7 +71,7 @@ const CardsContainer = () => {
     }, [refetch]);
 
     // 로딩중이거나나 Sync 오류일 경우
-    if (status === "pending" && error?.code === "3004") {
+    if (status === "pending" && error?.code === "3001") {
         return (
             <div className="flex min-h-screen w-full items-center justify-center">
                 <SyncLoader color="#7349D6" size={15} />
