@@ -53,7 +53,7 @@ function useBreakpoint() {
 }
 
 const RemindCarousel = () => {
-    const { data: bookmarks = [], status, error, refetch } = useRemindBookmarks();
+    const { data: bookmarks = [], status, refetch } = useRemindBookmarks();
     const [centerIdx, setCenterIdx] = useState(0);
     const breakpoint = useBreakpoint();
 
@@ -65,17 +65,6 @@ const RemindCarousel = () => {
     const CARD_SIZES = CARD_SIZES_LIST[visibleCardCount];
     const OVERLAY_ALPHA = OVERLAY_ALPHA_LIST[visibleCardCount];
     const CARD_MARGIN = CARD_MARGIN_LIST[visibleCardCount];
-
-    // SYNC_SUCCESS 메시지 감지 → refetch
-    useEffect(() => {
-        function handleSyncSuccess(event) {
-            if (event.source !== window) return;
-            if (event.data.type !== "SYNC_SUCCESS") return;
-            refetch();
-        }
-        window.addEventListener("message", handleSyncSuccess);
-        return () => window.removeEventListener("message", handleSyncSuccess);
-    }, [refetch]);
 
     // 보여줄 카드 인덱스 계산
     const getDisplayIndexes = () => {
@@ -106,7 +95,7 @@ const RemindCarousel = () => {
     };
 
     // 로딩중이거나나 Sync 오류일 경우
-    if (status === "pending" && error?.code === "3004") {
+    if (status === "pending" || status === "error") {
         return (
             <div className="my-4 flex w-full flex-col items-center gap-y-4 px-10">
                 {/* 제목 */}
@@ -124,23 +113,23 @@ const RemindCarousel = () => {
     }
 
     // 에러 발생
-    if (status === "error") {
-        console.error(error);
-        return (
-            <div className="my-4 flex w-full flex-col items-center gap-y-4 px-10">
-                {/* 제목 */}
-                <div className="mb-2 flex w-full items-baseline space-x-2">
-                    <p className="text-xl font-bold text-black md:text-3xl">리마인드</p>
-                    <p className="text-sm font-bold text-main-500 md:text-lg">
-                        최근에 덜 본 북마크를 다시 추천해드려요.
-                    </p>
-                </div>
-                <div className="flex w-full items-center justify-center py-36">
-                    <span className="text-center text-2xl text-gray-300">에러 발생! 잠시만 기다려주세요...</span>
-                </div>
-            </div>
-        );
-    }
+    // if (status === "error") {
+    //     console.error(error);
+    //     return (
+    //         <div className="my-4 flex w-full flex-col items-center gap-y-4 px-10">
+    //             {/* 제목 */}
+    //             <div className="mb-2 flex w-full items-baseline space-x-2">
+    //                 <p className="text-xl font-bold text-black md:text-3xl">리마인드</p>
+    //                 <p className="text-sm font-bold text-main-500 md:text-lg">
+    //                     최근에 덜 본 북마크를 다시 추천해드려요.
+    //                 </p>
+    //             </div>
+    //             <div className="flex w-full items-center justify-center py-36">
+    //                 <span className="text-center text-2xl text-gray-300">에러 발생! 잠시만 기다려주세요...</span>
+    //             </div>
+    //         </div>
+    //     );
+    // }
 
     // 데이터가 없다면
     if (bookmarks.length === 0) {

@@ -71,7 +71,7 @@ const CardsContainer = () => {
     }, [refetch]);
 
     // 로딩중이거나나 Sync 오류일 경우
-    if (status === "pending" && error?.code === "3001") {
+    if (status === "pending" || status === "error") {
         return (
             <div className="flex min-h-screen w-full items-center justify-center">
                 <SyncLoader color="#7349D6" size={15} />
@@ -80,14 +80,14 @@ const CardsContainer = () => {
     }
 
     // 에러 발생
-    if (status === "error") {
-        console.error(error);
-        return (
-            <div className="flex min-h-screen items-center justify-center">
-                <span className="text-center text-2xl text-gray-300">에러 발생! 잠시만 기다려주세요...</span>
-            </div>
-        );
-    }
+    // if (status === "error") {
+    //     console.error(error);
+    //     return (
+    //         <div className="flex min-h-screen items-center justify-center">
+    //             <span className="text-center text-2xl text-gray-300">에러 발생! 잠시만 기다려주세요...</span>
+    //         </div>
+    //     );
+    // }
 
     // 데이터가 없을때
     if (nodes.length === 0) {
