@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../components/header/Header";
 import CardList from "../components/cardlist/CardList";
-import RemindCarousel from "../components/remainder/RemindCarousel";
+import RemindCarousel from "../components/reminder/RemindCarousel";
 import ScrollToTopButton from "../components/cardlist/ScrollToTopButton";
 
 const MainPage = () => {

@@ -1,5 +1,5 @@
-import useFolderHistoryStore from "./useFolderHistoryStore";
-import useSearchStore from "./useSearchStore";
+import useFolderHistoryStore from "../stores/useFolderHistoryStore";
+import useSearchStore from "../stores/useSearchStore";
 import useFolderTree from "./useFolderTree";
 import findFolderPath from "../utils/findFolderPath";
 
@@ -25,6 +25,6 @@ function useMoveToFolder() {
             push({ id, title });
         }
     };
-};
+}
 
 export default useMoveToFolder;

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import patchRemindDisable from "../../functions/utils/patchRemindDisable";
+import patchRemindDisable from "../../functions/apis/patchRemindDisable";
 import { useMutation } from "@tanstack/react-query";
 import { EditButton } from "../../assets";
 
@@ -39,34 +39,29 @@ const RemindCard = ({ id, title, url, image, refetch, overlayAlpha }) => {
     return (
         <div
             onClick={handleClick}
-            className={`relative w-full h-full rounded-[39px] flex flex-col justify-end p-4 border border-gray-300 cursor-pointer shadow-card`}
+            className={`relative flex h-full w-full cursor-pointer flex-col justify-end rounded-[39px] border border-gray-300 p-4 shadow-card`}
         >
             {/* 썸네일 */}
             {image && (
                 <div className="absolute inset-0 z-0">
-                    <img
-                        src={image}
-                        alt={title}
-                        loading="lazy"
-                        className="w-full h-full object-cover rounded-[39px]"
-                    />
+                    <img src={image} alt={title} loading="lazy" className="h-full w-full rounded-[39px] object-cover" />
                 </div>
             )}
 
             {/* 카드 자체 오버레이 */}
-            <div className="absolute inset-0 rounded-[39px] bg-bookmark-overlay z-10 pointer-events-none" />
+            <div className="pointer-events-none absolute inset-0 z-10 rounded-[39px] bg-bookmark-overlay" />
 
             {/* position별 추가 오버레이 (가장자리 어둡게) */}
             {overlayAlpha > 0 && (
                 <div
-                    className="absolute inset-0 rounded-[39px] z-20 pointer-events-none"
+                    className="pointer-events-none absolute inset-0 z-20 rounded-[39px]"
                     style={{ background: `rgba(0,0,0,${overlayAlpha})` }}
                 />
             )}
 
             {/* Edit 버튼 */}
             <button
-                className="absolute top-4 right-4 z-30 p-1"
+                className="absolute right-4 top-4 z-30 p-1"
                 onClick={(e) => {
                     e.stopPropagation();
                     setShowPopup(true);
@@ -83,11 +78,11 @@ const RemindCard = ({ id, title, url, image, refetch, overlayAlpha }) => {
                     style={{ background: "rgba(0,0,0,0.10)" }}
                 >
                     <div
-                        className="bg-white border rounded-[12px] shadow-lg p-4 flex flex-col items-center w-60"
+                        className="flex w-60 flex-col items-center rounded-[12px] border bg-white p-4 shadow-lg"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <button
-                            className="px-4 py-2 rounded-[12px] bg-main-500 hover:bg-main-600 text-white mb-2 shadow-sm w-full"
+                            className="mb-2 w-full rounded-[12px] bg-main-500 px-4 py-2 text-white shadow-sm hover:bg-main-600"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 mutate(true);
@@ -111,9 +106,7 @@ const RemindCard = ({ id, title, url, image, refetch, overlayAlpha }) => {
 
             {/* 텍스트 */}
             <div className="relative z-30">
-                <p className="w-full text-lg font-bold text-left select-none text-white truncate">
-                    {title}
-                </p>
+                <p className="w-full select-none truncate text-left text-lg font-bold text-white">{title}</p>
             </div>
         </div>
     );

@@ -1,9 +1,9 @@
 import React, { useState, useRef, useLayoutEffect, useCallback } from "react";
-import useFolderHistoryStore from "../../functions/hooks/useFolderHistoryStore";
+import useFolderHistoryStore from "../../functions/stores/useFolderHistoryStore";
 import useNodeActions from "../../functions/hooks/useNodeActions";
 import useFolderTree from "../../functions/hooks/useFolderTree";
 import splitByType from "../../functions/utils/splitByType";
-import DropDownFolderTree from "./DropDownFolderTree";
+import DropDownFolderTree from "../cardlist/DropDownFolderTree";
 import { MoveIcon } from "../../assets";
 
 const MoveButton = ({ targets = [], onClose, buttonText = "", className = "" }) => {

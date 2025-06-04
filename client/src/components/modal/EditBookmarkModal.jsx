@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import DeleteButton from "./DeleteButton";
-import MoveButton from "./MoveButton";
-import SaveButton from "./SaveButton";
+import DeleteButton from "../buttons/DeleteButton";
+import MoveButton from "../buttons/MoveButton";
+import SaveButton from "../buttons/SaveButton";
 import defaultImage from "../../assets/default/default-image.svg";
 import defaultFavicon from "../../assets/default/default-favicon.svg";
 
@@ -16,7 +16,7 @@ const getFaviconUrl = (url) => {
     }
 };
 
-const BookmarkEditModal = ({ info, onClose }) => {
+const EditBookmarkModal = ({ info, onClose }) => {
     // 썸네일, 파비콘 상태
     const [imgSrc, setImgSrc] = useState(info.image && info.image.trim() ? info.image : defaultImage);
     const [faviconSrc, setFaviconSrc] = useState(getFaviconUrl(info.url));
@@ -89,4 +89,4 @@ const BookmarkEditModal = ({ info, onClose }) => {
     );
 };
 
-export default BookmarkEditModal;
+export default EditBookmarkModal;

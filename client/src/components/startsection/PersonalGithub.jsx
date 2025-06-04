@@ -1,7 +1,7 @@
 const PersonalGithub = ({ name, link }) => {
     return (
         <a
-            className="text-xs sm:text-base hover:text-gray-400 mr-3 cursor-pointer"
+            className="mr-3 cursor-pointer text-xs hover:text-gray-400 sm:text-base"
             href={link}
             target="_blank"
             rel="noopener noreferrer"
@@ -9,6 +9,6 @@ const PersonalGithub = ({ name, link }) => {
             {name}
         </a>
     );
-}
+};
 
 export default PersonalGithub;

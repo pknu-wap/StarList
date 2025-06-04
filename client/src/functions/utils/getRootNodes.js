@@ -1,4 +1,4 @@
-import fetchNodesByPath from "./fetchNodesByPath";
+import fetchNodesByPath from "../apis/fetchNodesByPath";
 
 const EXT_ID = import.meta.env.VITE_EXTENSION_ID;
 

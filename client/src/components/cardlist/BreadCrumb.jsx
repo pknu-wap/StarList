@@ -1,5 +1,5 @@
 import React from "react";
-import useFolderHistoryStore from "../../functions/hooks/useFolderHistoryStore";
+import useFolderHistoryStore from "../../functions/stores/useFolderHistoryStore";
 
 import { ArrowForwardIcon } from "../../assets";
 

@@ -1,4 +1,4 @@
-import useAuthStore from "../hooks/useAuthStore";
+import useAuthStore from "../stores/useAuthStore";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const patchRemindDisable = async (bookmarkId, remindDisabled) => {
@@ -7,7 +7,7 @@ const patchRemindDisable = async (bookmarkId, remindDisabled) => {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ remindDisabled }),
     });

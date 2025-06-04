@@ -3,10 +3,8 @@ import Slider from "./Slider";
 
 const MockUp = () => {
     const ColorBall = ({ color }) => {
-        return (
-            <div className={`w-3 h-3 rounded-full ${color}`} />
-        );
-    }
+        return <div className={`h-3 w-3 rounded-full ${color}`} />;
+    };
 
     const Book = () => {
         return (
@@ -26,7 +24,7 @@ const MockUp = () => {
                 />
             </svg>
         );
-    }
+    };
 
     const Arrow = ({ d, stroke }) => {
         return (
@@ -37,20 +35,14 @@ const MockUp = () => {
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-6 h-6 relative"
+                    className="relative h-6 w-6"
                     preserveAspectRatio="none"
                 >
-                    <path
-                        d={d}
-                        stroke={stroke}
-                        stroke-width={2}
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    />
+                    <path d={d} stroke={stroke} stroke-width={2} stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </div>
         );
-    }
+    };
 
     const Share = () => {
         return (
@@ -60,7 +52,7 @@ const MockUp = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 relative"
+                className="relative h-6 w-6"
                 preserveAspectRatio="none"
             >
                 <path
@@ -72,7 +64,7 @@ const MockUp = () => {
                 />
             </svg>
         );
-    }
+    };
 
     const Plus = () => {
         return (
@@ -82,7 +74,7 @@ const MockUp = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 relative"
+                className="relative h-6 w-6"
                 preserveAspectRatio="none"
             >
                 <path
@@ -93,7 +85,7 @@ const MockUp = () => {
                 />
             </svg>
         );
-    }
+    };
 
     const Copy = () => {
         return (
@@ -103,7 +95,7 @@ const MockUp = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 relative"
+                className="relative h-6 w-6"
                 preserveAspectRatio="none"
             >
                 <path
@@ -114,16 +106,11 @@ const MockUp = () => {
                 />
             </svg>
         );
-    }
+    };
 
     const Clip = (props) => {
         return (
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 96 96"
-                fill="none"
-                {...props}
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none" {...props}>
                 <path
                     stroke="#1E1E1E"
                     strokeLinecap="round"
@@ -143,7 +130,7 @@ const MockUp = () => {
                 viewBox="0 0 15 15"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-[15px] h-[15px] relative"
+                className="relative h-[15px] w-[15px]"
                 preserveAspectRatio="none"
             >
                 <path
@@ -154,20 +141,13 @@ const MockUp = () => {
                     stroke-linejoin="round"
                 />
             </svg>
-        )
-    }
+        );
+    };
 
     return (
-        <div className="w-[1399px] h-[803.50px] mt-[120px] relative ">
+        <div className="relative mt-[120px] h-[803.50px] w-[1399px]">
             {/* 상단바 */}
-            <div className="
-                        w-full h-14 px-6 flex 
-                        bg-zinc-200/60 
-                        rounded-tl-[20px] rounded-tr-[20px] 
-                        shadow-[0px_0px_90px_0px_rgba(0,0,0,0.25)]
-                        justify-between items-center
-                    "
-            >
+            <div className="flex h-14 w-full items-center justify-between rounded-tl-[20px] rounded-tr-[20px] bg-zinc-200/60 px-6 shadow-[0px_0px_90px_0px_rgba(0,0,0,0.25)]">
                 {/* 좌 */}
                 <div className="flex items-center space-x-5">
                     <div className="flex justify-center space-x-2">
@@ -180,13 +160,12 @@ const MockUp = () => {
                         <Arrow d="M15 17L10 12L15 7" stroke="#373542" />
                         <Arrow d="M10 7L15 12L10 17" stroke="#BCB6CD" />
                     </div>
-
                 </div>
 
                 {/* 검색창 */}
-                <div className="flex justify-between items-center w-[622px] h-7 rounded-[5px] px-[14px] bg-gray-50 text-center">
+                <div className="flex h-7 w-[622px] items-center justify-between rounded-[5px] bg-gray-50 px-[14px] text-center">
                     <div />
-                    <p className="w-[148px] h-full text-center text-sans">www.starlist.com</p>
+                    <p className="text-sans h-full w-[148px] text-center">www.starlist.com</p>
                     <Rotate className="" />
                 </div>
 
@@ -199,35 +178,27 @@ const MockUp = () => {
             </div>
 
             {/* 창 */}
-            <div className="
-                        justify-center relative
-                        w-full h-[793px]
-                        bg-gradient-to-r from-[#fffafe] to-[#eee8fe]
-                    rounded-bl-[20px] rounded-br-[20px]
-                    "
-            >
+            <div className="relative h-[793px] w-full justify-center rounded-bl-[20px] rounded-br-[20px] bg-gradient-to-r from-[#fffafe] to-[#eee8fe]">
                 {/* 배경 */}
-                <div className="w-16 h-20 left-[1086px] top-[150px] absolute bg-violet-100" />
-                <div className="w-28 h-28 left-[1179px] top-[520px] absolute bg-violet-100 rounded-full" />
-                <div className="w-28 h-28 left-[226px] top-[623px] absolute bg-violet-50 rounded-full" />
-                <div className="w-16 h-16 left-[121px] top-[520px] absolute bg-fuchsia-50 rounded-full" />
-                <div className="w-44 h-44 left-[182px] top-[106px] absolute bg-gradient-to-r from-purple-50 to-purple-100 rounded-full" />
+                <div className="absolute left-[1086px] top-[150px] h-20 w-16 bg-violet-100" />
+                <div className="absolute left-[1179px] top-[520px] h-28 w-28 rounded-full bg-violet-100" />
+                <div className="absolute left-[226px] top-[623px] h-28 w-28 rounded-full bg-violet-50" />
+                <div className="absolute left-[121px] top-[520px] h-16 w-16 rounded-full bg-fuchsia-50" />
+                <div className="absolute left-[182px] top-[106px] h-44 w-44 rounded-full bg-gradient-to-r from-purple-50 to-purple-100" />
 
-
-                <div className="w-full h-full flex flex-col items-center relative">
-                    <Clip className="w-24 h-24 my-6 z-10 mt-[92px]" />
-                    <p className="text-black text-6xl font-extrabold font-sans leading-[96px] select-none">
+                <div className="relative flex h-full w-full flex-col items-center">
+                    <Clip className="z-10 my-6 mt-[92px] h-24 w-24" />
+                    <p className="select-none font-sans text-6xl font-extrabold leading-[96px] text-black">
                         Save Links into Folders
                     </p>
-                    <p className="text-center text-black text-2xl font-medium font-sans leading-normal select-none">
+                    <p className="select-none text-center font-sans text-2xl font-medium leading-normal text-black">
                         바쁜 하루, 북마크는 Starlist가 관리해줄게요!
                     </p>
                     <Slider />
                 </div>
             </div>
         </div>
-
     );
-}
+};
 
 export default MockUp;

@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import useFolderHistoryStore from "../../functions/hooks/useFolderHistoryStore";
+import useFolderHistoryStore from "../../functions/stores/useFolderHistoryStore";
 import useNodeActions from "../../functions/hooks/useNodeActions";
 import splitByType from "../../functions/utils/splitByType";
 import { DeleteIcon } from "../../assets";
@@ -30,7 +30,7 @@ function DeleteButton({ targets = [], onClose, buttonText = "", className = "" }
     return (
         <button
             onClick={handleDelete}
-            className={`border-point-red hover:bg-point-red/20 flex items-center justify-center gap-x-2 rounded-lg border bg-white px-2 py-2 ${className}`}
+            className={`flex items-center justify-center gap-x-2 rounded-lg border border-point-red bg-white px-2 py-2 hover:bg-point-red/20 ${className}`}
         >
             <DeleteIcon className="h-4.5 w-4.5" />
             {buttonText}

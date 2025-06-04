@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useCallback } from "react";
-import useAuthStore from "../../functions/hooks/useAuthStore";
-import useFolderHistoryStore from "../../functions/hooks/useFolderHistoryStore";
-import useSelectedCardsStore from "../../functions/hooks/useSelectedCardsStore";
-import useSearchStore from "../../functions/hooks/useSearchStore";
+import useAuthStore from "../../functions/stores/useAuthStore";
+import useFolderHistoryStore from "../../functions/stores/useFolderHistoryStore";
+import useSelectedCardsStore from "../../functions/stores/useSelectedCardsStore";
+import useSearchStore from "../../functions/stores/useSearchStore";
 import useGetNodes from "../../functions/hooks/useGetNodes";
 import useSearchNodes from "../../functions/hooks/useSearchNodes";
 

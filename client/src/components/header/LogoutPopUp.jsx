@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useRef } from "react";
-import useAuthStore from "../../functions/hooks/useAuthStore";
+import useAuthStore from "../../functions/stores/useAuthStore";
 import { Logout } from "../../assets";
 
 const LogoutPopUp = ({ onClose }) => {

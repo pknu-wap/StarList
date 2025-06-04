@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import useNodeActions from "../../functions/hooks/useNodeActions";
-import useFolderHistoryStore from "../../functions/hooks/useFolderHistoryStore";
+import useFolderHistoryStore from "../../functions/stores/useFolderHistoryStore";
 import splitByType from "../../functions/utils/splitByType";
 
 const SaveButton = ({ targets = [], newContent, onClose, buttonText = "", className = "" }) => {

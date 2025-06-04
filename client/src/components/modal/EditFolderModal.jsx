@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-import DeleteButton from "./DeleteButton";
-import MoveButton from "./MoveButton";
-import SaveButton from "./SaveButton";
+import DeleteButton from "../buttons/DeleteButton";
+import MoveButton from "../buttons/MoveButton";
+import SaveButton from "../buttons/SaveButton";
 
-const FolderEditModal = ({ info, onClose }) => {
+const EditFolderModal = ({ info, onClose }) => {
     // 타이틀 상태
     const [title, setTitle] = useState(info.title || "");
 
@@ -49,4 +49,4 @@ const FolderEditModal = ({ info, onClose }) => {
     );
 };
 
-export default FolderEditModal;
+export default EditFolderModal;

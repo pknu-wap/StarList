@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useSearchStore from "../../functions/hooks/useSearchStore";
+import useSearchStore from "../../functions/stores/useSearchStore";
 import { Search } from "../../assets";
 
 const SearchBar = () => {
