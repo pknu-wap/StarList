@@ -7,6 +7,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import wap.starlist.bookmark.domain.Bookmark;
 import wap.starlist.bookmark.domain.Folder;
@@ -27,10 +28,10 @@ public class FolderService {
     private final FolderRepository folderRepository;
     private final RootRepository rootRepository;
 
+    @Transactional
     public Folder createFolder(String memberProviderId, FolderCreateRequest request) {
         String title = request.getTitle();
         Long parentFolderId = request.getFolderId();
-        Folder parentFolder = null;
 
         // 필수값 검증(title, userId 존재 여부 확인)
         if (!StringUtils.hasText(memberProviderId)) {
@@ -39,23 +40,19 @@ public class FolderService {
             throw new IllegalArgumentException("[ERROR] 폴더명이 존재하지 않습니다.");
         }
 
-        // folderId가 있다면 DB에서 조회
-        if (parentFolderId != null) {
-            parentFolder = folderRepository.findById(parentFolderId)
+        Folder parentFolder = folderRepository.findById(parentFolderId)
                     .orElseThrow(FolderNotFoundException::new);
-        }
 
         //TODO: userId와 googleId는 매치되지 않음
         Folder childFolder = Folder.builder()
                 .title(title)
                 .dateAdded(System.currentTimeMillis())
                 .dateGroupModified(System.currentTimeMillis())
+                .parent(parentFolder)
                 //.googleId(userId)
                 .build();
 
-        if (parentFolder != null) {
             parentFolder.addChildFolder(childFolder);
-        }
 
         return folderRepository.save(childFolder);
     }
