@@ -66,6 +66,17 @@ const RemindCarousel = () => {
     const OVERLAY_ALPHA = OVERLAY_ALPHA_LIST[visibleCardCount];
     const CARD_MARGIN = CARD_MARGIN_LIST[visibleCardCount];
 
+    // SYNC_SUCCESS 메시지 감지 → refetch
+    useEffect(() => {
+        function handleSyncSuccess(event) {
+            if (event.source !== window) return;
+            if (event.data.type !== "SYNC_SUCCESS") return;
+            refetch();
+        }
+        window.addEventListener("message", handleSyncSuccess);
+        return () => window.removeEventListener("message", handleSyncSuccess);
+    }, [refetch]);
+
     // 보여줄 카드 인덱스 계산
     const getDisplayIndexes = () => {
         const len = visibleBookmarks.length;
