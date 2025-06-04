@@ -1,48 +1,44 @@
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import useAuthStore from "../hooks/useAuthStore";
-import { useQuery } from "@tanstack/react-query";
-
+import ApiError from "../utils/ApiError";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-const fetchFolderTree = async () => {
-    const token = useAuthStore.getState().accessToken?.trim();
-    if (!token) {
-        console.log("[fetchFolderTree] 토큰 없음, 빈 배열 반환");
-        return [];
-    }
-
-    const res = await fetch(`${API_BASE_URL}/folders/tree`, {
+async function fetchFolderTree() {
+    const { accessToken } = useAuthStore.getState();
+    const options = {
+        method: "GET",
         headers: {
-            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
         },
-    });
-    console.log("[fetchFolderTree] fetch status:", res.status);
-    if (!res.ok) {
-        const errorBody = await res.text();
-        console.log("[fetchFolderTree] fetch 실패, errorBody:", errorBody);
-        return [];
-    }
-    const data = await res.json();
-    console.log("[fetchFolderTree] data 응답:", data);
-    const ret = Array.isArray(data)
-        ? data
-        : Array.isArray(data.children)
-            ? data.children
-            : [];
-    console.log("[fetchFolderTree] 최종 반환:", ret);
-    return ret;
-};
+    };
 
-const useFolderTree = () => {
-    const token = useAuthStore(state => state.accessToken);
+    const response = await fetch(`${API_BASE_URL}/folders/tree`, options);
+    // 200 OK 가 아닐 경우
+    if (!response.ok) {
+        const errorBody = await response.json();
+        console.log(errorBody);
+        throw new ApiError(errorBody.code, errorBody.message, response);
+    }
+    return await response.json();
+}
+
+function useFolderTree() {
     return useQuery({
-        queryKey: ["folderTree", token], // 토큰이 바뀔 때 refetch
-        queryFn: fetchFolderTree,
-        staleTime: 600_000,
-        cacheTime: 600_000,
-        retry: 1,
-        enabled: !!token && token.length > 0,
-        keepPreviousData: true, // 이전 데이터를 잠깐 유지
+        queryKey: ["folderTree"],
+        queryFn: () => fetchFolderTree(),
+
+        staleTime: 1000 * 60 * 10,
+        gcTime: 1000 * 60 * 20,
+
+        // 상황별 refetch 여부를 나타내는 옵션
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        refetchOnReconnect: true,
+        retry: false,
+
+        placeholderData: keepPreviousData,
     });
-};
+}
 
 export default useFolderTree;

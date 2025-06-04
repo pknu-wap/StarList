@@ -26,11 +26,7 @@ const Header = () => {
                     {/* </Link> */}
                 </div>
             </div>
-            {showLogout && (
-                <div className="absolute right-4 mt-2">
-                    <LogoutPopUp />
-                </div>
-            )}
+            {showLogout && <LogoutPopUp onClose={() => setShowLogout(false)} />}
         </header>
     );
 };

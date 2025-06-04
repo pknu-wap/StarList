@@ -21,7 +21,7 @@ const MoveButton = ({ targets = [], onClose, buttonText = "", className = "" }) 
     const dropdownRef = useRef(null);
 
     // 폴더 트리 데이터와 로딩 상태 조회
-    const { data: folderTree = [], status, error } = useFolderTree();
+    const { data: folderTree = {}, status, error } = useFolderTree();
 
     // 이동에 대한 쿼리를 담당하는 객체
     const { moveNodesMutaion } = useNodeActions();
@@ -113,7 +113,7 @@ const MoveButton = ({ targets = [], onClose, buttonText = "", className = "" }) 
                     className={`absolute left-0 z-50 w-full overflow-y-auto rounded bg-white shadow-lg ${shouldFlipDropDown ? "bottom-full mb-2" : "top-full mt-2"} `}
                 >
                     <DropDownFolderTree
-                        folderTree={folderTree}
+                        folderTree={folderTree.children}
                         currentlyOpenFolders={currentlyOpenFolders}
                         setCurrentlyOpenFolders={setCurrentlyOpenFolders}
                         onSelect={handleMove}
