@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import RemindCard from "./RemindCard";
 import useRemindBookmarks from "../../functions/hooks/useRemindBookmarks";
 import { ArrowLeft, ArrowRight } from "../../assets";
+import { SyncLoader } from "react-spinners";
 
 // 각 카드 크기
 const CARD_SIZES_LIST = {
@@ -17,9 +18,7 @@ const CARD_SIZES_LIST = {
         { width: 366, height: 240 },
         { width: 264, height: 188 },
     ],
-    1: [
-        { width: 366, height: 240 },
-    ],
+    1: [{ width: 366, height: 240 }],
 };
 
 // 각 위치별 오버레이 투명도
@@ -54,7 +53,7 @@ function useBreakpoint() {
 }
 
 const RemindCarousel = () => {
-    const { data: bookmarks = [], isLoading, error, refetch } = useRemindBookmarks();
+    const { data: bookmarks = [], status, error, refetch } = useRemindBookmarks();
     const [centerIdx, setCenterIdx] = useState(0);
     const breakpoint = useBreakpoint();
 
@@ -95,27 +94,73 @@ const RemindCarousel = () => {
         setCenterIdx((prev) => (prev + 1) % visibleBookmarks.length);
     };
 
-    if (isLoading) return null;
-    if (error || visibleBookmarks.length === 0)
+    // 로딩중이거나나 Sync 오류일 경우
+    if (status === "pending" && error?.code === "3004") {
         return (
-            <div className="flex items-center justify-center w-full h-[140px] md:h-[200px] lg:h-[240px]">
-                <span className="text-lg md:text-2xl text-gray-300">오래된 북마크가 없네요!</span>
+            <div className="my-4 flex w-full flex-col items-center gap-y-4 px-10">
+                {/* 제목 */}
+                <div className="mb-2 flex w-full items-baseline space-x-2">
+                    <p className="text-xl font-bold text-black md:text-3xl">리마인드</p>
+                    <p className="text-sm font-bold text-main-500 md:text-lg">
+                        최근에 덜 본 북마크를 다시 추천해드려요.
+                    </p>
+                </div>
+                <div className="flex w-full items-center justify-center py-36">
+                    <SyncLoader color="#7349D6" size={15} />
+                </div>
             </div>
         );
+    }
 
+    // 에러 발생
+    if (status === "error") {
+        console.error(error);
+        return (
+            <div className="my-4 flex w-full flex-col items-center gap-y-4 px-10">
+                {/* 제목 */}
+                <div className="mb-2 flex w-full items-baseline space-x-2">
+                    <p className="text-xl font-bold text-black md:text-3xl">리마인드</p>
+                    <p className="text-sm font-bold text-main-500 md:text-lg">
+                        최근에 덜 본 북마크를 다시 추천해드려요.
+                    </p>
+                </div>
+                <div className="flex w-full items-center justify-center py-36">
+                    <span className="text-center text-2xl text-gray-300">에러 발생! 잠시만 기다려주세요...</span>
+                </div>
+            </div>
+        );
+    }
+
+    // 데이터가 없다면
+    if (bookmarks.length === 0) {
+        return (
+            <div className="my-4 flex w-full flex-col items-center gap-y-4 px-10">
+                {/* 제목 */}
+                <div className="mb-2 flex w-full items-baseline space-x-2">
+                    <p className="text-xl font-bold text-black md:text-3xl">리마인드</p>
+                    <p className="text-sm font-bold text-main-500 md:text-lg">
+                        최근에 덜 본 북마크를 다시 추천해드려요.
+                    </p>
+                </div>
+                <div className="flex w-full items-center justify-center py-36">
+                    <span className="text-center text-2xl text-gray-300">오래된 북마크가 없네요!</span>
+                </div>
+            </div>
+        );
+    }
+
+    // 정상적으로 데이터를 받아온다면
     return (
-        <div className="w-full flex flex-col items-center gap-y-4 p-4">
+        <div className="flex w-full flex-col items-center gap-y-4 p-4">
             {/* 제목 */}
-            <div className="flex w-full items-baseline space-x-2 mb-2">
-                <p className="text-xl md:text-3xl font-bold text-black">리마인드</p>
-                <p className="text-sm md:text-lg font-bold text-main-500">
-                    최근에 덜 본 북마크를 다시 추천해드려요.
-                </p>
+            <div className="mb-2 flex w-full items-baseline space-x-2">
+                <p className="text-xl font-bold text-black md:text-3xl">리마인드</p>
+                <p className="text-sm font-bold text-main-500 md:text-lg">최근에 덜 본 북마크를 다시 추천해드려요.</p>
             </div>
 
             {/* 캐러셀 */}
             <div
-                className="relative flex items-center w-full overflow-hidden"
+                className="relative flex w-full items-center overflow-hidden"
                 style={{
                     height: `${CARD_SIZES[Math.floor(visibleCardCount / 2)].height}px`,
                     minHeight: 120,
@@ -137,11 +182,11 @@ const RemindCarousel = () => {
                     aria-label="이전 북마크"
                     tabIndex={0}
                 >
-                    <ArrowLeft className="w-5 h-6 md:w-[17.5px] md:h-8" />
+                    <ArrowLeft className="h-6 w-5 md:h-8 md:w-[17.5px]" />
                 </button>
 
                 {/* 카드들 */}
-                <div className="flex items-center justify-center w-full">
+                <div className="flex w-full items-center justify-center">
                     {displayIndexes.map((realIdx, pos) => {
                         if (!visibleBookmarks[realIdx]) return null;
                         return (
@@ -190,7 +235,7 @@ const RemindCarousel = () => {
                     aria-label="다음 북마크"
                     tabIndex={0}
                 >
-                    <ArrowRight className="w-5 h-6 md:w-[17.5px] md:h-8" />
+                    <ArrowRight className="h-6 w-5 md:h-8 md:w-[17.5px]" />
                 </button>
             </div>
         </div>
