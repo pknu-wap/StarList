@@ -76,19 +76,22 @@ const RemindCarousel = () => {
         let indexes = [];
 
         for (let i = -half; i <= half; i++) {
+            // 북마크 개수가 visibleCardCount보다 적을 경우 반복해서 보여줌
             indexes.push((centerIdx + i + len) % len);
         }
 
-        return indexes;
+        return indexes.slice(0, Math.min(visibleCardCount, len));
     };
 
     const displayIndexes = getDisplayIndexes();
 
     const handlePrev = () => {
+        if (visibleBookmarks.length === 0) return; // 북마크가 없으면 동작하지 않음
         setCenterIdx((prev) => (prev - 1 + visibleBookmarks.length) % visibleBookmarks.length);
     };
 
     const handleNext = () => {
+        if (visibleBookmarks.length === 0) return; // 북마크가 없으면 동작하지 않음
         setCenterIdx((prev) => (prev + 1) % visibleBookmarks.length);
     };
 
