@@ -21,9 +21,9 @@ const Header = () => {
                 <LogoIcon onClick={logoClick} />
                 <div className="flex gap-x-4">
                     <ProfileIcon onClick={handleProfileClick} className="h-[30px] w-[30px] cursor-pointer" />
-                    <Link to="/setting">
-                        <SettingIcon className="h-[30px] w-[30px]" />
-                    </Link>
+                    {/* <Link to="/setting"> */}
+                    <SettingIcon className="h-[30px] w-[30px]" />
+                    {/* </Link> */}
                 </div>
             </div>
             {showLogout && (
