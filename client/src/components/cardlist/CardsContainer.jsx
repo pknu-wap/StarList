@@ -101,9 +101,9 @@ const CardsContainer = () => {
         <div ref={containerRef} className="mb-48 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {nodes.map((node) =>
                 node.url === null ? (
-                    <FolderCard key={node.index} info={node} />
+                    <FolderCard key={`folder-${node.id}`} info={node} />
                 ) : (
-                    <BookmarkCard key={node.index} info={node} />
+                    <BookmarkCard key={`bookmark-${node.id}`} info={node} />
                 ),
             )}
         </div>
