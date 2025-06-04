@@ -179,14 +179,14 @@ public class BookmarkService {
 
         // TODO: 모든 북마크를 가져오면 너무 느리고 서버에 부담되지 않을까?
         for (Folder topFolder : root.getFolders()) {
-            allBookmarks.addAll((getSubBookmarks(topFolder)));
+            allBookmarks.addAll(getSubBookmarks(topFolder));
         }
 
         // 순서를 무작위로 섞음
         Collections.shuffle(allBookmarks);
 
         // 마지막 사용일이 기록되지 않았으면 추가된 날짜를 기준으로 리마인드 반환
-        return allBookmarks.stream()
+        List<BookmarkResponse> reminderBookmarks = new ArrayList<>(allBookmarks.stream()
                 .filter(Bookmark::canRemind)
                 .filter(bookmark -> {
                     if (bookmark.getDateLastUsed() == null) {
@@ -196,7 +196,25 @@ public class BookmarkService {
                 })
                 .limit(15)
                 .map(BookmarkResponse::from)
-                .toList();
+                .toList());
+
+        // 리마인드 북마크가 적다면 마지막으로 사용한 북마크 순으로 보여줌
+        if (reminderBookmarks.size() <= 15) {
+            List<BookmarkResponse> oldBookmarks = allBookmarks.stream()
+                    .filter(Bookmark::canRemind)
+                    .sorted((b1, b2) -> {
+                        long t1 = (b1.getDateLastUsed() != null) ? b1.getDateLastUsed() : b1.getDateAdded();
+                        long t2 = (b2.getDateLastUsed() != null) ? b2.getDateLastUsed() : b2.getDateAdded();
+                        return Long.compare(t1, t2);
+                    })
+                    .limit(15)
+                    .map(BookmarkResponse::from)
+                    .toList();
+
+            reminderBookmarks.addAll(oldBookmarks);
+        }
+
+        return reminderBookmarks.stream().limit(15).toList();
     }
 
     private List<Bookmark> getSubBookmarks(Folder topFolder) {
