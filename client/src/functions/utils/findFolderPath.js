@@ -8,9 +8,11 @@
 
 // 재귀적으로 현재 폴더 트리에서 타깃 폴더까지의 경로를 찾는 함수
 function findFolderPath(folderTree, targetFolderId, currentPath = []) {
-    // 루트 폴더는 추가하고 시작
-    if (currentPath.length === 0)
-        findFolderPath(folderTree, targetFolderId, [...currentPath, { id: 0, title: "나의 북마크" }]);
+    // 루트 폴더는 다음과 같은 값을 사용
+    if (currentPath.length === 0) {
+        folderTree.id = 0;
+        folderTree.title = "나의 북마크";
+    }
 
     // 현재까지 누적된 폴더 경로에 현재 폴더를 추가
     const updatedPath = [...currentPath, { id: folderTree.id, title: folderTree.title }];
