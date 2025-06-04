@@ -21,7 +21,6 @@ const CARD_GAP = 16; // gap-4 == 1rem == 16px
 const getRowWidth = (bookmarks) =>
     bookmarks.length * CARD_WIDTH + (bookmarks.length - 1) * CARD_GAP;
 
-// 마퀴 한 줄 컴포넌트
 const MarqueeRow = ({ bookmarks, duration = 16, style }) => (
     <div className="relative w-full h-auto overflow-hidden">
         <div
@@ -44,6 +43,7 @@ const MarqueeRow = ({ bookmarks, duration = 16, style }) => (
                     <img
                         src={item.img}
                         alt={item.title}
+                        loading="lazy"
                         className="absolute inset-0 w-full h-full object-cover z-0 select-none"
                     />
                     <Link className="absolute w-10 h-10 top-3 right-3 z-20" />
