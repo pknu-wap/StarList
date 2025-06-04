@@ -83,11 +83,11 @@ const RemindCard = ({ id, title, url, image, refetch, overlayAlpha }) => {
                     style={{ background: "rgba(0,0,0,0.10)" }}
                 >
                     <div
-                        className="bg-white border rounded-lg shadow-lg p-4 flex flex-col items-center w-60"
+                        className="bg-white border rounded-[12px] shadow-lg p-4 flex flex-col items-center w-60"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <button
-                            className="px-4 py-2 rounded bg-main-500 hover:bg-main-600 text-white mb-2 shadow-sm w-full"
+                            className="px-4 py-2 rounded-[12px] bg-main-500 hover:bg-main-600 text-white mb-2 shadow-sm w-full"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 mutate(true);
