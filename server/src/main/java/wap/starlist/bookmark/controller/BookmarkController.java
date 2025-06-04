@@ -132,23 +132,12 @@ public class BookmarkController {
     // 리마인드 대상 북마크 조회
     @GetMapping("/reminders")
     public ResponseEntity<?> getReminders(@AuthenticationPrincipal String loginUser) {
-        try {
-            log.info("[reminder] 리마인더 조회: {}", loginUser);
-            // 3개월 전 사용된 리마인드 대상 북마크 조회
-            List<BookmarkResponse> reminderBookmarks = bookmarkService.getReminderBookmarks(loginUser);
+        log.info("[reminder] 리마인더 조회: {}", loginUser);
+        // 3개월 전 사용된 리마인드 대상 북마크 조회
+        List<BookmarkResponse> reminderBookmarks = bookmarkService.getReminderBookmarks(loginUser);
 
-            // 배열 반환
-            return ResponseEntity.ok(reminderBookmarks);
-
-        } catch (DataAccessException ex) {
-            // DB 오류
-            ReminderBookmarkErrorResponse error = ReminderBookmarkErrorResponse.builder()
-                    .code("DATABASE_ERROR")
-                    .message("데이터베이스 오류가 발생했습니다.")
-                    .build();
-
-            return ResponseEntity.badRequest().body(error);
-        }
+        // 배열 반환
+        return ResponseEntity.ok(reminderBookmarks);
     }
 
     // 특정 북마크 리마인드 비활성화
