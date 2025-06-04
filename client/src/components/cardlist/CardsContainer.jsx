@@ -8,6 +8,7 @@ import useSearchNodes from "../../functions/hooks/useSearchNodes";
 
 import BookmarkCard from "./BookmarkCard";
 import FolderCard from "./FolderCard";
+import { SyncLoader } from "react-spinners";
 
 const CardsContainer = () => {
     // 로그인 여부 전역 상태를 변경하는 로그아웃 함수를 사용
@@ -69,20 +70,21 @@ const CardsContainer = () => {
         return () => window.removeEventListener("message", handleSyncSuccess);
     }, [refetch]);
 
-    // 로딩중
-    if (status === "loading") {
+    // 로딩중이거나나 Sync 오류일 경우
+    if (status === "pending" && error?.code === "3004") {
         return (
-            <div className="flex min-h-screen items-center justify-center">
-                <p className="py-4 text-center">로딩중...</p>
+            <div className="flex min-h-screen w-full items-center justify-center">
+                <SyncLoader color="#7349D6" size={15} />
             </div>
         );
     }
 
     // 에러 발생
     if (status === "error") {
+        console.error(error);
         return (
             <div className="flex min-h-screen items-center justify-center">
-                <p className="text-center text-2xl text-gray-300">에러 발생: {error.message}</p>
+                <span className="text-center text-2xl text-gray-300">에러 발생! 잠시만 기다려주세요...</span>
             </div>
         );
     }
@@ -91,12 +93,12 @@ const CardsContainer = () => {
     if (nodes.length === 0) {
         return (
             <div className="flex min-h-screen w-full items-center justify-center">
-                <p className="text-center text-2xl text-gray-300">아무 것도 없네요</p>
+                <p className="text-center text-2xl text-gray-300">여기에는 아무것도 없네요...</p>
             </div>
         );
     }
 
-    // 데이터 있을때
+    // 정상적으로 데이터를 받아온다면
     return (
         <div ref={containerRef} className="mb-48 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {nodes.map((node) =>
