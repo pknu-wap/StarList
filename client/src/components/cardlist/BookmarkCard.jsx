@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import useSelectedCardsStore from "../../functions/hooks/useSelectedCardsStore";
+import useSelectedCardsStore from "../../functions/stores/useSelectedCardsStore";
 
-import ToggleButton from "./ToggleButton";
+import ToggleButton from "../buttons/ToggleButton";
 import { EditButton } from "../../assets/";
-import BookmarkEditModal from "./BookmarkEditModal";
+import EditBookmarkModal from "../modal/EditBookmarkModal";
 import defaultImage from "../../assets/default/default-image.svg";
 
 const BookmarkCard = ({ info }) => {
@@ -69,7 +69,7 @@ const BookmarkCard = ({ info }) => {
                     </button>
                 </div>
             </div>
-            {IsBookmarkModalOpen && <BookmarkEditModal info={info} onClose={() => setIsBookmarkModalOpen(false)} />}
+            {IsBookmarkModalOpen && <EditBookmarkModal info={info} onClose={() => setIsBookmarkModalOpen(false)} />}
         </>
     );
 };

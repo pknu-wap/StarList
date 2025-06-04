@@ -1,6 +1,6 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import useAuthStore from "../hooks/useAuthStore";
-import ApiError from "../utils/ApiError";
+import useAuthStore from "../stores/useAuthStore";
+import ApiError from "../apis/ApiError";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 async function fetchFolderTree() {

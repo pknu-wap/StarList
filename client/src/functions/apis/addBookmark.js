@@ -1,5 +1,5 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-import useAuthStore from "../hooks/useAuthStore";
+import useAuthStore from "../stores/useAuthStore";
 
 // 북마크 추가
 export const addBookmarkApi = async ({ title, url, folderId }) => {
@@ -8,7 +8,7 @@ export const addBookmarkApi = async ({ title, url, folderId }) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ title, url, folderId }),
     });
@@ -23,7 +23,7 @@ export const addFolderApi = async ({ title, userId }) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ title, userId }),
     });

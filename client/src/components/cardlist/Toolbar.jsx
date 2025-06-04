@@ -1,7 +1,7 @@
 import React from "react";
 
 import BreadCrumb from "./BreadCrumb";
-import AddButton from "./AddButton";
+import AddButton from "../buttons/AddButton";
 import SearchBar from "./SearchBar";
 
 const Toolbar = () => {

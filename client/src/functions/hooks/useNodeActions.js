@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { addBookmarkApi, addFolderApi } from "../utils/addBookmarkApi";
-import deleteBookmarksApi from "../utils/deleteBookmarks";
-import deleteFoldersApi from "../utils/deleteFolders";
-import moveNodesApi from "../utils/moveNodes";
-import editBookmarkApi from "../utils/editBookmark";
-import editFolderApi from "../utils/editFolder";
+import { addBookmarkApi, addFolderApi } from "../apis/addBookmark";
+import deleteBookmarksApi from "../apis/deleteBookmarks";
+import deleteFoldersApi from "../apis/deleteFolders";
+import moveNodesApi from "../apis/moveNodes";
+import editBookmarkApi from "../apis/editBookmark";
+import editFolderApi from "../apis/editFolder";
 
 function useNodeActions() {
     const queryClient = useQueryClient();

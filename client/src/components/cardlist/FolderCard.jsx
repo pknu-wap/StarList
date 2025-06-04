@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import useMoveToFolder from "../../functions/hooks/useMoveToFolder";
-import useSelectedCardsStore from "../../functions/hooks/useSelectedCardsStore";
+import useSelectedCardsStore from "../../functions/stores/useSelectedCardsStore";
 
 import { FolderCardSvg } from "../../assets/";
 import { EditButton } from "../../assets/";
-import FolderEditModal from "./FolderEditModal";
+import EditFolderModal from "../modal/EditFolderModal";
 
 const FolderCard = ({ info }) => {
     // 폴더 카드 클릭시 history 변경
@@ -55,7 +55,7 @@ const FolderCard = ({ info }) => {
                     </button>
                 </div>
             </div>
-            {isFolderModalOpen && <FolderEditModal info={info} onClose={() => setIsFolderModalOpen(false)} />}
+            {isFolderModalOpen && <EditFolderModal info={info} onClose={() => setIsFolderModalOpen(false)} />}
         </>
     );
 };

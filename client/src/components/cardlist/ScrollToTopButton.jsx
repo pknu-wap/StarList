@@ -12,7 +12,7 @@ const Arrow = () => {
             <path d="M2 13L12.1449 3L22 12.7143" stroke="white" stroke-width={3} stroke-linecap="round" />
         </svg>
     );
-}
+};
 
 const ScrollToTopButton = () => {
     // 최상단으로 이동
@@ -23,21 +23,11 @@ const ScrollToTopButton = () => {
     return (
         <button
             onClick={scrollToTop}
-            className="
-                fixed bottom-8 right-8 z-40
-                w-14 h-14 flex items-center justify-center
-                rounded-full
-                bg-main-500 text-white
-                shadow-[0px_0px_15px_0px_rgba(0,0,0,0.60)]
-                hover:bg-main-600 
-                hover:shadow-[0px_0px_15px_0px_rgba(0,0,0,0.90)]
-                transition
-                cursor-pointer
-            "
+            className="fixed bottom-8 right-8 z-40 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-main-500 text-white shadow-[0px_0px_15px_0px_rgba(0,0,0,0.60)] transition hover:bg-main-600 hover:shadow-[0px_0px_15px_0px_rgba(0,0,0,0.90)]"
         >
             <Arrow />
         </button>
     );
 };
 
-export default ScrollToTopButton
+export default ScrollToTopButton;

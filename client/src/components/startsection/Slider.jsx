@@ -18,13 +18,12 @@ const bookmarksBottom = [
 const CARD_WIDTH = 382;
 const CARD_GAP = 16; // gap-4 == 1rem == 16px
 
-const getRowWidth = (bookmarks) =>
-    bookmarks.length * CARD_WIDTH + (bookmarks.length - 1) * CARD_GAP;
+const getRowWidth = (bookmarks) => bookmarks.length * CARD_WIDTH + (bookmarks.length - 1) * CARD_GAP;
 
 const MarqueeRow = ({ bookmarks, duration = 16, style }) => (
-    <div className="relative w-full h-auto overflow-hidden">
+    <div className="relative h-auto w-full overflow-hidden">
         <div
-            className="flex gap-4 animate-marquee"
+            className="animate-marquee flex gap-4"
             style={{
                 ...style,
                 width: "max-content",
@@ -34,20 +33,17 @@ const MarqueeRow = ({ bookmarks, duration = 16, style }) => (
             {[...bookmarks, ...bookmarks].map((item, i) => (
                 <div
                     key={i}
-                    className="
-                                flex-shrink-0 w-[382px] h-[131px] relative
-                                rounded-lg shadow-lg overflow-hidden
-                            "
+                    className="relative h-[131px] w-[382px] flex-shrink-0 overflow-hidden rounded-lg shadow-lg"
                 >
-                    <div className="absolute inset-0 w-full h-full object-cover z-10 bg-gradient-to-b from-zinc-900/0 via-zinc-900/25 to-zinc-900" />
+                    <div className="absolute inset-0 z-10 h-full w-full bg-gradient-to-b from-zinc-900/0 via-zinc-900/25 to-zinc-900 object-cover" />
                     <img
                         src={item.img}
                         alt={item.title}
                         loading="lazy"
-                        className="absolute inset-0 w-full h-full object-cover z-0 select-none"
+                        className="absolute inset-0 z-0 h-full w-full select-none object-cover"
                     />
-                    <Link className="absolute w-10 h-10 top-3 right-3 z-20" />
-                    <span className="absolute left-4 bottom-4 font-bold text-white text-lg drop-shadow z-10 select-none">
+                    <Link className="absolute right-3 top-3 z-20 h-10 w-10" />
+                    <span className="absolute bottom-4 left-4 z-10 select-none text-lg font-bold text-white drop-shadow">
                         {item.title}
                     </span>
                 </div>
@@ -55,8 +51,6 @@ const MarqueeRow = ({ bookmarks, duration = 16, style }) => (
         </div>
     </div>
 );
-
-
 
 const SPEED = 40;
 
@@ -68,27 +62,22 @@ const Slider = () => {
     const durationBottom = widthBottom / SPEED;
 
     return (
-        <div className="relative w-full h-[400px] mt-[76px]">
+        <div className="relative mt-[76px] h-[400px] w-full">
             {/* SVG 배경 */}
-            <MockUpCard className="w-full h-full z-10 drop-shadow-lg" />
-            <div className="flex absolute top-[10px] right-[54px] ">
-                <FolderOpen className="w-[25px] h-[25px] z-20" />
-                <p className="text-base font-semibold text-left ml-2 select-none">주말 요리 모음!</p>
+            <MockUpCard className="z-10 h-full w-full drop-shadow-lg" />
+            <div className="absolute right-[54px] top-[10px] flex">
+                <FolderOpen className="z-20 h-[25px] w-[25px]" />
+                <p className="ml-2 select-none text-left text-base font-semibold">주말 요리 모음!</p>
             </div>
 
             {/* 2줄 롤링 */}
-            <div className="absolute inset-0 flex flex-col justify-center space-y-5 z-20">
-                <MarqueeRow
-                    bookmarks={bookmarksTop}
-                    duration={durationTop}
-                    style={{}}
-                />
+            <div className="absolute inset-0 z-20 flex flex-col justify-center space-y-5">
+                <MarqueeRow bookmarks={bookmarksTop} duration={durationTop} style={{}} />
                 <MarqueeRow
                     bookmarks={bookmarksBottom}
                     duration={durationBottom}
                     style={{ marginLeft: `${CARD_WIDTH / 2}px` }}
                 />
-
             </div>
         </div>
     );

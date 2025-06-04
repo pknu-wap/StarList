@@ -1,13 +1,13 @@
-import useAuthStore from "../hooks/useAuthStore";
+import useAuthStore from "../stores/useAuthStore";
 import ApiError from "./ApiError";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-// 삭제할 노드 리스트를 path 에 따라서 전송하는 함수
-async function deleteNodes(path, payload) {
+// 이동할 노드 리스트를 path 에 따라서 전송하는 함수
+async function moveNodes(payload) {
     const { accessToken } = useAuthStore.getState();
     const options = {
-        method: "POST",
+        method: "PATCH",
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
@@ -15,7 +15,7 @@ async function deleteNodes(path, payload) {
         body: JSON.stringify(payload),
     };
 
-    const response = await fetch(`${API_BASE_URL}${path}`, options);
+    const response = await fetch(`${API_BASE_URL}/bookmarks/move`, options);
 
     // 200 OK 가 아닐 경우
     if (!response.ok) {
@@ -24,4 +24,4 @@ async function deleteNodes(path, payload) {
     }
 }
 
-export default deleteNodes;
+export default moveNodes;
