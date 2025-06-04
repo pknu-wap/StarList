@@ -30,14 +30,16 @@ const RemindCard = ({ id, title, url, image, refetch, overlayAlpha }) => {
         return () => document.removeEventListener("mousedown", handleClick);
     }, [showPopup]);
 
+    // 클릭 시 새 창으로 열기
+    const handleClick = (e) => {
+        e.preventDefault();
+        window.open(url, "_blank", "noopener");
+    };
+
     return (
         <div
-            onClick={() => window.location.href = url}
-            className={`
-                relative w-full h-full rounded-[39px]
-                flex flex-col justify-end p-4 border border-gray-300
-                cursor-pointer shadow-card
-            `}
+            onClick={handleClick}
+            className={`relative w-full h-full rounded-[39px] flex flex-col justify-end p-4 border border-gray-300 cursor-pointer shadow-card`}
         >
             {/* 썸네일 */}
             {image && (
@@ -51,10 +53,10 @@ const RemindCard = ({ id, title, url, image, refetch, overlayAlpha }) => {
                 </div>
             )}
 
-            {/* 1. 기존 오버레이 */}
+            {/* 카드 자체 오버레이 */}
             <div className="absolute inset-0 rounded-[39px] bg-bookmark-overlay z-10 pointer-events-none" />
 
-            {/* 2. position별 추가 오버레이 (가장자리 어둡게) */}
+            {/* position별 추가 오버레이 (가장자리 어둡게) */}
             {overlayAlpha > 0 && (
                 <div
                     className="absolute inset-0 rounded-[39px] z-20 pointer-events-none"
@@ -65,7 +67,7 @@ const RemindCard = ({ id, title, url, image, refetch, overlayAlpha }) => {
             {/* Edit 버튼 */}
             <button
                 className="absolute top-4 right-4 z-30 p-1"
-                onClick={e => {
+                onClick={(e) => {
                     e.stopPropagation();
                     setShowPopup(true);
                 }}
@@ -82,11 +84,11 @@ const RemindCard = ({ id, title, url, image, refetch, overlayAlpha }) => {
                 >
                     <div
                         className="bg-white border rounded-lg shadow-lg p-4 flex flex-col items-center w-60"
-                        onClick={e => e.stopPropagation()}
+                        onClick={(e) => e.stopPropagation()}
                     >
                         <button
                             className="px-4 py-2 rounded bg-main-500 hover:bg-main-600 text-white mb-2 shadow-sm w-full"
-                            onClick={e => {
+                            onClick={(e) => {
                                 e.stopPropagation();
                                 mutate(true);
                             }}
@@ -96,7 +98,7 @@ const RemindCard = ({ id, title, url, image, refetch, overlayAlpha }) => {
                         </button>
                         <button
                             className="text-xs text-gray-400 hover:text-black"
-                            onClick={e => {
+                            onClick={(e) => {
                                 e.stopPropagation();
                                 setShowPopup(false);
                             }}
