@@ -18,15 +18,6 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     List<Bookmark> findByTitleContaining(String query);
 
-    @Query("""
-                    SELECT b
-                    FROM Bookmark b
-                    WHERE b.dateLastUsed <= :threeMonthsAgo
-                    AND b.remindDisabled = false
-                    AND (b.lastRemindTime IS NULL OR b.lastRemindTime < :threeMonthsAgo)
-            """)
-    List<Bookmark> findReminderTargets(@Param("threeMonthsAgo") Long threeMonthsAgo, Pageable pageable);
-
     @Modifying
     @Transactional
     @Query("DELETE FROM Bookmark b WHERE b.id IN :ids")

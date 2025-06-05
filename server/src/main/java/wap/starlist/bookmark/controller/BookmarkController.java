@@ -23,7 +23,6 @@ import wap.starlist.bookmark.dto.response.BookmarkNodeResponse;
 import wap.starlist.bookmark.dto.response.BookmarkResponse;
 import wap.starlist.bookmark.dto.response.BookmarksDeleteResponse;
 import wap.starlist.bookmark.dto.response.ReminderBookmarkErrorResponse;
-import wap.starlist.bookmark.dto.response.ReminderBookmarksResponse.ReminderBookmarkInfo;
 import wap.starlist.bookmark.service.BookmarkService;
 import wap.starlist.bookmark.service.FolderService;
 import wap.starlist.bookmark.service.RootService;
@@ -43,15 +42,13 @@ public class BookmarkController {
     // TODO: dateLastUsed는 어떻게?
     @PostMapping
     public ResponseEntity<?> create(@AuthenticationPrincipal String loginUser, @RequestBody BookmarkCreateRequest request) {
+        log.info("[bookmark-create] request user: {}", loginUser);
 
         // 북마크 저장
-        Bookmark createdBookmark = bookmarkService.createBookmark(loginUser, request);
+        BookmarkResponse response = bookmarkService.createBookmark(request);
 
         // 저장된 북마크 위치 URI
-        URI location = URI.create("/bookmarks/" + createdBookmark.getId());
-
-        // 응답 객체 생성
-        BookmarkResponse response = BookmarkResponse.from(createdBookmark);
+        URI location = URI.create("/bookmarks/" + response.getId());
 
         return ResponseEntity.created(location).body(response);
     }
@@ -134,38 +131,13 @@ public class BookmarkController {
 
     // 리마인드 대상 북마크 조회
     @GetMapping("/reminders")
-    public ResponseEntity<?> getReminders() {
-        try {
-            // 3개월 전 사용된 리마인드 대상 북마크 조회
-            List<Bookmark> targets = bookmarkService.getReminderBookmarks();
-            bookmarkService.markReminded(targets);
+    public ResponseEntity<?> getReminders(@AuthenticationPrincipal String loginUser) {
+        log.info("[reminder] 리마인더 조회: {}", loginUser);
+        // 3개월 전 사용된 리마인드 대상 북마크 조회
+        List<BookmarkResponse> reminderBookmarks = bookmarkService.getReminderBookmarks(loginUser);
 
-            // DTO 변환
-            List<ReminderBookmarkInfo> result = targets.stream()
-                    .map(b -> ReminderBookmarkInfo.builder()
-                            .id(b.getId())
-                            .googleId(b.getGoogleId() != null ? b.getGoogleId().toString() : null)
-                            .syncing(b.getSyncing())
-                            .title(b.getTitle())
-                            .dateAdded(b.getDateAdded())
-                            .index(b.getPosition())
-                            .parentId(b.getParentId())
-                            .url(b.getUrl())
-                            .build())
-                    .toList();
-
-            // 배열 반환
-            return ResponseEntity.ok(result);
-
-        } catch (DataAccessException ex) {
-            // DB 오류
-            ReminderBookmarkErrorResponse error = ReminderBookmarkErrorResponse.builder()
-                    .code("DATABASE_ERROR")
-                    .message("데이터베이스 오류가 발생했습니다.")
-                    .build();
-
-            return ResponseEntity.badRequest().body(error);
-        }
+        // 배열 반환
+        return ResponseEntity.ok(reminderBookmarks);
     }
 
     // 특정 북마크 리마인드 비활성화
@@ -197,13 +169,14 @@ public class BookmarkController {
     }
 
     @PatchMapping("/{id}/edit")
-    public ResponseEntity<?> edit(@PathVariable("id") Long id, BookmarkEditRequest request) {
+    public ResponseEntity<?> edit(@PathVariable("id") Long id, @RequestBody BookmarkEditRequest request) {
         bookmarkService.edit(id, request); // 내부에서 커스텀 예외로 처리하고 있기에 try-catch 필요없음
         return ResponseEntity.ok("수정되었습니다.");
     }
 
     @PatchMapping("/move")
-    public ResponseEntity<?> move(BookmarkMoveRequest request) {
+    public ResponseEntity<?> move(@RequestBody BookmarkMoveRequest request) {
+        log.info("[bookmark-move] {}", request.toString());
         bookmarkService.move(request);
         return ResponseEntity.ok("이동되었습니다.");
     }

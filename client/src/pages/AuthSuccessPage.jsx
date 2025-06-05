@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuthStore from "../functions/hooks/useAuthStore";
+import useAuthStore from "../functions/stores/useAuthStore";
 
 const EXT_ID = import.meta.env.VITE_EXTENSION_ID;
 
@@ -15,22 +15,23 @@ const AuthSuccessPage = () => {
         if (accessToken) {
             // 브라우저에 따라 runtime 을 다르게 선택
             const runtime = window.chrome?.runtime || window.browser?.runtime;
-            runtime.sendMessage(EXT_ID, {
-                type: "LOGIN_SUCCESS",
-                token: accessToken
-            });
-            
+            if (runtime) {
+                runtime.sendMessage(EXT_ID, {
+                    type: "LOGIN_SUCCESS",
+                    token: accessToken,
+                });
+            }
+
             // 로그인 상태 저장
             login(accessToken);
 
             // 주소창에서 token 제거 (보안을 위해서!)
-            window.history.replaceState(null, "", import.meta.env.VITE_GOOGLE_AUTH_URI.replace(/.*\/\/[^/]+/, ""))
+            window.history.replaceState(null, "", import.meta.env.VITE_GOOGLE_AUTH_URI.replace(/.*\/\/[^/]+/, ""));
 
             // 메인 페이지로 이동
             navigate("/main", { replace: true });
-        } 
-        else {
-            // 토큰이 없는 경우 로그인 페이지로 회귀 
+        } else {
+            // 토큰이 없는 경우 로그인 페이지로 회귀
             navigate("/start", { replace: true });
         }
     }, [navigate, login]);

@@ -3,7 +3,7 @@ import getNodesBySearch from "../utils/getNodesBySearch";
 
 // 이전에 검색 결과를 캐싱
 // 이때, 데이터 변경 (추가,이동,삭제,변경) 이 일어나면 ["search"] 쿼리 자체를 invalidate 해야함!!
-function useSearchNodes(keyword) {
+function useSearchNodes(keyword, options = {}) {
     return useQuery({
         queryKey: ["search", keyword],
         queryFn: () => getNodesBySearch(keyword),
@@ -18,6 +18,8 @@ function useSearchNodes(keyword) {
         refetchOnMount: false,
         refetchOnReconnect: true,
         retry: false,
+
+        ...options,
     });
 }
 

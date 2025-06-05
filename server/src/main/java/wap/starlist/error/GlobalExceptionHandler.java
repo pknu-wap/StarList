@@ -18,24 +18,34 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ErrorResponse> handle(HttpRequestMethodNotSupportedException e,
                                                 HttpServletRequest request) {
-        log.error(e.getClass().getSimpleName(), e);
+        log.error(e.getClass().getSimpleName() + getShortStackTrace(e));
         return buildErrorResponse(ErrorCode.METHOD_NOT_ALLOWED, request.getRequestURI());
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handle(NotFoundException e, HttpServletRequest request) {
-        log.error(e.getClass().getSimpleName(), e);
+        log.error(e.getClass().getSimpleName() + getShortStackTrace(e));
         return buildErrorResponse(e.getErrorCode(), request.getRequestURI());
     }
 
     @ExceptionHandler(BookmarkNotFoundException.class)
     public ResponseEntity<ErrorResponse> handle(BookmarkNotFoundException e, HttpServletRequest request) {
-        log.error(e.getClass().getSimpleName(), e);
+        log.error(e.getClass().getSimpleName() + getShortStackTrace(e));
         return buildErrorResponse(e.getErrorCode(), request.getRequestURI());
     }
 
     private ResponseEntity<ErrorResponse> buildErrorResponse(ErrorCode errorCode, String path) {
         return ResponseEntity.status(errorCode.getHttpStatus())
                 .body(ErrorResponse.of(errorCode, path));
+    }
+
+    private String getShortStackTrace(Exception e) {
+        StackTraceElement[] stack = e.getStackTrace();
+        StringBuilder sb = new StringBuilder();
+        sb.append(e.toString()).append("\n");
+        for (int i = 0; i < Math.min(5, stack.length); i++) {
+            sb.append("\tat ").append(stack[i]).append("\n");
+        }
+        return sb.toString();
     }
 }

@@ -1,0 +1,27 @@
+import useAuthStore from "../stores/useAuthStore";
+import ApiError from "./ApiError";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+// 이동할 노드 리스트를 path 에 따라서 전송하는 함수
+async function moveNodes(payload) {
+    const { accessToken } = useAuthStore.getState();
+    const options = {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(payload),
+    };
+
+    const response = await fetch(`${API_BASE_URL}/bookmarks/move`, options);
+
+    // 200 OK 가 아닐 경우
+    if (!response.ok) {
+        const errorBody = await response.json();
+        throw new ApiError(errorBody.code, errorBody.message, response);
+    }
+}
+
+export default moveNodes;

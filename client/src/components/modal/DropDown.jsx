@@ -45,7 +45,7 @@ const DropDown = ({ options, selected, setSelected }) => {
                 <div key={node.id}>
                     {/* 노드 항목 */}
                     <div
-                        className={`flex items-center h-[61px] cursor-pointer hover:bg-gray-50 ${isSel ? "bg-gray-100" : ""}`}
+                        className={`flex h-[61px] cursor-pointer items-center hover:bg-gray-50 ${isSel ? "bg-gray-100" : ""}`}
                         style={{ paddingLeft: `${level * 1}rem` }} // 들여쓰기 레벨 적용
                         onClick={() => handleSelect(node)}
                     >
@@ -75,33 +75,22 @@ const DropDown = ({ options, selected, setSelected }) => {
     return (
         <div ref={wrapperRef} className="w-full max-w-[429px]">
             <div
-                className={`
-                    w-[300px] sm:w-[429px]
-                    rounded-[12px] sm:rounded-[18px]
-                    bg-main-50 overflow-y-auto
-                    px-4 overflow-hidden
-                    transition-[max-height] duration-300 ease-out
-                    ${isOpen ? "max-h-[500px]" : "max-h-[61px]"}
-                `}
+                className={`w-[300px] overflow-hidden overflow-y-auto rounded-[12px] bg-main-50 px-4 transition-[max-height] duration-300 ease-out sm:w-[429px] sm:rounded-[18px] ${isOpen ? "max-h-[500px]" : "max-h-[61px]"} `}
             >
                 {/** 현재 선택된 항목 버튼 */}
                 <div
-                    className="flex items-center justify-between px-4 h-[61px] cursor-pointer"
+                    className="flex h-[61px] cursor-pointer items-center justify-between px-4"
                     onClick={() => setIsOpen((v) => !v)}
                 >
-                    <span className="text-[22px] text-gray-500">
-                        {selected?.title || "폴더 선택"}
-                    </span>
+                    <span className="text-[22px] text-gray-500">{selected?.title || "폴더 선택"}</span>
                     <span>{isOpen ? "▲" : "▼"}</span>
                 </div>
 
                 {/** 펼쳐질 트리 리스트 */}
-                <div>
-                    {isOpen && renderTree(options)}
-                </div>
+                <div>{isOpen && renderTree(options)}</div>
             </div>
         </div>
     );
-}
+};
 
 export default DropDown;

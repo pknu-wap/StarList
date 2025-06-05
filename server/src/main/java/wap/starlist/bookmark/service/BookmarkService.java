@@ -2,10 +2,11 @@ package wap.starlist.bookmark.service;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.ZonedDateTime;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import java.util.Queue;
@@ -23,11 +24,14 @@ import wap.starlist.bookmark.dto.request.BookmarkCreateRequest;
 import wap.starlist.bookmark.dto.request.BookmarkEditRequest;
 import wap.starlist.bookmark.dto.request.BookmarkMoveRequest;
 import wap.starlist.bookmark.dto.request.BookmarkTreeNode;
+import wap.starlist.bookmark.dto.response.BookmarkResponse;
 import wap.starlist.bookmark.repository.BookmarkRepository;
 import wap.starlist.bookmark.repository.FolderRepository;
 import wap.starlist.bookmark.repository.RootRepository;
+import wap.starlist.error.ErrorCode;
 import wap.starlist.error.exception.BookmarkNotFoundException;
 import wap.starlist.error.exception.FolderNotFoundException;
+import wap.starlist.error.exception.NotFoundException;
 import wap.starlist.util.ImageScraper;
 
 @Slf4j
@@ -40,7 +44,7 @@ public class BookmarkService {
     private final RootRepository rootRepository;
 
     @Transactional // 트랜잭션을 보장하기 위해
-    public Bookmark createBookmark(String memberProviderId, BookmarkCreateRequest request) {
+    public BookmarkResponse createBookmark(BookmarkCreateRequest request) {
         String title = request.getTitle();
         String url = request.getUrl();
         Long folderId = request.getFolderId();
@@ -52,7 +56,8 @@ public class BookmarkService {
             // 이미 있다면 추가된 날짜 수정
             Bookmark bookmark = found.get(0);
             bookmark.updateDateAdded();
-            return bookmarkRepository.save(bookmark);
+            Bookmark saved = bookmarkRepository.save(bookmark);
+            return BookmarkResponse.from(saved);
         }
 
         // 웹 페이지의 이미지 파싱
@@ -75,7 +80,9 @@ public class BookmarkService {
         folder.addChildBookmark(bookmark);
 
         // 북마크 저장
-        return bookmarkRepository.save(bookmark);
+        Bookmark createdBookmark = bookmarkRepository.save(bookmark);
+
+        return BookmarkResponse.from(createdBookmark);
     }
 
     @Transactional(readOnly = true)
@@ -158,12 +165,71 @@ public class BookmarkService {
 
     // 3개월 전 북마크 중 최대 15개 조회
     @Transactional(readOnly = true)
-    public List<Bookmark> getReminderBookmarks() {
-        long threeMonthsAgo = Instant.now()
-                .minus(3, ChronoUnit.MONTHS)
+    public List<BookmarkResponse> getReminderBookmarks(String memberProviderId) {
+        long threeMonthsAgo = ZonedDateTime.now()
+                .minusMonths(3)
+                .toInstant()
                 .toEpochMilli();
 
-        return bookmarkRepository.findReminderTargets(threeMonthsAgo, PageRequest.of(0, 15));
+        // 사용자의 북마크 트리를 가져옴
+        Root root = rootRepository.findByMemberProviderId(memberProviderId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.ROOT_NOT_FOUND));
+
+        List<Bookmark> allBookmarks = new ArrayList<>();
+
+        // TODO: 모든 북마크를 가져오면 너무 느리고 서버에 부담되지 않을까?
+        for (Folder topFolder : root.getFolders()) {
+            allBookmarks.addAll(getSubBookmarks(topFolder));
+        }
+
+        // 순서를 무작위로 섞음
+        Collections.shuffle(allBookmarks);
+
+        // 마지막 사용일이 기록되지 않았으면 추가된 날짜를 기준으로 리마인드 반환
+        List<BookmarkResponse> reminderBookmarks = new ArrayList<>(allBookmarks.stream()
+                .filter(Bookmark::canRemind)
+                .filter(bookmark -> {
+                    if (bookmark.getDateLastUsed() == null) {
+                        return bookmark.getDateAdded() <= threeMonthsAgo;
+                    }
+                    return bookmark.getDateLastUsed() <= threeMonthsAgo;
+                })
+                .limit(15)
+                .map(BookmarkResponse::from)
+                .toList());
+
+        // 리마인드 북마크가 적다면 마지막으로 사용한 북마크 순으로 보여줌
+        if (reminderBookmarks.size() <= 15) {
+            List<BookmarkResponse> oldBookmarks = allBookmarks.stream()
+                    .filter(Bookmark::canRemind)
+                    .sorted((b1, b2) -> {
+                        long t1 = (b1.getDateLastUsed() != null) ? b1.getDateLastUsed() : b1.getDateAdded();
+                        long t2 = (b2.getDateLastUsed() != null) ? b2.getDateLastUsed() : b2.getDateAdded();
+                        return Long.compare(t1, t2);
+                    })
+                    .limit(15)
+                    .map(BookmarkResponse::from)
+                    .toList();
+
+            reminderBookmarks.addAll(oldBookmarks);
+        }
+
+        return reminderBookmarks.stream().limit(15).toList();
+    }
+
+    private List<Bookmark> getSubBookmarks(Folder topFolder) {
+        List<Bookmark> subBookmarks = new ArrayList<>();
+        Queue<Folder> folderQueue = new ArrayDeque<>();
+        folderQueue.add(topFolder);
+
+        while (!folderQueue.isEmpty()) {
+            Folder current = folderQueue.poll();
+
+            subBookmarks.addAll(current.getBookmarks());
+            folderQueue.addAll(current.getFolders());
+        }
+
+        return subBookmarks;
     }
 
     // 리마인드 후 lastRemindTime 갱신
@@ -186,7 +252,6 @@ public class BookmarkService {
     public void edit(Long id, BookmarkEditRequest request) {
         Bookmark bookmark = bookmarkRepository.findById(id)
                 .orElseThrow(BookmarkNotFoundException::new);
-
 
         log.info("[북마크 수정] 제목: {}", request.getTitle());
         bookmark.update(request.getTitle(), request.getUrl());
@@ -254,7 +319,7 @@ public class BookmarkService {
             imgUrl = ImageScraper.getImageFromOgOrImgTag(url)
                     .orElseThrow(() -> new IllegalArgumentException("[ERROR] 이미지 스크랩 실패"));
             log.info("스크랩 이미지 url: {}", imgUrl);
-        } catch (IllegalArgumentException | IOException e){
+        } catch (IllegalArgumentException | IOException e) {
             log.warn("해당 URL을 파싱할 수 없음: {}", url, e);
         }
 

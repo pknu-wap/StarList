@@ -1,15 +1,15 @@
 import React from "react";
-import useFolderHistoryStore from "../../functions/hooks/useFolderHistoryStore";
+import useFolderHistoryStore from "../../functions/stores/useFolderHistoryStore";
 
 import { ArrowForwardIcon } from "../../assets";
 
 const BreadCrumb = () => {
     const history = useFolderHistoryStore((s) => s.history);
     const currentPosition = history[history.length - 1].id;
-    const move = useFolderHistoryStore((s) => s.move);
+    const goBack = useFolderHistoryStore((s) => s.goBack);
 
     const onClick = (id) => {
-        move(id);
+        goBack(id);
     };
 
     return (

@@ -32,8 +32,6 @@ public class Bookmark {
 
     private Long dateAdded;
 
-    private Long dateGroupModified;
-
     private Long dateLastUsed;
 
     @Column(name = "parent_id")
@@ -79,5 +77,9 @@ public class Bookmark {
         if (StringUtils.hasText(url)) {
             this.url = url;
         }
+    }
+
+    public boolean canRemind() {
+        return remindDisabled == false;
     }
 }

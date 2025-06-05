@@ -16,7 +16,8 @@ public enum ErrorCode {
     NOT_FOUND(HttpStatus.NOT_FOUND, "3000", "존재하지 않는 엔티티입니다."),
     TOP_FOLDERS_NOT_FOUND(HttpStatus.NOT_FOUND, "3001", "최상위 폴더가 존재하지 않습니다."),
     BOOKMARK_NOT_FOUND(HttpStatus.NOT_FOUND, "3002", "북마크가 존재하지 않습니다."),
-    FOLDER_NOT_FOUND(HttpStatus.NOT_FOUND, "3003", "폴더가 존재하지 않스니다.");
+    FOLDER_NOT_FOUND(HttpStatus.NOT_FOUND, "3003", "폴더가 존재하지 않스니다."),
+    ROOT_NOT_FOUND(HttpStatus.NOT_FOUND, "3004", "사용자의 Root가 존재하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

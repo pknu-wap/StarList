@@ -22,7 +22,6 @@ public class Folder {
 
     private String title;
 
-    @Column(nullable = false)
     private Integer googleId;
 
     // 부모 Root 혹은 Folder 내에 몇 번째 항목인지
@@ -73,6 +72,10 @@ public class Folder {
 
     public void mapToRoot(Root root) {
         this.root = root;
+    }
+
+    public void update(String title) {
+        this.title = title;
     }
 
     private void setParent(Folder parent) {

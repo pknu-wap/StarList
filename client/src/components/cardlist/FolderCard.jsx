@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import useFolderHistoryStore from "../../functions/hooks/useFolderHistoryStore";
-import useSelectedCardsStore from "../../functions/hooks/useSelectedCardsStore";
+import useMoveToFolder from "../../functions/hooks/useMoveToFolder";
+import useSelectedCardsStore from "../../functions/stores/useSelectedCardsStore";
 
 import { FolderCardSvg } from "../../assets/";
 import { EditButton } from "../../assets/";
-import EditModal from "./EditModal";
+import EditFolderModal from "../modal/EditFolderModal";
 
 const FolderCard = ({ info }) => {
-    // 폴더 카드 클릭시 현재 history 를 변경
-    const push = useFolderHistoryStore((s) => s.push);
+    // 폴더 카드 클릭시 history 변경
+    const moveToFolder = useMoveToFolder();
 
     // Ctrl + 좌클릭을 이용하여 해당 카드를 선택 가능
     const isSelected = useSelectedCardsStore((s) =>
@@ -17,7 +17,7 @@ const FolderCard = ({ info }) => {
     const toggle = useSelectedCardsStore((s) => s.toggle);
 
     // 옵션 버튼 클릭시 모달창 생성
-    const [isOpen, setIsOpen] = useState(false);
+    const [isFolderModalOpen, setIsFolderModalOpen] = useState(false);
 
     // Ctrl 사용 여부에 따른 클릭 처리를 다르게 설정
     const handleClick = (e) => {
@@ -25,14 +25,14 @@ const FolderCard = ({ info }) => {
             e.preventDefault();
             toggle(info.id, "folder");
         } else {
-            push({ id: info.id, title: info.title });
+            moveToFolder(info.id, info.title);
         }
     };
 
     return (
         <>
             <div
-                className="relative aspect-[390/270] w-full cursor-pointer transition-colors duration-200 sm:max-w-[310px] md:max-w-[350px] lg:max-w-[390px]"
+                className="relative aspect-[360/240] w-full cursor-pointer drop-shadow-lg transition-colors duration-200 sm:max-w-[280px] md:max-w-[320px] lg:max-w-[360px]"
                 onClick={handleClick}
             >
                 <FolderCardSvg
@@ -47,7 +47,7 @@ const FolderCard = ({ info }) => {
                         type="button"
                         onClick={(e) => {
                             e.stopPropagation();
-                            setIsOpen(true);
+                            setIsFolderModalOpen(true);
                         }}
                         className="p-1 text-gray-400 hover:text-main-500"
                     >
@@ -55,16 +55,7 @@ const FolderCard = ({ info }) => {
                     </button>
                 </div>
             </div>
-            {isOpen && (
-                <EditModal
-                    mode="folder"
-                    info={info}
-                    onClose={() => setIsOpen(false)}
-                    onSave={(updated) => {
-                        console.log("폴더 업데이트:", updated);
-                    }}
-                />
-            )}
+            {isFolderModalOpen && <EditFolderModal info={info} onClose={() => setIsFolderModalOpen(false)} />}
         </>
     );
 };

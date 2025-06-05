@@ -1,4 +1,4 @@
-import fetchNodesByPath from "./fetchNodesByPath";
+import fetchNodesByPath from "../apis/fetchNodesByPath";
 
 const EXT_ID = import.meta.env.VITE_EXTENSION_ID;
 
@@ -13,9 +13,11 @@ async function getRootNodes() {
         if (error.code === "3001") {
             console.log("메시지 송신");
             const runtime = window.chrome?.runtime || window.browser?.runtime;
-            runtime.sendMessage(EXT_ID, {
-                type: "NEW_USER_DETECTION",
-            });
+            if (runtime) {
+                runtime.sendMessage(EXT_ID, {
+                    type: "NEW_USER_DETECTION",
+                });
+            }
         }
         throw error;
     }
