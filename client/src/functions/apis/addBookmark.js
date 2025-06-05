@@ -17,7 +17,7 @@ export const addBookmarkApi = async ({ title, url, folderId }) => {
 };
 
 // 폴더 추가
-export const addFolderApi = async ({ title, userId }) => {
+export const addFolderApi = async ({ title, folderId }) => {
     const { accessToken } = useAuthStore.getState();
     const res = await fetch(`${API_BASE_URL}/folders`, {
         method: "POST",
@@ -25,7 +25,7 @@ export const addFolderApi = async ({ title, userId }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify({ title, userId }),
+        body: JSON.stringify({ title, folderId }),
     });
     if (!res.ok) throw new Error("폴더 추가 실패");
     return res.json();

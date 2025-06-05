@@ -14,7 +14,7 @@ const AddFolderModal = ({ onClose }) => {
     const handleFolderSubmit = ({ title, location }) => {
         // mutate 호출 시 title과 선택된 폴더 ID(userId)에 따라 추가
         addFolderMutation.mutate(
-            { title, userId: location.id },
+            { title, folderId: location.id },
             {
                 onSuccess: () => onClose(), // 성공 시 모달 닫기
             },
