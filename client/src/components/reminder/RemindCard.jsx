@@ -8,6 +8,9 @@ const RemindCard = ({ id, title, url, image, refetch, overlayAlpha }) => {
     const [showPopup, setShowPopup] = useState(false);
     const popupRef = useRef(null);
 
+    // 이미지 상태
+    const [imgSrc, setImgSrc] = useState(image !== "" ? image : defaultImage);
+
     const { mutate, isLoading } = useMutation({
         mutationFn: (remindDisabled) => patchRemindDisable(id, remindDisabled),
         onSuccess: () => {
@@ -45,10 +48,11 @@ const RemindCard = ({ id, title, url, image, refetch, overlayAlpha }) => {
             {/* 썸네일 */}
             <div className="absolute inset-0 z-0">
                 <img
-                    src={image || defaultImage} // 이미지가 없으면 대체 이미지를 사용
-                    alt={title}
+                    src={imgSrc} // 이미지가 없으면 대체 이미지를 사용
+                    alt={title || "북마크 이미지"}
                     loading="lazy"
                     className="h-full w-full rounded-[39px] object-cover"
+                    onError={() => setImgSrc(defaultImage)}
                 />
             </div>
 
