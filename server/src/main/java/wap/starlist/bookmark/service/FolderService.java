@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import wap.starlist.bookmark.domain.Bookmark;
 import wap.starlist.bookmark.domain.Folder;
 import wap.starlist.bookmark.domain.Root;
+import wap.starlist.bookmark.dto.request.FolderCreateRequest;
 import wap.starlist.bookmark.dto.request.FolderEditRequest;
 import wap.starlist.bookmark.dto.response.BookmarkNodeResponse;
 import wap.starlist.bookmark.dto.response.FolderTreeNode;
@@ -29,21 +30,32 @@ public class FolderService {
     private final RootRepository rootRepository;
 
     @Transactional
-    public Folder createFolder(String title, Long userId) {
+    public Folder createFolder(String memberProviderId, FolderCreateRequest request) {
+        String title = request.getTitle();
+        Long parentFolderId = request.getFolderId();
+  
         // 필수값 검증(title, userId 존재 여부 확인)
-        if (userId == null) {
+        if (!StringUtils.hasText(memberProviderId)) {
             throw new IllegalArgumentException("[ERROR] 유저 정보가 존재하지 않습니다.");
         } else if (!StringUtils.hasText(title)) {
             throw new IllegalArgumentException("[ERROR] 폴더명이 존재하지 않습니다.");
         }
 
+        Folder parentFolder = folderRepository.findById(parentFolderId)
+                    .orElseThrow(FolderNotFoundException::new);
+
         //TODO: userId와 googleId는 매치되지 않음
-        Folder folder = Folder.builder()
+        Folder childFolder = Folder.builder()
                 .title(title)
+                .dateAdded(System.currentTimeMillis())
+                .dateGroupModified(System.currentTimeMillis())
+                .parent(parentFolder)
                 //.googleId(userId)
                 .build();
 
-        return folderRepository.save(folder);
+            parentFolder.addChildFolder(childFolder);
+
+        return folderRepository.save(childFolder);
     }
 
     @Transactional(readOnly = true)
