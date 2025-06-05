@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import patchRemindDisable from "../../functions/apis/patchRemindDisable";
 import { useMutation } from "@tanstack/react-query";
 import { EditButton } from "../../assets";
+import defaultImage from "../../assets/default/default-image.svg";
 
 const RemindCard = ({ id, title, url, image, refetch, overlayAlpha }) => {
     const [showPopup, setShowPopup] = useState(false);
@@ -42,11 +43,14 @@ const RemindCard = ({ id, title, url, image, refetch, overlayAlpha }) => {
             className={`relative flex h-full w-full cursor-pointer flex-col justify-end rounded-[39px] border border-gray-300 p-4 shadow-card`}
         >
             {/* 썸네일 */}
-            {image && (
-                <div className="absolute inset-0 z-0">
-                    <img src={image} alt={title} loading="lazy" className="h-full w-full rounded-[39px] object-cover" />
-                </div>
-            )}
+            <div className="absolute inset-0 z-0">
+                <img
+                    src={image || defaultImage} // 이미지가 없으면 대체 이미지를 사용
+                    alt={title}
+                    loading="lazy"
+                    className="h-full w-full rounded-[39px] object-cover"
+                />
+            </div>
 
             {/* 카드 자체 오버레이 */}
             <div className="pointer-events-none absolute inset-0 z-10 rounded-[39px] bg-bookmark-overlay" />
